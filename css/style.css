@@ -1,0 +1,139 @@
+.navbar-style{
+	background: #f26904;
+}
+.nopadding{
+	padding: 0px;
+}
+a.logo{
+	color: white;
+	font-size: 30px;
+}
+img.logo-image{
+	float: right;
+	width: 118px;
+}
+.header-date{
+	background: #f8f8f8;
+	height: 32px;
+	line-height: 32px;
+	box-shadow: 1px 1px 6px rgb(150, 148, 148);
+}
+.header-nav{
+	height: 51px;
+}
+.date{
+	float: left;
+}
+.time{
+	float:right;
+}
+td {
+	border-top: none !important;
+}
+.user{
+	float: right;
+	color:black;
+}
+.user_res{
+	background:#f5f5f5; 
+	margin-top:6px; 
+	border:solid 1px #ddd; 
+	color:black; 
+	text-align:center; 
+	line-height:40px;
+}
+.kotak_user{
+	margin:auto; 
+	width:94%;  
+	padding:2% 2% 2% 2%;
+}
+.kotak_po{
+	margin:auto; 
+	width:94%;  
+	padding:2% 2% 2% 2%;
+}
+td{
+	font-size: 14px;
+    line-height: 100%;
+}
+thead.table_po{
+	font-size: 12px;
+}
+.tengah{
+	text-align: center;
+}
+.col-md-6 textarea{
+	resize:none;
+}
+.alerts{ background:#F5F5F5; display:table; width:100%; border-radius:4px;  border:solid 1px #CCCCCC; padding:6px; color:#FF0000;  margin-bottom:16px; box-sizing:border-box;  -webkit-box-sizing:border-box;
+ -moz-box-sizing:border-box;
+ -ms-box-sizing:border-box;
+}
+.submit{
+	float:right;
+}
+.spasi{
+	height: 30px;
+}
+.po-border{
+	border: 2px solid #f26904!important;
+	padding-left: 2px !important;
+	padding-right: 2px !important;
+}
+.gadget{
+	margin-bottom: 10px;
+}
+p.no-margin{
+	margin: 0px;
+}
+/*---------------*/
+/* Media Queries */
+/*---------------*/
+@media (min-width:480px){
+	.kotak_user{
+		display:none
+	}
+	.time{
+		float:left;
+	}
+}
+
+@media (max-width:480px){
+	.user{
+		display:none
+	}
+		a.logo{
+		font-size: 8vw;
+	}
+}
+@media (min-width:740px){
+	.hidden_po{
+		display:none
+	}
+}
+@media (max-width:740px){
+	.po_head{
+		display:none
+	}
+}
+@media (max-width:767px){
+	img.logo-image{
+		width:90px; margin-top:10px
+	}
+	.desktop{
+		display: none;
+	}
+}
+@media (min-width: 768px){
+	.gadget{
+		display: none;
+	}
+}
+@media (max-width:464px){
+	p.text-muted {
+		margin: 0px !important;
+		text-align: center;
+		padding-top: 20px;
+		font-size: 10px;
+	}
+}
