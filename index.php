@@ -63,7 +63,7 @@
 	?>
 
 	<div class="header-nav">
-		<nav class="navbar navbar-static-top navbar-style">
+		<nav class="navbar navbar-fixed-top navbar-style">
 			<div class="container">
 	          <a class="navbar-brand logo" href="#">Approval</a>
 	          <div>
@@ -101,7 +101,6 @@
 		$PPO_Table->free();
 		$Database->next_result();
 		}
-
     ?>
 
     <?php
@@ -140,7 +139,73 @@
 				</div>
 			</div>
 			<div class="panel-body">
-				<?php
+				<form role="form" action="post.php" method="post" class="gadget">
+					<?php
+					$no = +1;
+					$grand= 0;
+					while ($row = $PPO_TableDetail->fetch_assoc()) {
+					?>
+					<div class="row spasi-kotak">
+						<div class="col-sm-12">
+							<div class="row">
+								<div class="col-sm-12 po-border">
+									<div class="row">
+										<div class="col-xs-10">
+											<b>
+												<?php $Tanggal_po = date( 'd-m-Y', strtotime( $row['tgl_po'] )); ?>
+												No : <?php echo $no; ?><br>
+												No PO : <?php echo $row['no_po']; ?><br>
+												Tanggal PO : <?php echo $row['nama_vendor']; ?><br>
+												Nama Vendor : <?php echo $Tanggal_po; ?><br>
+												Status :<br>
+											</b>
+										</div>
+										<div class="col-xs-2">
+											<span class="glyphicon glyphicon-menu-down" style="margin-top: 45px;"  id="po-details"></span>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-12" style="display:none;">
+									<div class="row">
+										<div class="col-xs-12 po-border-details">
+											<b>
+												<!-- check PPN -->
+												<?php 
+													if ($row['non_ppn']==0) {
+														$ppn='Ya';
+													}else{
+														$ppn='Tidak';
+													}
+												?>
+												PPN : <?php echo $ppn; ?><br>
+												Total : <?php echo number_format($row['total']); ?><br>
+												Richardus Teddy
+												<input type="checkbox" class="cb-gadget">
+												<textarea class="form-control" rows="2" id="comment"></textarea>
+												Harijanto Pribadi
+												<input type="checkbox" class="cb-gadget">
+												<textarea class="form-control" rows="2" id="comment"></textarea>
+												Dicky Lisal
+												<input type="checkbox" class="cb-gadget">
+												<textarea class="form-control" rows="2" id="comment"></textarea>
+
+											</b>
+											<div class="col-xs-12">
+												<span id="details-po" class="glyphicon glyphicon-menu-up" style="font-size:20px;"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<?php 
+					$no++;
+					} 
+					?>
+					<button type="submit" class="btn btn-success submit">Submit</button>
+				</form>
+				<!-- <?php
 				$no = +1;
 				$grand= 0;
 				while ($row = $PPO_TableDetail->fetch_assoc()) {
@@ -149,10 +214,10 @@
 				<div class="row gadget">
 					<div class="col-sm-12">
 						<div class="row">
-							<div class="col-sm-4 po-border">
+							<div class="col-sm-12 po-border">
 								<div class="row">
 									<div class="col-xs-10">
-
+				
 										<b>
 											<?php $Tanggal_po = date( 'd-m-Y', strtotime( $row['tgl_po'] )); ?>
 											No : <?php echo $no; ?><br>
@@ -166,14 +231,14 @@
 										<span class="glyphicon glyphicon-menu-down" style="margin-top: 45px;"></span>
 									</div>
 								</div>
-								<!-- <div class="row">
+								<div class="row">
 									<div class="col-sm-12">
 										<p class="no-margin">No : <?php echo $no; ?></p>
 									</div>
 									<div class="col-sm-12">
 										<p class="no-margin">No PO : <?php echo $row['no_po']; ?></p>
 									</div>
-								</div> -->
+								</div>
 							</div>
 							
 						</div>
@@ -184,7 +249,7 @@
 					} 
 				?>
 				<input type="submit" class="btn btn-success submit" value="Submit">
-				</form>
+				</form> -->
 				<div class="table-responsive desktop">
 					<form method="post" action="post.php">
 						<table class="table table-striped table-bordered table-hover">
@@ -805,6 +870,17 @@
 </body>
 </html>
 <script>
+$(document).ready(function() {
+	var c = 0;
+	$('#po-details').click(function() {
+		if (c%2 == 0) {
+			$('#details-po').slideDown(500);
+		} else {
+			$('#details-po').slideUp(250);
+		}
+		c++; 
+	});
+});
 function startTime()
 {
 	var today=new Date()

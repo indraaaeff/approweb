@@ -80,11 +80,28 @@ thead.table_po{
 	padding-left: 2px !important;
 	padding-right: 2px !important;
 }
-.gadget{
+.po-border-details{
+	border: 2px solid #f26904!important;
+	padding-left: 2px !important;
+	padding-right: 2px !important;
+	border-top: 0px !important;
+}
+.spasi-kotak{
 	margin-bottom: 10px;
 }
 p.no-margin{
 	margin: 0px;
+}
+.col-xs-12 span {
+	display: block;
+	text-align: center;
+}
+.cb-gadget{
+	float: right;
+	margin-right: 10px !important;
+}
+textarea.form-control{
+	resize:none;
 }
 /*---------------*/
 /* Media Queries */
