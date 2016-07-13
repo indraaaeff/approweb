@@ -96,6 +96,10 @@ p.no-margin{
 	display: block;
 	text-align: center;
 }
+.col-xs-2 span {
+	display: block;
+	text-align: center;
+}
 .cb-gadget{
 	float: right;
 	margin-right: 10px !important;
@@ -125,23 +129,26 @@ textarea.form-control{
 }
 @media (min-width:740px){
 	.hidden_po{
-		display:none
+		display:none;
 	}
 }
 @media (max-width:740px){
 	.po_head{
-		display:none
+		display:none;
 	}
 }
-@media (max-width:767px){
+@media (max-width:896px){
 	img.logo-image{
 		width:90px; margin-top:10px
 	}
 	.desktop{
 		display: none;
 	}
+	.table_po{
+		display:none;
+	}
 }
-@media (min-width: 768px){
+@media (min-width: 897px){
 	.gadget{
 		display: none;
 	}

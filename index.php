@@ -139,119 +139,8 @@
 				</div>
 			</div>
 			<div class="panel-body">
-				<form role="form" action="post.php" method="post" class="gadget">
-					<?php
-					$no = +1;
-					$grand= 0;
-					while ($row = $PPO_TableDetail->fetch_assoc()) {
-					?>
-					<div class="row spasi-kotak">
-						<div class="col-sm-12">
-							<div class="row">
-								<div class="col-sm-12 po-border">
-									<div class="row">
-										<div class="col-xs-10">
-											<b>
-												<?php $Tanggal_po = date( 'd-m-Y', strtotime( $row['tgl_po'] )); ?>
-												No : <?php echo $no; ?><br>
-												No PO : <?php echo $row['no_po']; ?><br>
-												Tanggal PO : <?php echo $row['nama_vendor']; ?><br>
-												Nama Vendor : <?php echo $Tanggal_po; ?><br>
-												Status :<br>
-											</b>
-										</div>
-										<div class="col-xs-2">
-											<span class="glyphicon glyphicon-menu-down" style="margin-top: 45px;"  id="po-details"></span>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-12" style="display:none;">
-									<div class="row">
-										<div class="col-xs-12 po-border-details">
-											<b>
-												<!-- check PPN -->
-												<?php 
-													if ($row['non_ppn']==0) {
-														$ppn='Ya';
-													}else{
-														$ppn='Tidak';
-													}
-												?>
-												PPN : <?php echo $ppn; ?><br>
-												Total : <?php echo number_format($row['total']); ?><br>
-												Richardus Teddy
-												<input type="checkbox" class="cb-gadget">
-												<textarea class="form-control" rows="2" id="comment"></textarea>
-												Harijanto Pribadi
-												<input type="checkbox" class="cb-gadget">
-												<textarea class="form-control" rows="2" id="comment"></textarea>
-												Dicky Lisal
-												<input type="checkbox" class="cb-gadget">
-												<textarea class="form-control" rows="2" id="comment"></textarea>
-
-											</b>
-											<div class="col-xs-12">
-												<span id="details-po" class="glyphicon glyphicon-menu-up" style="font-size:20px;"></span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<?php 
-					$no++;
-					} 
-					?>
-					<button type="submit" class="btn btn-success submit">Submit</button>
-				</form>
-				<!-- <?php
-				$no = +1;
-				$grand= 0;
-				while ($row = $PPO_TableDetail->fetch_assoc()) {
-				?>
-				<form action="post.php" method="post">
-				<div class="row gadget">
-					<div class="col-sm-12">
-						<div class="row">
-							<div class="col-sm-12 po-border">
-								<div class="row">
-									<div class="col-xs-10">
-				
-										<b>
-											<?php $Tanggal_po = date( 'd-m-Y', strtotime( $row['tgl_po'] )); ?>
-											No : <?php echo $no; ?><br>
-											No PO : <?php echo $row['no_po']; ?><br>
-											Tanggal PO : <?php echo $row['nama_vendor']; ?><br>
-											Nama Vendor : <?php echo $Tanggal_po; ?><br>
-											Status :<br>
-										</b>
-									</div>
-									<div class="col-xs-2">
-										<span class="glyphicon glyphicon-menu-down" style="margin-top: 45px;"></span>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-12">
-										<p class="no-margin">No : <?php echo $no; ?></p>
-									</div>
-									<div class="col-sm-12">
-										<p class="no-margin">No PO : <?php echo $row['no_po']; ?></p>
-									</div>
-								</div>
-							</div>
-							
-						</div>
-					</div>
-				</div>
-				<?php 
-					$no++;
-					} 
-				?>
-				<input type="submit" class="btn btn-success submit" value="Submit">
-				</form> -->
-				<div class="table-responsive desktop">
-					<form method="post" action="post.php">
+				<form method="post" action="post.php">
+					<div id="tabel" class="table-responsive">
 						<table class="table table-striped table-bordered table-hover">
 							<thead class="table_po">
 								<tr>
@@ -289,14 +178,14 @@
 							// $po_approve_by_hp=0;
 							// $po_tgl_approved_dl=1;
 							?>
-							<tbody>
-								<!-- loop for row details -->
 								<?php
 								$no = +1;
 								$grand= 0;
 								while ($row = $PPO_TableDetail->fetch_assoc()) {
 
 								?>
+							<tbody class="desktop">
+								<!-- loop for row details -->
 								<tr align="center" id="detail_column">
 									<?php $Tanggal_po = date( 'd-m-Y', strtotime( $row['tgl_po'] )); ?>
             						<td><?php echo $no;?></td>
@@ -680,6 +569,61 @@
             							</div>
             						</div>
             					</div>
+            					<div class="row spasi-kotak gadget">
+            						<div class="col-sm-12">
+            							<div class="row">
+            								<div class="col-sm-12 po-border po-head">
+            									<div class="row">
+            										<div class="col-xs-10">
+            											<b>
+            												<?php $Tanggal_po = date( 'd-m-Y', strtotime( $row['tgl_po'] )); ?>
+            												No : <?php echo $no; ?><br>
+            												No PO : <?php echo $row['no_po']; ?><br>
+            												Tanggal PO : <?php echo $row['nama_vendor']; ?><br>
+            												Nama Vendor : <?php echo $Tanggal_po; ?><br>
+            												Status :<br>
+            											</b>
+            										</div>
+            										<div class="col-xs-2">
+            											<span class="glyphicon glyphicon-menu-down" style="margin-top: 45px;"  id="po-turun"></span>
+            										</div>
+            									</div>
+            								</div>
+            								<div class="col-sm-12 po-body" style="">
+            									<div class="row">
+            										<div class="col-xs-12 po-border-details" id="details-po">
+            											<b>
+            												<!-- check PPN -->
+            												<?php 
+            												if ($row['non_ppn']==0) {
+            													$ppn='Ya';
+            												}else{
+            													$ppn='Tidak';
+            												}
+            												?>
+            												PPN : <?php echo $ppn; ?><br>
+            												Total : <?php echo number_format($row['total']); ?><br>
+            												<u>NOTE</u> : <br>
+            												Richardus Teddy
+            												<input type="checkbox" class="cb-gadget">
+            												<textarea class="form-control" rows="2" id="comment"></textarea>
+            												Harijanto Pribadi
+            												<input type="checkbox" class="cb-gadget">
+            												<textarea class="form-control" rows="2" id="comment"></textarea>
+            												Dicky Lisal
+            												<input type="checkbox" class="cb-gadget">
+            												<textarea class="form-control" rows="2" id="comment"></textarea>
+
+            											</b>
+            											<div class="col-xs-12" id="po-naik">
+            												<span class="glyphicon glyphicon-menu-up" style="font-size:20px;"></span>
+            											</div>
+            										</div>
+            									</div>
+            								</div>
+            							</div>
+            						</div>
+            					</div>
             					<!-- end of modal -->
             					<?php 
             						$no++;} 
@@ -851,9 +795,10 @@
 								<!-- end of validation processed or not -->
 							</tbody>
 						</table>
-					</form>
+
 					
-				</div>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -870,17 +815,41 @@
 </body>
 </html>
 <script>
-$(document).ready(function() {
-	var c = 0;
-	$('#po-details').click(function() {
-		if (c%2 == 0) {
-			$('#details-po').slideDown(500);
-		} else {
-			$('#details-po').slideUp(250);
-		}
-		c++; 
+$('.po-head').click(function(){
+	$(this).next('.po-body').slideToggle("slow");
+})
+$('#po-naik').click(function(){
+	$('.po-body').slideToggle("slow");
+})
+$(document).ready(function(){
+	$(window).on('load', function(){
+	      var win = $(this);
+	      if (win.width() > 897) { 
+
+	      $('#tabel').addClass('table-responsive');
+
+	      }
+	    else
+	    {
+	        $('#tabel').removeClass('table-responsive');
+	        // $('#details-po').slideUp(250);
+	    }
+
 	});
 });
+	$(window).on('resize', function(){
+	      var win = $(this);
+	      if (win.width() > 897) { 
+
+	      $('#tabel').addClass('table-responsive');
+
+	      }
+	    else
+	    {
+	        $('#tabel').removeClass('table-responsive');
+	    }
+
+	});
 function startTime()
 {
 	var today=new Date()
@@ -909,6 +878,7 @@ function checkTime(i)
 }
 
 window.onload=startTime;
+window.onload=responsive;
 
 $('tr #check-box').on('click',function(){
     $("#myModal").modal("show");
@@ -950,4 +920,6 @@ $('tr #check-box').on('click',function(){
 			else
 				document.getElementById( test2 ).value = "0";
 		}
+
+
 </script>
