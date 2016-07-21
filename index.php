@@ -158,7 +158,6 @@
 
 							</thead>
 							<?php 
-							$row['comment_rt'] = "okeee";
 							$po_approve_by_rt   = $row['approve_by_rt'];
 							$po_tgl_approved_rt = $row['tgl_approved_rt'];	  
 							$po_comment_rt      = $row['comment_rt'];		
@@ -244,9 +243,9 @@
 	            						?>
 	            							<input type="checkbox" class="tanggal" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" />
 	            							<!-- <input type="checkbox" name="approve_by_rt" onclick="check(this, 'date1');"> -->
-	            							<?php
+	            						<?php
 	            								}
-	            							?>
+	            						?>
 	            							<input type="" name="po_tgl_approved_rt[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
 	            							<input type="" name="po_approve_by_rt[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly">
 	            							<input type="" name="no_po[]"  value="<?php echo $row['no_po'];?>">
@@ -503,6 +502,63 @@
 	            						} 
 	            					?>
             					</tr>
+            					<div class="row spasi-kotak gadget">
+            						<div class="col-sm-12">
+            							<div class="row">
+            								<div class="col-sm-12 po-border po-head" id="<?php echo 'tes'.$no; ?>">
+            									<div class="row">
+            										<div class="col-xs-12">
+            											<?php $Tanggal_po = date( 'd-m-Y', strtotime( $row['tgl_po'] )); ?>
+            											<b>No PO :</b> <?php echo $row['no_po']; ?><br>
+            											<b>Tanggal PO :</b> <?php echo $Tanggal_po; ?><br>
+            											<b>Nama Vendor :</b> <?php echo $row['nama_vendor']; ?><br>
+            											<b>Status :</b><br>
+            											<span class="glyphicon glyphicon-menu-down" style="padding:5px 0 5px 0"></span>
+            										</div>
+            									</div>
+            								</div>
+            								<div class="col-sm-12 po-body" style="display:none;">
+            									<div class="row">
+            										<div class="col-xs-12 po-border-details" id="details-po">
+            											<b>
+            												<!-- check PPN -->
+            												<?php 
+            												if ($row['non_ppn']==0) {
+            													$ppn='Ya';
+            												}else{
+            													$ppn='Tidak';
+            												}
+            												?>
+            												PPN : <?php echo $ppn; ?><br>
+            												Total : <?php echo number_format($row['total']); ?><br>
+            												<u>NOTE</u> : <br>
+            												Richardus Teddy
+            												<input type="" name="po_tgl_approved_rt[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
+	            											<input type="" name="po_approve_by_rt[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly">
+
+            												<input type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');">
+            												<textarea class="form-control" rows="2" name="comment_rt[]" <?php if($user == BOD_HP || $user == BOD_DL){echo "readonly";} ?> >
+            													<?php if(!empty($po_comment_rt)){echo $po_comment_rt;} ?>
+            												</textarea>
+            												Harijanto Pribadi
+            												<input type="checkbox" class="cb-gadget">
+            												<textarea class="form-control" rows="2" name="comment_hp[]" <?php if($user == BOD_RT || $user == BOD_DL){echo "readonly";} ?>>
+            													<?php if(!empty($po_comment_hp)){echo $po_comment_hp;} ?>
+            												</textarea>
+            												Dicky Lisal
+            												<input type="checkbox" class="cb-gadget">
+            												<textarea class="form-control" rows="2" name="comment_dl[]" <?php if($user == BOD_RT || $user == BOD_HP){echo "readonly";} ?>>
+            													<?php if(!empty($po_comment_dl)){echo $po_comment_dl;} ?>
+            												</textarea>
+            											</b>
+	        											<br>
+            										</div>
+            									</div>
+            								</div>
+            							</div>
+            						</div>
+
+            					</div>
             					<!-- Modal -->
             					<div class="modal fade" id="myModal" role="dialog">
             						<div class="modal-dialog modal-lg">
@@ -520,9 +576,9 @@
             												<label for="ppo_number">Nomor PO :</label>
             												<input class="form-control" type="text" id="ppo_number" value="<?php echo $row['no_po']; ?>" readonly>
             												<label>Tanggal PO :</label>
-            												<input class="form-control "type="text" id="tanggal_po" value="<?php echo $Tanggal_po ?>" readonly>
+            												<input class="form-control" type="text" id="tanggal_po" value="<?php echo $Tanggal_po ?>" readonly>
             												<label>Nama Vendor :</label>
-            												<input class="form-control "type="text" id="nama_vendor" readonly>
+            												<input class="form-control" type="text" id="nama_vendor" readonly>
             											</div>
             										</div>
             										<div class="col-md-6">
@@ -569,64 +625,10 @@
             							</div>
             						</div>
             					</div>
-            					<div class="row spasi-kotak gadget">
-            						<div class="col-sm-12">
-            							<div class="row">
-            								<div class="col-sm-12 po-border po-head">
-            									<div class="row">
-            										<div class="col-xs-10">
-            											<b>
-            												<?php $Tanggal_po = date( 'd-m-Y', strtotime( $row['tgl_po'] )); ?>
-            												No : <?php echo $no; ?><br>
-            												No PO : <?php echo $row['no_po']; ?><br>
-            												Tanggal PO : <?php echo $row['nama_vendor']; ?><br>
-            												Nama Vendor : <?php echo $Tanggal_po; ?><br>
-            												Status :<br>
-            											</b>
-            										</div>
-            										<div class="col-xs-2">
-            											<span class="glyphicon glyphicon-menu-down" style="margin-top: 45px;"  id="po-turun"></span>
-            										</div>
-            									</div>
-            								</div>
-            								<div class="col-sm-12 po-body" style="">
-            									<div class="row">
-            										<div class="col-xs-12 po-border-details" id="details-po">
-            											<b>
-            												<!-- check PPN -->
-            												<?php 
-            												if ($row['non_ppn']==0) {
-            													$ppn='Ya';
-            												}else{
-            													$ppn='Tidak';
-            												}
-            												?>
-            												PPN : <?php echo $ppn; ?><br>
-            												Total : <?php echo number_format($row['total']); ?><br>
-            												<u>NOTE</u> : <br>
-            												Richardus Teddy
-            												<input type="checkbox" class="cb-gadget">
-            												<textarea class="form-control" rows="2" id="comment"></textarea>
-            												Harijanto Pribadi
-            												<input type="checkbox" class="cb-gadget">
-            												<textarea class="form-control" rows="2" id="comment"></textarea>
-            												Dicky Lisal
-            												<input type="checkbox" class="cb-gadget">
-            												<textarea class="form-control" rows="2" id="comment"></textarea>
-
-            											</b>
-            											<div class="col-xs-12" id="po-naik">
-            												<span class="glyphicon glyphicon-menu-up" style="font-size:20px;"></span>
-            											</div>
-            										</div>
-            									</div>
-            								</div>
-            							</div>
-            						</div>
-            					</div>
             					<!-- end of modal -->
             					<?php 
-            						$no++;} 
+            						$no++;
+									$slide_num++;} 
             					?>
  								<!-- validation if BOD processed or not -->
             					<?php 
@@ -795,9 +797,11 @@
 								<!-- end of validation processed or not -->
 							</tbody>
 						</table>
-
-					
 					</div>
+					<td colspan="10">
+					<input type="submit" class="btn btn-success submit sub-gadget" value="Submit">
+						<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/> -->
+					</td>
 				</form>
 			</div>
 		</div>
@@ -815,26 +819,39 @@
 </body>
 </html>
 <script>
+  $(document).ready(function() {
+    var c = 0;
+    $('.po-head').click(function() {
+	var tes = "#"+ this.id;
+	// alert(tes);
+
+      if (c%2 == 0) {
+      	$(tes).addClass('borbot-disabled');
+
+      } else {
+      	$(tes).fadeIn("slow", function() {
+      		$(this).removeClass("borbot-disabled");
+      	});
+      	// $('.po-head').removeClass('borbot-disabled').animate('slow');
+      }
+     c++; 
+    });
+  });
+
 $('.po-head').click(function(){
 	$(this).next('.po-body').slideToggle("slow");
-})
-$('#po-naik').click(function(){
-	$('.po-body').slideToggle("slow");
+	// $('.po-head').addClass('borbot-disabled');
 })
 $(document).ready(function(){
 	$(window).on('load', function(){
-	      var win = $(this);
-	      if (win.width() > 897) { 
-
-	      $('#tabel').addClass('table-responsive');
-
-	      }
-	    else
-	    {
+	    var win = $(this);
+	    if (win.width() > 897) { 
+	    	$('#tabel').addClass('table-responsive');
+	    } else {
 	        $('#tabel').removeClass('table-responsive');
 	        // $('#details-po').slideUp(250);
+	        $('#slide_num0').css("display : block !important;");
 	    }
-
 	});
 });
 	$(window).on('resize', function(){
