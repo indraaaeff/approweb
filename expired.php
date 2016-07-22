@@ -36,14 +36,13 @@
 			</div>
 		</div>
 	</div>
-	<div class="container-fluid">
+	<div class="container">
 		<div class="row">
-				<div class="col-sm-12">
-					
+			<div class="col-sm-12">
 				<div class="alerts" style="line-height:30px;">
 					<font color="#FF0000">Data link tidak ditemukan atau sudah expired.!</font>
 				</div>			
-				</div>
+			</div>
 		</div>
 	</div>
 	<footer class="footer">
