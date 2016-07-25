@@ -124,6 +124,12 @@ textarea.form-control{
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 0px;
 }
+.panel-title{
+	font-size: 12px !important;
+}
+.panel-body b {
+	font-size: 12px !important;
+}
 /*---------------*/
 /* Media Queries */
 /*---------------*/
@@ -172,7 +178,7 @@ textarea.form-control{
 	.gadget{
 		display: none;
 	}
-	.sub-gadget{
+	input.sub-gadget{
 		display: none;
 	}
 }

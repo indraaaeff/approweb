@@ -2,16 +2,13 @@
 <head>
 	<title>HTS APP</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/sticky-footer-navbar.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
-  	<link rel="stylesheet" href="js/bootstrap.js">
-    <link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.10.1.js"></script>
-    <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<?php
@@ -384,7 +381,7 @@
             								if($po_approve_by_dl==1) 
             								{ 
             							?>
-            							<input type="checkbox" disabled checked>
+            							<input type="checkbox" disabled checked >
             							<?php 
             								} else if(empty($po_tgl_approved_dl)){
             							?>
@@ -505,70 +502,146 @@
 	            						} 
 	            					?>
             					</tr>
-            					<div class="gadget">
-            						<ul class="nav nav-tabs responsive" id="myTab">
-            							<li class="">
-            								<a href="#<?php echo 'po_details'.$no; ?>">
-            									<?php $Tanggal_po = date( 'd-m-Y', strtotime( $row['tgl_po'] )); ?>
-            									<b>No PO :</b> <?php echo $row['no_po']; ?><br>
-            									<b>Tanggal PO :</b> <?php echo $Tanggal_po; ?><br>
-            									<b>Nama Vendor :</b> <?php echo $row['nama_vendor']; ?><br>
+            					<div class="row spasi-kotak gadget">
+            						<div class="col-sm-12">
+            							<div class="row">
+            								<div class="col-sm-12 po-border po-head" id="<?php echo 'tes'.$no; ?>">
+            									<div class="row">
+            										<div class="col-xs-12">
+            											<?php $Tanggal_po = date( 'd-m-Y', strtotime( $row['tgl_po'] )); ?>
+            											<b>No PO :</b> <?php echo $row['no_po']; ?><br>
+            											<b>Tanggal PO :</b> <?php echo $Tanggal_po; ?><br>
+            											<b>Nama Vendor :</b> <?php echo $row['nama_vendor']; ?><br>
+            											<!-- <b>Status : </b>
+            											<br> -->										
+            											<?php 
+            											if(!empty($po_tgl_approved_rt)){
+            												if($po_approve_by_rt==1){
+            													echo '<p style="color:green;font-weight:bold;">Approved</p>';
+            												} else {
+            													echo '<p style="color:red;font-weight:bold;">Rejected</p>';
+            												}
+            											} else if(empty($po_tgl_approved_rt)){
+            												if (!empty($po_approve_by_hp) && !empty($po_approve_by_dl)) {
+            													echo '<p style="color:green;font-weight:bold;">Approved</p>';
+            												} else {
+            													echo '<p style="color:orange;font-weight:bold;">Waiting</p>';
+            												}
+            											}
+            											?>
+            											<span class="glyphicon glyphicon-menu-down" style="padding:5px 0 5px 0"></span>
+            										</div>
+            									</div>
+            								</div>
+            								<div class="col-sm-12 po-body" style="display:none;">
+            									<div class="row">
+            										<div class="col-xs-12 po-border-details" id="details-po">
+            											<b>
+            												<!-- check PPN -->
+            												<?php 
+            												if ($row['non_ppn']==0) {
+            													$ppn='Ya';
+            												}else{
+            													$ppn='Tidak';
+            												}
+            												?>
+            												Total : <?php echo number_format($row['total']); ?><br>
+            												PPN : <?php echo $ppn; ?><br><br>
+            												<u>NOTE</u> : <br>
+            												Richardus Teddy
+															<?php 
 
-            									<?php 
-            									if(!empty($po_tgl_approved_rt)){
-            										if($po_approve_by_rt==1){
-            											echo '<p style="color:green;font-weight:bold;">Approved</p>';
-            										} else {
-            											echo '<p style="color:red;font-weight:bold;">Rejected</p>';
-            										}
-            									} else if(empty($po_tgl_approved_rt)){
-            										if (!empty($po_approve_by_hp) && !empty($po_approve_by_dl)) {
-            											echo '<p style="color:green;font-weight:bold;">Approved</p>';
-            										} else {
-            											echo '<p style="color:orange;font-weight:bold;">Waiting</p>';
-            										}
-            									}
-            									?>
-            								</a>
-            							</li>
-            						</ul>
-            						<div class="tab-content responsive">
-            							<div class="tab-pane active" id="<?php echo 'po_details'.$no; ?>">
-            								<b>
-            									<!-- check PPN -->
-            									<?php 
-            									if ($row['non_ppn']==0) {
-            										$ppn='Ya';
-            									}else{
-            										$ppn='Tidak';
-            									}
-            									?>
-            									Total : <?php echo number_format($row['total']); ?><br>
-            									PPN : <?php echo $ppn; ?><br><br>
-            									<u>NOTE</u> : <br>
-            									Richardus Teddy
-            									<?php 
+															 ?>
+            												<input type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user!=BOD_RT){echo 'disabled';} ?>>
+            												<textarea class="form-control" rows="2" name="comment_rt[]" <?php if($user == BOD_HP || $user == BOD_DL){echo "readonly";} ?>><?php if(!empty($po_comment_rt)){echo $po_comment_rt;} ?></textarea>
+            												Harijanto Pribadi
 
-            									?>
-            									<input type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user!=BOD_RT){echo 'disabled';} ?>>
-            									<textarea class="form-control" rows="2" name="comment_rt[]" <?php if($user == BOD_HP || $user == BOD_DL){echo "readonly";} ?>><?php if(!empty($po_comment_rt)){echo $po_comment_rt;} ?></textarea>
-            									Harijanto Pribadi
+            												<!-- <input type="" name="po_tgl_approved_rt[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
+	            											<input type="" name="po_approve_by_rt[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly"> -->
+            												<input  type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user!=BOD_HP){echo 'disabled';} ?>>
+            												<textarea class="form-control" rows="2" name="comment_hp[]" <?php if($user == BOD_RT || $user == BOD_DL){echo "readonly";} ?>><?php if(!empty($po_comment_hp)){echo $po_comment_hp;} ?></textarea>
+            												Dicky Lisal
+            												<input type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user!=BOD_DL){echo 'disabled';} ?>>
+            												<textarea class="form-control" rows="2" name="comment_dl[]" <?php if($user == BOD_RT || $user == BOD_HP){echo "readonly";} ?>><?php if(!empty($po_comment_dl)){echo $po_comment_dl;} ?></textarea>
+            											</b>
+	        											<br>
+            										</div>
+            									</div>
+            								</div>
+            							</div>
+            						</div>
 
-												<!-- <input type="" name="po_tgl_approved_rt[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
-												<input type="" name="po_approve_by_rt[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly"> -->
-												<input  type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user!=BOD_HP){echo 'disabled';} ?>>
-												<textarea class="form-control" rows="2" name="comment_hp[]" <?php if($user == BOD_RT || $user == BOD_DL){echo "readonly";} ?>><?php if(!empty($po_comment_hp)){echo $po_comment_hp;} ?></textarea>
-												Dicky Lisal
-												<input type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user!=BOD_DL){echo 'disabled';} ?>>
-												<textarea class="form-control" rows="2" name="comment_dl[]" <?php if($user == BOD_RT || $user == BOD_HP){echo "readonly";} ?>><?php if(!empty($po_comment_dl)){echo $po_comment_dl;} ?></textarea>
-											</b>
-											<br>
-										</div>
-									</div>
             					</div>
+            					<!-- Modal -->
+            					<div class="modal fade" id="myModal" role="dialog">
+            						<div class="modal-dialog modal-lg">
+            							<!-- Modal content-->
+            							<div class="modal-content" style="">
+            								<div class="modal-header" style="background: #f26904;border-radius:5px;">
+            									<button type="button" class="close" data-dismiss="modal" style="color:white;opacity:1;">&times;</button>
+            									<h2 class="modal-title" style="color:white;">Approval Details</h2>
+            								</div>
+            								<div class="modal-body">
+            									<div class="row">
+            										<div class="col-md-6">
+            											<h3><u>PO Details</u></h3>
+            											<div class="form-group">
+            												<label for="ppo_number">Nomor PO :</label>
+            												<input class="form-control" type="text" id="ppo_number" value="<?php echo $row['no_po']; ?>" readonly>
+            												<label>Tanggal PO :</label>
+            												<input class="form-control" type="text" id="tanggal_po" value="<?php echo $Tanggal_po ?>" readonly>
+            												<label>Nama Vendor :</label>
+            												<input class="form-control" type="text" id="nama_vendor" readonly>
+            											</div>
+            										</div>
+            										<div class="col-md-6">
+            											<h3><u>BOD's Note</u></h3>
+            											<?php 
+
+            												
+            											?>
+
+            											<label for="comment_rt">Richardus Teddy</label>
+            											<textarea class="form-control" name="comment_rt[]" rows="5" <?php if($user == BOD_HP || $user == BOD_DL){echo "readonly";} ?>><?php if(!empty($po_comment_rt)){echo $po_comment_rt;} ?></textarea>
+            											<label for="comment_hp">Harijanto Pribadi</label>
+            											<textarea class="form-control" name="comment_hp[]" rows="5" <?php if($user == BOD_RT || $user == BOD_DL){echo "readonly";} ?>><?php if(!empty($po_comment_hp)){echo $po_comment_hp;} ?></textarea>
+            											<label for="comment_dl">Dicky Lisal</label>
+            											<textarea class="form-control" name="comment_dl[]" rows="5" <?php if($user == BOD_RT || $user == BOD_HP){echo "readonly";} ?>><?php if(!empty($po_comment_dl)){echo $po_comment_dl;} ?></textarea>
+            										<!-- 	<?php 
+	            											if ( isset( $_POST[ '$po_comment_rt' ] )) {
+	            												$po_comment_rt = $_POST[ '$po_comment_rt' ];
+	            												foreach ($po_comment_rt as $user) {
+	            													if ( !empty( $user ) )
+	            														echo ( $user . "<br />" );
+	            												}
+	            											}
+	            											else {
+	            												for ($x=0; $x< $num_rows; $x++) { $po_comment_rt[ $x ] = ""; }
+	            											}
+            											?>
+            											<?php 
+            												for ($x=0 ; $x < $num_rows ; $x++ ) { 
+            													// # code...
+            													echo '<textarea name="$comment_rt[]">' . $po_comment_rt[$x] . '</textarea>';
+            													echo '<textarea name="$comment_hp[]">' . $po_comment_hp[$x] . '</textarea>';
+            													echo '<textarea name="$comment_dl[]">' . $po_comment_dl[$x] . '</textarea><br />';
+            											// <textarea name="$comment_rt" rows="5"> .$po_comment_rt[$x]. </textarea>
+            												}
+            											?> -->
+            										</div>
+            									</div>
+            								</div>
+            								<div class="modal-footer">
+            									<h5 style="float:left;font-weight:bold;">Submitted by <?php echo $by ?> </h5>
+            									<button type="button" class="btn btn-default" data-dismiss="modal">Save</button>
+            								</div>
+            							</div>
+            						</div>
+            					</div>
+            					<!-- end of modal -->
             					<?php 
             						$no++;
-            					}
+									$slide_num++;} 
             					?>
  								<!-- validation if BOD processed or not -->
             					<?php 
@@ -759,6 +832,29 @@
 </body>
 </html>
 <script>
+  $(document).ready(function() {
+    var c = 0;
+    $('.po-head').click(function() {
+	var tes = "#"+ this.id;
+	// alert(tes);
+
+      if (c%2 == 0) {
+      	$(tes).addClass('borbot-disabled');
+
+      } else {
+      	$(tes).fadeIn("slow", function() {
+      		$(this).removeClass("borbot-disabled");
+      	});
+      	// $('.po-head').removeClass('borbot-disabled').animate('slow');
+      }
+     c++; 
+    });
+  });
+
+$('.po-head').click(function(){
+	$(this).next('.po-body').slideToggle("slow");
+	// $('.po-head').addClass('borbot-disabled');
+})
 $(document).ready(function(){
 	$(window).on('load', function(){
 	    var win = $(this);
@@ -766,157 +862,24 @@ $(document).ready(function(){
 	    	$('#tabel').addClass('table-responsive');
 	    } else {
 	        $('#tabel').removeClass('table-responsive');
+	        // $('#details-po').slideUp(250);
+	        $('#slide_num0').css("display : block !important;");
 	    }
 	});
 });
-if (fakewaffle === undefined) {
-    var fakewaffle = {};
-}
+	$(window).on('resize', function(){
+	      var win = $(this);
+	      if (win.width() > 897) { 
 
-fakewaffle.responsiveTabs = function (collapseDisplayed) {
-    "use strict";
-    fakewaffle.currentPosition = 'tabs';
+	      $('#tabel').addClass('table-responsive');
 
-    var tabGroups = $('.nav-tabs.responsive'),
-    hidden    = '',
-    visible   = '';
+	      }
+	    else
+	    {
+	        $('#tabel').removeClass('table-responsive');
+	    }
 
-    if (collapseDisplayed === undefined) {
-        collapseDisplayed = ['xs', 'sm'];
-    }
-
-    $.each(collapseDisplayed, function () {
-        hidden  += ' hidden-' + this;
-        visible += ' visible-' + this;
-    });
-
-    $.each(tabGroups, function () {
-        var $tabGroup   = $(this),
-        tabs        = $tabGroup.find('li a'),
-        collapseDiv = $("<div></div>", {
-            "class" : "panel-group responsive" + visible,
-            "id"    : 'collapse-' + $tabGroup.attr('id')
-        });
-
-        $.each(tabs, function () {
-            var $this          = $(this),
-            active         = '',
-            oldLinkClass   = $this.attr('class') === undefined ? '' : $this.attr('class'),
-            newLinkClass   = 'accordion-toggle',
-            oldParentClass = $this.parent().attr('class') === undefined ? '' : $this.parent().attr('class'),
-            newParentClass = 'panel panel-default';
-
-            if (oldLinkClass.length > 0) {
-                newLinkClass += ' ' + oldLinkClass;
-            };
-
-            if (oldParentClass.length > 0) {
-                oldParentClass = oldParentClass.replace(/\bactive\b/g, '');
-                newParentClass += ' ' + oldParentClass;
-                newParentClass = newParentClass.replace(/\s{2,}/g, ' ');
-                newParentClass = newParentClass.replace(/^\s+|\s+$/g, '');
-            };
-
-            if ($this.parent().hasClass('active')) {
-                active = ' in';
-            }
-
-            collapseDiv.append(
-                $('<div>').attr('class', newParentClass).html(
-                    $('<div>').attr('class', 'panel-heading').html(
-                        $('<h4>').attr('class', 'panel-title').html(
-                            $('<a>', {
-                                'class' : newLinkClass,
-                                'data-toggle': 'collapse',
-                                'data-parent' : '#collapse-' + $tabGroup.attr('id'),
-                                'href' : '#collapse-' + $this.attr('href').replace(/#/g, ''),
-                                'html': $this.html()
-                            })
-                            )
-                        )
-                    ).append(
-                    $('<div>', {
-                        'id' : 'collapse-' + $this.attr('href').replace(/#/g, ''),
-                        'class' : 'panel-collapse collapse' + active
-                    }).html(
-                    $('<div>').attr('class', 'panel-body').html('')
-                    )
-                    )
-                    );
-});
-
-$tabGroup.next().after(collapseDiv);
-$tabGroup.addClass(hidden);
-$('.tab-content.responsive').addClass(hidden);
-});
-
-fakewaffle.checkResize();
-fakewaffle.bindTabToCollapse();
-};
-
-fakewaffle.checkResize = function () {
-    "use strict";
-    if ($(".panel-group.responsive").is(":visible") === true && fakewaffle.currentPosition === 'tabs') {
-        fakewaffle.toggleResponsiveTabContent();
-        fakewaffle.currentPosition = 'panel';
-    } else if ($(".panel-group.responsive").is(":visible") === false && fakewaffle.currentPosition === 'panel') {
-        fakewaffle.toggleResponsiveTabContent();
-        fakewaffle.currentPosition = 'tabs';
-    }
-
-};
-
-fakewaffle.toggleResponsiveTabContent = function () {
-    "use strict";
-    var tabGroups = $('.nav-tabs.responsive');
-
-    $.each(tabGroups, function () {
-        var tabs = $(this).find('li a');
-
-        $.each(tabs, function () {
-            var href         = $(this).attr('href').replace(/#/g, ''),
-            tabId        = "#" + href,
-            panelId      = "#collapse-" + href,
-            tabContent   = $(tabId).html(),
-            panelContent = $(panelId + " div:first-child").html();
-
-            $(tabId).html(panelContent);
-            $(panelId + " div:first-child").html(tabContent);
-        });
-
-    });
-};
-
-fakewaffle.bindTabToCollapse = function () {
-    "use strict";
-    var tabs     = $('.nav-tabs.responsive').find('li a'),
-    collapse = $(".panel-group.responsive").find('.panel-collapse');
-
-    tabs.on('shown.bs.tab', function (e) {
-        var $current  = $($(e.target)[0].hash.replace(/#/, '#collapse-'));
-        $current.collapse('show');
-
-        if(e.relatedTarget){
-            var $previous = $($(e.relatedTarget)[0].hash.replace(/#/, '#collapse-'));
-            $previous.collapse('hide');
-        }
-    });
-
-    collapse.on('show.bs.collapse', function (e) {
-        var current = $(e.target).context.id.replace(/collapse-/g, '#');
-
-        $('a[href="' + current + '"]').tab('show');
-    });
-}
-
-$(window).resize(function () {
-    "use strict";
-    fakewaffle.checkResize();
-});
-(function($) {
-    fakewaffle.responsiveTabs(['xs', 'sm']);
-})(jQuery);
-
+	});
 function startTime()
 {
 	var today=new Date()
