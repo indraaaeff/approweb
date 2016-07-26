@@ -360,6 +360,10 @@
             									} else {
             										echo '<span class="glyphicon glyphicon-remove"></span>';
             									}
+	            							} else if (!empty($po_tgl_approved_rt)){
+	            								if (empty($po_approve_by_rt)){
+	            									echo '<input type="checkbox" disabled>';
+	            								}
 	            							} else {
 	            						?>
 	            							<!-- <input type="checkbox" name="approve_by_hp"> -->
@@ -368,15 +372,15 @@
 	            							<?php 
 	            							}
 	            							?>
-	            							<input type="hidden" name="po_tgl_approved_hp[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_hp;?>" readonly>
-	            							<input type="hidden" name="po_approve_by_hp[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_hp;?>" readonly>
-	            							<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
-	            							<input type="hidden" name="total[]"  value="<?php echo $row['total'];?>">
-	            							<input type="hidden" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
-	            							<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
-	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
-	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
-	            							<input type="hidden" name="comment_hp[]" value="<?php echo $po_comment_hp; ?>">
+	            							<input type="" name="po_tgl_approved_hp[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_hp;?>" readonly>
+	            							<input type="" name="po_approve_by_hp[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_hp;?>" readonly>
+	            							<input type="" name="no_po[]"  value="<?php echo $row['no_po'];?>">
+	            							<input type="" name="total[]"  value="<?php echo $row['total'];?>">
+	            							<input type="" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
+	            							<input type="" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
+	            							<input type="" name="no_ppo" value="<?php echo $PPO_Number;?>">
+	            							<input type="" name="sub_by" value="<?php echo $by;?>">
+	            							<input type="" name="comment_hp[]" value="<?php echo $po_comment_hp; ?>">
 	            					
 	            					</td>
 	            					 <td id="check-box">
@@ -465,6 +469,10 @@
             									} else {
             										echo '<span class="glyphicon glyphicon-remove"></span>';
             									}
+	            							} else if (!empty($po_tgl_approved_rt)){
+	            								if (empty($po_approve_by_rt)){
+	            									echo '<input type="checkbox" disabled>';
+	            								}
 	            							} else {
 	            						?>
 	            							<!-- <input type="checkbox" name="approve_by_hp"> -->
@@ -547,9 +555,7 @@
             									PPN : <?php echo $ppn; ?><br><br>
             									<u>NOTE</u> : <br>
             									Richardus Teddy
-            									<?php 
-
-            									?>
+            									
             									<input type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user!=BOD_RT){echo 'disabled';} ?>>
             									<textarea class="form-control" rows="2" name="comment_rt[]" <?php if($user == BOD_HP || $user == BOD_DL){echo "readonly";} ?>><?php if(!empty($po_comment_rt)){echo $po_comment_rt;} ?></textarea>
             									Harijanto Pribadi
@@ -739,7 +745,28 @@
 						</table>
 					</div>
 					<td colspan="10">
-					<input type="submit" class="btn btn-success submit sub-gadget" value="Submit">
+						<?php 
+						if ($user == BOD_RT) {
+							if (empty($po_tgl_approved_rt)) {
+								echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit">';
+							} else {
+								echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit" style="display:none;">';
+							}
+						} else if ($user == BOD_HP){
+							if (empty($po_tgl_approved_rt)){
+								echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit">';
+							} else {
+								echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit" style="display:none;">';
+							}
+						} else if ($user == BOD_DL){
+							if (empty($po_tgl_approved_rt)){
+								echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit">';
+							} else {
+								echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit" style="display:none;">';
+							}
+						}
+						?>
+						
 						<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/> -->
 					</td>
 				</form>

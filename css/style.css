@@ -130,6 +130,9 @@ textarea.form-control{
 .panel-body b {
 	font-size: 12px !important;
 }
+a:hover, a:focus{
+	text-decoration: none !important;
+}
 /*---------------*/
 /* Media Queries */
 /*---------------*/
