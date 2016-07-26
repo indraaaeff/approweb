@@ -149,7 +149,7 @@ a:hover, a:focus{
 	.user{
 		display:none
 	}
-		a.logo{
+	a.logo{
 		font-size: 8vw;
 	}
 }
@@ -175,6 +175,9 @@ a:hover, a:focus{
 	}
 	#myModal{
 		display: none;
+	}
+	footer.footer{
+		position: static !important;
 	}
 }
 @media (min-width: 897px){
