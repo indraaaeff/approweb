@@ -766,7 +766,6 @@
 							}
 						}
 						?>
-						
 						<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/> -->
 					</td>
 				</form>
