@@ -372,15 +372,15 @@
 	            							<?php 
 	            							}
 	            							?>
-	            							<input type="" name="po_tgl_approved_hp[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_hp;?>" readonly>
-	            							<input type="" name="po_approve_by_hp[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_hp;?>" readonly>
-	            							<input type="" name="no_po[]"  value="<?php echo $row['no_po'];?>">
-	            							<input type="" name="total[]"  value="<?php echo $row['total'];?>">
-	            							<input type="" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
-	            							<input type="" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
-	            							<input type="" name="no_ppo" value="<?php echo $PPO_Number;?>">
-	            							<input type="" name="sub_by" value="<?php echo $by;?>">
-	            							<input type="" name="comment_hp[]" value="<?php echo $po_comment_hp; ?>">
+	            							<input type="hidden" name="po_tgl_approved_hp[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_hp;?>" readonly>
+	            							<input type="hidden" name="po_approve_by_hp[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_hp;?>" readonly>
+	            							<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
+	            							<input type="hidden" name="total[]"  value="<?php echo $row['total'];?>">
+	            							<input type="hidden" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
+	            							<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
+	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
+	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
+	            							<input type="hidden" name="comment_hp[]" value="<?php echo $po_comment_hp; ?>">
 	            					
 	            					</td>
 	            					 <td id="check-box">
