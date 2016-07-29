@@ -2,16 +2,16 @@
 <head>
 	<title>HTS APP</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<link rel="stylesheet" type="text/css" href="css/sticky-footer-navbar.css">
-	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 
   	<link rel="stylesheet" href="js/bootstrap.js">
-    <link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/sticky-footer-navbar.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.10.1.js"></script>
-    <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 	<?php
@@ -521,22 +521,8 @@
             									<b>No PO :</b> <?php echo $row['no_po']; ?><br>
             									<b>Tanggal PO :</b> <?php echo $Tanggal_po; ?><br>
             									<b>Nama Vendor :</b> <?php echo $row['nama_vendor']; ?><br>
+												<b>Total : </b><?php echo number_format($row['total']); ?><br>
 
-            									<?php 
-            									if(!empty($po_tgl_approved_rt)){
-            										if($po_approve_by_rt==1){
-            											echo '<p style="color:green;font-weight:bold;">Approved</p>';
-            										} else {
-            											echo '<p style="color:red;font-weight:bold;">Rejected</p>';
-            										}
-            									} else if(empty($po_tgl_approved_rt)){
-            										if (!empty($po_approve_by_hp) && !empty($po_approve_by_dl)) {
-            											echo '<p style="color:green;font-weight:bold;">Approved</p>';
-            										} else {
-            											echo '<p style="color:orange;font-weight:bold;">Waiting</p>';
-            										}
-            									}
-            									?>
             								</a>
             							</li>
             						</ul>
@@ -551,8 +537,24 @@
             										$ppn='Tidak';
             									}
             									?>
-            									Total : <?php echo number_format($row['total']); ?><br>
-            									PPN : <?php echo $ppn; ?><br><br>
+            									PPN : <?php echo $ppn; ?><br>
+            									<?php 
+            									if(!empty($po_tgl_approved_rt)){
+            										if($po_approve_by_rt==1){
+            											echo '<p style="color:green;font-weight:bold;">Approved</p>';
+            										} else {
+            											echo '<p style="color:red;font-weight:bold;">Rejected</p>';
+            										}
+            									} else if(empty($po_tgl_approved_rt)){
+            										if (!empty($po_approve_by_hp) && !empty($po_approve_by_dl)) {
+            											echo '<p style="color:green;font-weight:bold;">Approved</p>';
+            										} else {
+            											echo '<p style="color:orange;font-weight:bold;">Waiting Confirmation</p>';
+            										}
+            									}
+            									?>
+            									
+            									
             									<u>NOTE</u> : <br>
             									Richardus Teddy
             									
@@ -572,6 +574,73 @@
 										</div>
 									</div>
             					</div>
+            					<!-- Modal -->
+            					<div class="modal fade" id="myModal" role="dialog">
+            						<div class="modal-dialog modal-lg">
+            							<!-- Modal content-->
+            							<div class="modal-content" style="">
+            								<div class="modal-header" style="background: #f26904;border-radius:5px;">
+            									<button type="button" class="close" data-dismiss="modal" style="color:white;opacity:1;">&times;</button>
+            									<h2 class="modal-title" style="color:white;">Approval Details</h2>
+            								</div>
+            								<div class="modal-body">
+            									<div class="row">
+            										<div class="col-md-6">
+            											<h3><u>PO Details</u></h3>
+            											<div class="form-group">
+            												<label for="ppo_number">Nomor PO :</label>
+            												<input class="form-control" type="text" id="ppo_number" value="<?php echo $row['no_po']; ?>" readonly>
+            												<label>Tanggal PO :</label>
+            												<input class="form-control" type="text" id="tanggal_po" value="<?php echo $Tanggal_po ?>" readonly>
+            												<label>Nama Vendor :</label>
+            												<input class="form-control" type="text" id="nama_vendor" readonly>
+            											</div>
+            										</div>
+            										<div class="col-md-6">
+            											<h3><u>BOD's Note</u></h3>
+            											<?php 
+
+            												
+            											?>
+
+            											<label for="comment_rt">Richardus Teddy</label>
+            											<textarea class="form-control" name="comment_rt[]" rows="5" <?php if($user == BOD_HP || $user == BOD_DL){echo "readonly";} ?>><?php if(!empty($po_comment_rt)){echo $po_comment_rt;} ?></textarea>
+            											<label for="comment_hp">Harijanto Pribadi</label>
+            											<textarea class="form-control" name="comment_hp[]" rows="5" <?php if($user == BOD_RT || $user == BOD_DL){echo "readonly";} ?>><?php if(!empty($po_comment_hp)){echo $po_comment_hp;} ?></textarea>
+            											<label for="comment_dl">Dicky Lisal</label>
+            											<textarea class="form-control" name="comment_dl[]" rows="5" <?php if($user == BOD_RT || $user == BOD_HP){echo "readonly";} ?>><?php if(!empty($po_comment_dl)){echo $po_comment_dl;} ?></textarea>
+            										<!-- 	<?php 
+	            											if ( isset( $_POST[ '$po_comment_rt' ] )) {
+	            												$po_comment_rt = $_POST[ '$po_comment_rt' ];
+	            												foreach ($po_comment_rt as $user) {
+	            													if ( !empty( $user ) )
+	            														echo ( $user . "<br />" );
+	            												}
+	            											}
+	            											else {
+	            												for ($x=0; $x< $num_rows; $x++) { $po_comment_rt[ $x ] = ""; }
+	            											}
+            											?>
+            											<?php 
+            												for ($x=0 ; $x < $num_rows ; $x++ ) { 
+            													// # code...
+            													echo '<textarea name="$comment_rt[]">' . $po_comment_rt[$x] . '</textarea>';
+            													echo '<textarea name="$comment_hp[]">' . $po_comment_hp[$x] . '</textarea>';
+            													echo '<textarea name="$comment_dl[]">' . $po_comment_dl[$x] . '</textarea><br />';
+            											// <textarea name="$comment_rt" rows="5"> .$po_comment_rt[$x]. </textarea>
+            												}
+            											?> -->
+            										</div>
+            									</div>
+            								</div>
+            								<div class="modal-footer">
+            									<h5 style="float:left;font-weight:bold;">Submitted by <?php echo $by ?> </h5>
+            									<button type="button" class="btn btn-default" data-dismiss="modal">Save</button>
+            								</div>
+            							</div>
+            						</div>
+            					</div>
+            					<!-- end of modal -->
             					<?php 
             						$no++;
             					}
@@ -785,6 +854,12 @@
 </body>
 </html>
 <script>
+$('tr #check-box').on('click',function(){
+    $("#myModal").modal("show");
+    $("#ppo_number").val($(this).closest('tr').children()[1].textContent);
+    $("#tanggal_po").val($(this).closest('tr').children()[3].textContent);
+    $("#nama_vendor").val($(this).closest('tr').children()[2].textContent);
+});
 $(document).ready(function(){
 	$(window).on('load', function(){
 	    var win = $(this);
@@ -972,13 +1047,6 @@ function checkTime(i)
 
 window.onload=startTime;
 window.onload=responsive;
-
-$('tr #check-box').on('click',function(){
-    $("#myModal").modal("show");
-    $("#ppo_number").val($(this).closest('tr').children()[1].textContent);
-    $("#tanggal_po").val($(this).closest('tr').children()[3].textContent);
-    $("#nama_vendor").val($(this).closest('tr').children()[2].textContent);
-});
 
 		function formatDate(date) {
 			var year = date.getFullYear(),
