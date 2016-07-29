@@ -19,7 +19,7 @@ img.logo-image{
 	box-shadow: 1px 1px 6px rgb(150, 148, 148);
 }
 .header-nav{
-	height: 51px;
+	height: 35px;
 }
 .date{
 	float: left;
@@ -186,9 +186,6 @@ h4.panel-title{
 	}
 	#myModal{
 		display: none;
-	}
-	footer.footer{
-		position: static !important;
 	}
 }
 @media (min-width: 897px){
