@@ -8,6 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/sticky-footer-navbar.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="js/responsive-switch.min.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -115,7 +116,7 @@
 	?>
 	<div class="kotak_po">
 		<div class="panel panel-default">
-			<div class="panel-heading nopadding" style="background:#f26904;">
+			<div class="panel-heading nopadding" style="width:100%; !important">
 				<div class="po_head">
 					<table class="table nopadding" style="margin-bottom:0px;">
 						<tbody style="color:white;">
@@ -128,7 +129,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="hidden_po" style="color:white;"> 
+				<div class="hidden_po">
 				 	<b>
 				 		No Pengajuan : <?php echo $PPO_Number; ?><br>
 							Tanggal :  <?php echo $tgl_pengajuan;?><br>
@@ -517,27 +518,11 @@
             						<ul class="nav nav-tabs responsive" id="myTab">
             							<li class="">
             								<a href="#<?php echo 'po_details'.$no; ?>">
+
             									<?php $Tanggal_po = date( 'd-m-Y', strtotime( $row['tgl_po'] )); ?>
             									<b>No PO :</b> <?php echo $row['no_po']; ?><br>
             									<b>Tanggal PO :</b> <?php echo $Tanggal_po; ?><br>
             									<b>Nama Vendor :</b> <?php echo $row['nama_vendor']; ?><br>
-												<b>Total : </b><?php echo number_format($row['total']); ?><br>
-
-            								</a>
-            							</li>
-            						</ul>
-            						<div class="tab-content responsive">
-            							<div class="tab-pane active" id="<?php echo 'po_details'.$no; ?>">
-            								<b>
-            									<!-- check PPN -->
-            									<?php 
-            									if ($row['non_ppn']==0) {
-            										$ppn='Ya';
-            									}else{
-            										$ppn='Tidak';
-            									}
-            									?>
-            									PPN : <?php echo $ppn; ?><br>
             									<?php 
             									if(!empty($po_tgl_approved_rt)){
             										if($po_approve_by_rt==1){
@@ -553,6 +538,24 @@
             										}
             									}
             									?>
+
+            								</a>
+            							</li>
+            						</ul>
+            						<div class="tab-content responsive">
+            							<div class="tab-pane active" id="<?php echo 'po_details'.$no; ?>">
+            								<b>
+            									<!-- check PPN -->
+            									<?php 
+            									if ($row['non_ppn']==0) {
+            										$ppn='Ya';
+            									}else{
+            										$ppn='Tidak';
+            									}
+            									?>
+												<b>Total : </b><?php echo number_format($row['total']); ?><br>
+            									PPN : <?php echo $ppn; ?><br>
+
             									
             									
             									<u>NOTE</u> : <br>
@@ -846,6 +849,8 @@
 		} 
 	}
 	?>
+	<a href="#" id="mob-desk"class="rs-link" data-link-desktop="<?php  echo 'Switch to Desktop version'; ?>" data-link-responsive="Switch to Mobile version">
+	</a>
 	<footer class="footer">
       <div class="container">
         <p class="text-muted">Copyright &copy; 2016 PT. Hawk Teknologi Solusi, All Rights Reserved.</p>

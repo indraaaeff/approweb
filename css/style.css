@@ -135,14 +135,21 @@ a:hover, a:focus{
 }
 .panel-default>.panel-heading {
     color: #333;
-    background-color: #f26904;
+    background-color: #ddd;
     border-color: #ddd;
 }
 h4.panel-title{
-	color:white;
+	color:black;
 }
 .panel-default{
 	border-color: #000 !important;
+}
+.hidden_po{
+	color: black;
+}
+#mob-desk{
+	background-color: #f26904;
+	color:white;
 }
 /*---------------*/
 /* Media Queries */
