@@ -1,0 +1,12 @@
+1. comment pak rt blm bener ketika HP dan DL reject harus disabled (DONE)
+2. checkbox HP approve reject (DONE)
+3. comment HP approve reject (DONE)
+4. checkbox DL approve reject (DONE)
+5. comment DL approve reject (DONE)
+6. tombol submit harus diatur jika ada proses dari salah satu BOD
+7. (Desktop) HP session-- ketika RT approve checkbox HP hilang.
+8. panel notif mobile masih dibawah.
+
+
+note  : satu reject semua reject.
+	rt approve semua approve.
