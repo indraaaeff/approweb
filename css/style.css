@@ -58,6 +58,7 @@ td{
 }
 thead.table_po{
 	font-size: 12px;
+	background-color: #fef5f0;
 }
 .tengah{
 	text-align: center;
@@ -65,7 +66,7 @@ thead.table_po{
 .col-md-6 textarea{
 	resize:none;
 }
-.alerts{ background:#F5F5F5; display:table; width:100%; border-radius:4px;  border:solid 1px #CCCCCC; padding:6px; color:#FF0000;  margin-bottom:16px; box-sizing:border-box;  -webkit-box-sizing:border-box;
+.alerts{ background:#fef5f0; display:table; width:100%; border-radius:4px;  border:solid 1px #CCCCCC; padding:6px; color:#FF0000;  margin-bottom:16px; box-sizing:border-box;  -webkit-box-sizing:border-box;
  -moz-box-sizing:border-box;
  -ms-box-sizing:border-box;
 }
@@ -135,7 +136,7 @@ a:hover, a:focus{
 }
 .panel-default>.panel-heading {
     color: #333;
-    background-color: #ddd;
+    background-color: #fef5f0;
     border-color: #ddd;
 }
 h4.panel-title{
@@ -150,6 +151,15 @@ h4.panel-title{
 #mob-desk{
 	background-color: #f26904;
 	color:white;
+}
+p.warn-notif{
+	color:red;
+}
+p.succ-notif{
+	color:green;
+}
+p.status{
+	text-transform: uppercase;
 }
 /*---------------*/
 /* Media Queries */
@@ -187,6 +197,9 @@ h4.panel-title{
 	}
 	.desktop{
 		display: none;
+	}
+	.alerts{
+		/*display:none;*/
 	}
 	.table_po{
 		display:none;

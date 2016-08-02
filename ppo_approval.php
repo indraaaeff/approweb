@@ -119,7 +119,7 @@
 			<div class="panel-heading nopadding" style="width:100%; !important">
 				<div class="po_head">
 					<table class="table nopadding" style="margin-bottom:0px;">
-						<tbody style="color:white;">
+						<tbody>
 							<tr>
 								<td><b>No Pengajuan : <?php echo $PPO_Number; ?></b></td>
 								<td><b>Tanggal : <?php echo $tgl_pengajuan;?></b></td>
@@ -138,6 +138,7 @@
 							$total_ppo=$PPO_TableDetail->num_rows;
 							echo "Total PO : $total_ppo";
 						?>
+
 					</b>
 				</div>
 			</div>
@@ -200,12 +201,14 @@
             						$po_tgl_approved_dl = $row['tgl_approved_dl'];	  
             						$po_comment_dl      = $row['comment_dl'];
 
-							// echo $po_comment_rt;
-							// $po_tgl_approved_rt="2/6/2016";
-							// $po_approve_by_rt=1;
-							// $po_tgl_approved_hp=1;
-							// $po_approve_by_hp=0;
-							// $po_tgl_approved_dl=1;
+            						$po_tgl_approved_hp = "2/6/2016";
+            						// $po_tgl_approved_dl = "2/6/2016";
+            						// $po_approve_by_hp=1;
+            						// $po_approve_by_dl=1;
+            						// $po_tgl_approved_rt = "2/6/2016";
+            						// $po_approve_by_rt=1;
+
+
             						?>
             						
             						<?php 
@@ -228,17 +231,13 @@
             						?>
             						<td id="check-box">
             							<?php 
+            							// $po_tgl_approved_rt = "2/6/2016";
+            							// $po_approve_by_rt = 1;
+            							// $po_comment_rt = "ogah";
+
+
             								//dummy data for checking checkbox
-            								// $po_tgl_approved_rt=0;
-            								// $po_approve_by_hp=1;
-            								// $po_approve_by_dl=1;
-            								// $po_tgl_approved_dl = 1;
-            								// $po_tgl_approved_hp = 1;
-            								// $po_approve_by_hp =1 ;
-            								// $po_approve_by_dl =1 ;
-            							// $row['comment_rt'] = "okeee";
-            							// $po_comment_rt = 1;
-            							// $row['nama_vendor'] = "HTS";
+
 
             								if ($po_tgl_approved_rt==''){
             									if(!empty($po_approve_by_hp) && !empty($po_approve_by_dl)) {
@@ -259,6 +258,8 @@
 	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
 	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
 	            							<input type="hidden" name="comment_rt[]" value="<?php echo $po_comment_rt ?>">
+	            							<input type="hidden" name="comment_rt[]" value="<?php echo $po_tgl_approved_hp ?>">
+	            							<input type="hidden" name="comment_rt[]" value="<?php echo $row['tgl_approved_dl']; ?>">
             						</td>
 	            						<?php 
 	            							} else {
@@ -522,23 +523,101 @@
             									<?php $Tanggal_po = date( 'd-m-Y', strtotime( $row['tgl_po'] )); ?>
             									<b>No PO :</b> <?php echo $row['no_po']; ?><br>
             									<b>Tanggal PO :</b> <?php echo $Tanggal_po; ?><br>
-            									<b>Nama Vendor :</b> <?php echo $row['nama_vendor']; ?><br>
+            									<b>Nama Vendor :</b> <?php echo $row['nama_vendor']; ?><br><br>
             									<?php 
             									if(!empty($po_tgl_approved_rt)){
-            										if($po_approve_by_rt==1){
-            											echo '<p style="color:green;font-weight:bold;">Approved</p>';
+            										if($po_approve_by_rt==0){
+            											echo '<p class="status" style="color:red;font-weight:bold;">Rejected</p>';
             										} else {
-            											echo '<p style="color:red;font-weight:bold;">Rejected</p>';
+            											echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
             										}
             									} else if(empty($po_tgl_approved_rt)){
-            										if (!empty($po_approve_by_hp) && !empty($po_approve_by_dl)) {
-            											echo '<p style="color:green;font-weight:bold;">Approved</p>';
+            										if (!empty($po_approve_by_hp) || !empty($po_approve_by_dl)) {
+            											echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
             										} else {
-            											echo '<p style="color:orange;font-weight:bold;">Waiting Confirmation</p>';
+            											echo '<p class="status"style="color:orange;font-weight:bold;">Waiting Confirmation</p>';
             										}
             									}
             									?>
+            									<?php 
+            									if ($user == BOD_RT) {
+            										if (!empty($po_tgl_approved_rt)) {
+            											# code...
+	            										if ($po_approve_by_rt==0) {
+	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Anda</b> -</i></u></p>';
+	            										} else {
+	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Anda</b> -</i></u></p>';
+	            										}
+            										}
+            										if (!empty($po_tgl_approved_hp)) {
+            											# code...
+	            										if ($po_approve_by_hp==0) {
+	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Harijanto Pribadi</b> -</i></u></p>';
+	            										} else {
+	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Harijanto Pribadi</b> -</i></u></p>';
+	            										}
+            										}
+            										if (!empty($po_tgl_approved_dl)) {
+            											# code...
+	            										if ($po_approve_by_dl==0) {
+	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Dicky Lisal</b> -</i></u></p>';
+	            										} else {
+	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Dicky Lisal</b> -</i></u></p>';
+	            										}
+            										}
+            									} else if ($user == BOD_HP){
+            										if (!empty($po_tgl_approved_rt)) {
+            											# code...
+	            										if ($po_approve_by_rt==0) {
+	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
+	            										} else {
+	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
+	            										}
+            										}
+            										if (!empty($po_tgl_approved_hp)) {
+            											# code...
+	            										if ($po_approve_by_hp==0) {
+	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Anda</b> -</i></u></p>';
+	            										} else {
+	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Anda</b> -</i></u></p>';
+	            										}
+            										}
+            										if (!empty($po_tgl_approved_dl)) {
+            											# code...
+	            										if ($po_approve_by_dl==0) {
+	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Dicky Lisal</b> -</i></u></p>';
+	            										} else {
+	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Dicky Lisal</b> -</i></u></p>';
+	            										}
+            										}
+            									} else {
+            										if (!empty($po_tgl_approved_rt)) {
+            											# code...
+	            										if ($po_approve_by_rt==0) {
+	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
+	            										} else {
+	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
+	            										}
+            										}
+            										if (!empty($po_tgl_approved_hp)) {
+            											# code...
+	            										if ($po_approve_by_hp==0) {
+	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Harijanto Pribadi</b> -</i></u></p>';
+	            										} else {
+	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Harijanto Pribadi</b> -</i></u></p>';
+	            										}
+            										}
+            										if (!empty($po_tgl_approved_dl)) {
+            											# code...
+	            										if ($po_approve_by_dl==0) {
+	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Anda</b> -</i></u></p>';
+	            										} else {
+	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Anda</b> -</i></u></p>';
+	            										}
+            										}
+            									}
 
+            									?>
             								</a>
             							</li>
             						</ul>
@@ -560,18 +639,81 @@
             									
             									<u>NOTE</u> : <br>
             									Richardus Teddy
-            									
-            									<input type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user!=BOD_RT){echo 'disabled';} ?>>
-            									<textarea class="form-control" rows="2" name="comment_rt[]" <?php if($user == BOD_HP || $user == BOD_DL){echo "readonly";} ?>><?php if(!empty($po_comment_rt)){echo $po_comment_rt;} ?></textarea>
+            									<input type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" 
+            									<?php
+            										if ($user==BOD_RT) {
+            											if (!empty($po_tgl_approved_rt)) {
+            												if ($po_approve_by_rt==1) {
+            													echo "disabled";
+            												} else {
+            													echo "disabled";
+            												}
+            											} else {
+            												if (!empty($po_tgl_approved_hp)||!empty($po_tgl_approved_dl)) {
+            													if ($po_approve_by_hp==0 || $po_approve_by_dl==0) {
+            														echo "disabled";
+            													}else{
+            														echo "disabled";
+            													}
+            												}else{
+            													echo "";
+            												}
+            											}
+            										} else {
+            											echo "disabled";
+            										}
+            									?>
+            									>
+            									<!-- diatas validation for checkbox -->
+            									<textarea class="form-control" rows="2" name="comment_rt[]" <?php if($user == BOD_HP || $user == BOD_DL){echo "readonly";} ?> <?php if (!empty($po_tgl_approved_rt)) {echo "readonly";} else {if (!empty($po_tgl_approved_hp)&&!empty($po_tgl_approved_dl)) {if ($po_approve_by_hp==1 && $po_approve_by_dl==1) {echo "readonly";}else if ($po_approve_by_hp==0 && $po_approve_by_dl==0){echo "readonly";}else{echo "";}} else {echo "";}}?>><?php if(!empty($po_comment_rt)){echo $po_comment_rt;} ?></textarea>
             									Harijanto Pribadi
-
-												<!-- <input type="" name="po_tgl_approved_rt[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
+<!-- 												<input type="" name="po_tgl_approved_rt[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
 												<input type="" name="po_approve_by_rt[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly"> -->
-												<input  type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user!=BOD_HP){echo 'disabled';} ?>>
-												<textarea class="form-control" rows="2" name="comment_hp[]" <?php if($user == BOD_RT || $user == BOD_DL){echo "readonly";} ?>><?php if(!empty($po_comment_hp)){echo $po_comment_hp;} ?></textarea>
+												<input  type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');"
+												<?php 
+													if($user==BOD_HP){
+														if (!empty($po_tgl_approved_rt)){
+															if($po_approve_by_rt==1){
+																echo "disabled";
+															}else{
+																echo "disabled";
+															}
+														}else if(!empty($po_tgl_approved_hp)){
+															if ($po_approve_by_hp==1) {
+																echo "disabled";
+															}else{
+																echo "disabled";
+															}
+														}
+													}else{
+														echo "disabled";
+													}
+												?>
+												>
+												<textarea class="form-control" rows="2" name="comment_hp[]" <?php if($user == BOD_RT || $user == BOD_DL){echo "readonly";} ?> <?php if (!empty($po_tgl_approved_rt)) {echo "readonly";} else {if (!empty($po_tgl_approved_hp)) {echo "readonly";} else {echo "";}}?> ><?php if(!empty($po_comment_hp)){echo $po_comment_hp;} ?></textarea>
 												Dicky Lisal
-												<input type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user!=BOD_DL){echo 'disabled';} ?>>
-												<textarea class="form-control" rows="2" name="comment_dl[]" <?php if($user == BOD_RT || $user == BOD_HP){echo "readonly";} ?>><?php if(!empty($po_comment_dl)){echo $po_comment_dl;} ?></textarea>
+												<input type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" 
+						<?php 
+													if($user==BOD_DL){
+														if (!empty($po_tgl_approved_rt)){
+															if($po_approve_by_rt==1){
+																echo "disabled";
+															}else{
+																echo "disabled";
+															}
+														}else if(!empty($po_tgl_approved_dl)){
+															if ($po_approve_by_dl==1) {
+																echo "disabled";
+															}else{
+																echo "disabled";
+															}
+														}
+													}else{
+														echo "disabled";
+													}
+												?>
+												>
+												<textarea class="form-control" rows="2" name="comment_dl[]" <?php if($user == BOD_RT || $user == BOD_HP){echo "readonly";} ?> <?php if (!empty($po_tgl_approved_rt)) {echo "readonly";} else {if (!empty($po_tgl_approved_hp)) {echo "readonly";} else {echo "";}}?>><?php if(!empty($po_comment_dl)){echo $po_comment_dl;} ?></textarea>
 											</b>
 											<br>
 										</div>
@@ -582,9 +724,9 @@
             						<div class="modal-dialog modal-lg">
             							<!-- Modal content-->
             							<div class="modal-content" style="">
-            								<div class="modal-header" style="background: #f26904;border-radius:5px;">
+            								<div class="modal-header" style="background: #fef5f0;border-radius:5px;">
             									<button type="button" class="close" data-dismiss="modal" style="color:white;opacity:1;">&times;</button>
-            									<h2 class="modal-title" style="color:white;">Approval Details</h2>
+            									<h2 class="modal-title">Approval Details</h2>
             								</div>
             								<div class="modal-body">
             									<div class="row">
@@ -819,10 +961,10 @@
 					<td colspan="10">
 						<?php 
 						if ($user == BOD_RT) {
-							if (empty($po_tgl_approved_rt)) {
+							if (!empty($po_tgl_approved_rt)) {
 								echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit">';
-							} else {
-								echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit" style="display:none;">';
+							} else if (!empty($po_tgl_approved_hp) && !empty($po_tgl_approved_dl)) {
+								// echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit" style="display:none;">';
 							}
 						} else if ($user == BOD_HP){
 							if (empty($po_tgl_approved_rt)){
