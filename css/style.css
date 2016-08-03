@@ -7,6 +7,7 @@
 a.logo{
 	color: white;
 	font-size: 30px;
+	text-transform: uppercase;
 }
 img.logo-image{
 	float: right;
@@ -58,7 +59,7 @@ td{
 }
 thead.table_po{
 	font-size: 12px;
-	background-color: #fef5f0;
+	background-color: #fddcb7;
 }
 .tengah{
 	text-align: center;
@@ -136,7 +137,7 @@ a:hover, a:focus{
 }
 .panel-default>.panel-heading {
     color: #333;
-    background-color: #fef5f0;
+    background-color: #fddcb7;
     border-color: #ddd;
 }
 h4.panel-title{
@@ -160,6 +161,14 @@ p.succ-notif{
 }
 p.status{
 	text-transform: uppercase;
+}
+span.reject{
+	float: right;
+    margin-right: 10px !important;
+    color:red;
+}
+.merah{
+	color: red;
 }
 /*---------------*/
 /* Media Queries */
