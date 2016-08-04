@@ -737,6 +737,8 @@
             										if (!empty($po_tgl_approved_hp) && !empty($po_tgl_approved_dl)) {
             											if ($po_approve_by_hp==1 && $po_approve_by_dl==1) {
             												echo "approved disabled";
+            											}else{
+            												echo "harusnya rejected";
             											}
             										}
             									}
