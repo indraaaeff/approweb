@@ -205,7 +205,7 @@
             						// $po_tgl_approved_dl = "2/6/2016";
             						// $po_approve_by_hp=1;
             						// $po_approve_by_dl=1;
-            						// $po_tgl_approved_rt = "2/6/2016";
+            						$po_tgl_approved_rt = "2/6/2016";
             						// $po_approve_by_rt=1;
             						?>
             						
@@ -726,54 +726,22 @@
             									<!-- RT -->
             									Richardus Teddy
             									<?php 
-            										if (empty($po_tgl_approved_rt)) {
-            									?>
-            									<input type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" 
-            									<?php
-            										if ($user==BOD_HP || $user == BOD_DL) {echo "disabled ";}
-        											if (!empty($po_tgl_approved_rt)) {
-        												if ($po_approve_by_rt==1) {
-        													echo "disabled checked";
-        												} else {
- 															echo "disabled";
-        												}
-        											} else {
-        												if (!empty($po_tgl_approved_hp)&&!empty($po_tgl_approved_dl)) {
-        													if ($po_approve_by_hp==0 && $po_approve_by_dl==0) {
-        														echo "disabled";
-        													} else if($po_approve_by_hp==1 && $po_approve_by_dl==1){
-        														echo "disabled";
-        													} else {
-        														echo "";
-        													}
-        												} else if(!empty($po_tgl_approved_hp)){
-        													if ($po_approve_by_hp==0) {
-        														echo "disabled";
-        													} else {
-        														echo "";
-        													}
-        												} else if (!empty($po_tgl_approved_dl)) {
-        													if ($po_approve_by_dl==0) {
-        														echo "disabled";
-        													} else {
-        														echo "";
-        													}
-        												} else {
-        													echo "";
-        												}
-        											}
-
-            									?>
-            									>
-            									<?php
-            											} else if (!empty($po_tgl_approved_rt)) {
-            												if ($po_approve_by_rt==0) {
-            									?>
-            									<span class="glyphicon glyphicon-remove reject"></span>
-            									<?php
-            												}
+            									if (!empty($po_tgl_approved_rt)) {
+            										if ($po_approve_by_rt==1) {
+														echo "approved disabled";//checked disabled
+            										} else {
+														echo "icon rejected";
             										}
+            									} else {
+            										echo "ini empty dan belum di proses RT";
+            										if (!empty($po_tgl_approved_hp) && !empty($po_tgl_approved_dl)) {
+            											if ($po_approve_by_hp==1 && $po_approve_by_dl==1) {
+            												echo "approved disabled";
+            											}
+            										}
+            									}
             									?>
+
             									<!-- diatas validation for checkbox -->
             									<!-- dibawah validation for textarea BOD -->
             									<textarea class="form-control" rows="2" name="comment_rt[]" <?php if($user == BOD_HP || $user == BOD_DL){echo "readonly";} ?>
@@ -1171,13 +1139,23 @@
 							</tbody>
 						</table>
 					</div>
-					<td colspan="10">
 						<?php 
 						if ($user == BOD_RT) {
 							if (!empty($po_tgl_approved_rt)) {
-								echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit">';
-							} else if (!empty($po_tgl_approved_hp) && !empty($po_tgl_approved_dl)) {
-								// echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit" style="display:none;">';
+								echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit" style="display:none;">';
+							} else if (!empty($po_tgl_approved_hp)) {
+								if ($po_approve_by_hp==0) {
+									echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit" style="display:none;">';
+								}else{
+									echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit">';
+									
+								}
+							} else if (!empty($po_tgl_approved_dl)) {
+								if ($po_approve_by_dl==0) {
+									echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit" style="display:none;">';
+								}else{
+									echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit">';
+								}
 							}
 						} else if ($user == BOD_HP){
 							if (empty($po_tgl_approved_rt)){
@@ -1194,7 +1172,6 @@
 						}
 						?>
 						<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/> -->
-					</td>
 				</form>
 			</div>
 		</div>
