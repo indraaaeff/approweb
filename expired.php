@@ -1,8 +1,42 @@
-<!DOCTYPE html>
-<html>
+<?php 
+include "user.php";
+if ( !isset($_GET['u']) || empty($_GET['u']) )
+{
+echo'
+<center><br>
+<br>
+<br>
+
+<h2>PAGE NOT FOUND</h2>
+
+<h1 style=font-size:110px;>404</h1>
+</center>';
+ } else {
+switch ( $_GET['u'] ) {
+				case BOD_RT_ID : 
+					$_SESSION['username'] = BOD_RT;
+					break;
+
+				case BOD_HP_ID : 
+					$_SESSION['username'] = BOD_HP;
+					break;
+
+				case BOD_DL_ID : 
+					$_SESSION['username'] = BOD_DL;
+					break;
+			}
+$user=$_SESSION['username'];
+
+?><!DOCTYPE html>
+<html lang="en">
+
 <head>
 	<title>HTS APP</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 	<link rel="stylesheet" type="text/css" href="css/sticky-footer-navbar.css">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
@@ -51,6 +85,7 @@
       </div>
     </footer>
 </body>
+<?php } ?>
 <script type="text/javascript">
 function startTime()
 {

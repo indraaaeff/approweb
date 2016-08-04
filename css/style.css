@@ -7,7 +7,6 @@
 a.logo{
 	color: white;
 	font-size: 30px;
-	text-transform: uppercase;
 }
 img.logo-image{
 	float: right;
@@ -20,7 +19,7 @@ img.logo-image{
 	box-shadow: 1px 1px 6px rgb(150, 148, 148);
 }
 .header-nav{
-	height: 35px;
+	height: 50px;
 }
 .date{
 	float: left;

@@ -202,9 +202,9 @@
             						$po_comment_dl      = $row['comment_dl'];
 
             						// $po_tgl_approved_hp = "2/6/2016";
-            						$po_tgl_approved_dl = "2/6/2016";
+            						// $po_tgl_approved_dl = "2/6/2016";
             						// $po_approve_by_hp=1;
-            						$po_approve_by_dl=1;
+            						// $po_approve_by_dl=1;
             						// $po_tgl_approved_rt = "2/6/2016";
             						// $po_approve_by_rt=1;
             						?>
@@ -328,16 +328,21 @@
 	            							if ($po_approve_by_hp==0) {
 	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
 	            							} else {
-	            								echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
+	            								echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
 	            							}
 	            						} else if(!empty($po_tgl_approved_dl)){
 	            							if($po_approve_by_dl==0){
 	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
 	            							} else {
-	            								echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
+	            								echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
 	            							}
+	            						} else if (!empty($po_tgl_approved_hp) && !empty($po_tgl_approved_dl)) {
+	            							if ($po_approve_by_hp==0 && $po_approve_by_dl==0) {
+	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
+	            							} else if ($po_approve_by_hp==1  && $po_approve_by_dl==1)
+	            							echo '<p class="status" style="color:orange;font-weight:bold;">Approved</p>';
 	            						} else {
-	            							echo '<p class="status" style="color:orange;font-weight:bold;">Waiting Approval</p>';
+	            							echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
 	            						}
 	            						?>
 	            					</td>
@@ -445,16 +450,21 @@
 	            							if ($po_approve_by_hp==0) {
 	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
 	            							} else {
-	            								echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
+	            								echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
 	            							}
 	            						} else if(!empty($po_tgl_approved_dl)){
 	            							if($po_approve_by_dl==0){
 	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
 	            							} else {
-	            								echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
+	            								echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
 	            							}
+	            						} else if (!empty($po_tgl_approved_hp) && !empty($po_tgl_approved_dl)) {
+	            							if ($po_approve_by_hp==0 && $po_approve_by_dl==0) {
+	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
+	            							} else if ($po_approve_by_hp==1  && $po_approve_by_dl==1)
+	            							echo '<p class="status" style="color:orange;font-weight:bold;">Approved</p>';
 	            						} else {
-	            							echo '<p class="status" style="color:orange;font-weight:bold;">Waiting Approval</p>';
+	            							echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
 	            						}
 	            						?>
 	            					</td>
@@ -544,29 +554,34 @@
             						</td>
 	            					<td>
 										<!-- <p>Waiting</p> -->
-										<?php 
-										if(!empty($po_tgl_approved_rt)){
-											if($po_approve_by_rt==0){
-												echo '<p class="status" style="color:red;font-weight:bold;">Rejected</p>';
-											} else {
-												echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
-											}
-										} else if(!empty($po_tgl_approved_hp)){
-											if ($po_approve_by_hp==0) {
-												echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
-											} else {
-												echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
-											}
-										} else if(!empty($po_tgl_approved_dl)){
-											if($po_approve_by_dl==0){
-												echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
-											} else {
-												echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
-											}
-										} else {
-											echo '<p class="status" style="color:orange;font-weight:bold;">Waiting Approval</p>';
-										}
-										?>
+	            						<?php 
+	            						if(!empty($po_tgl_approved_rt)){
+	            							if($po_approve_by_rt==0){
+	            								echo '<p class="status" style="color:red;font-weight:bold;">Rejected</p>';
+	            							} else {
+	            								echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
+	            							}
+	            						} else if(!empty($po_tgl_approved_hp)){
+	            							if ($po_approve_by_hp==0) {
+	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
+	            							} else {
+	            								echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
+	            							}
+	            						} else if(!empty($po_tgl_approved_dl)){
+	            							if($po_approve_by_dl==0){
+	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
+	            							} else {
+	            								echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
+	            							}
+	            						} else if (!empty($po_tgl_approved_hp) && !empty($po_tgl_approved_dl)) {
+	            							if ($po_approve_by_hp==0 && $po_approve_by_dl==0) {
+	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
+	            							} else if ($po_approve_by_hp==1  && $po_approve_by_dl==1)
+	            							echo '<p class="status" style="color:orange;font-weight:bold;">Approved</p>';
+	            						}else {
+	            							echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
+	            						}
+	            						?>
 	            					</td>
 	            					<?php
 	            						} 
@@ -592,16 +607,21 @@
             										if ($po_approve_by_hp==0) {
             											echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
             										} else {
-            											echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
+            											echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
             										}
             									} else if(!empty($po_tgl_approved_dl)){
             										if($po_approve_by_dl==0){
             											echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
             										} else {
-            											echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
+            											echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
             										}
-            									} else {
-            										echo '<p class="status" style="color:orange;font-weight:bold;">Waiting Approval</p>';
+            									} else if (!empty($po_tgl_approved_hp) && !empty($po_tgl_approved_dl)) {
+            										if ($po_approve_by_hp==0 && $po_approve_by_dl==0) {
+            											echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
+            										} else if ($po_approve_by_hp==1  && $po_approve_by_dl==1)
+            										echo '<p class="status" style="color:orange;font-weight:bold;">Approved</p>';
+            									}else {
+            										echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
             									}
             									?>
             									<?php 
@@ -706,11 +726,7 @@
             									<!-- RT -->
             									Richardus Teddy
             									<?php 
-            										if (!empty($po_tgl_approved_rt)) {
-            											if ($po_approve_by_rt==1) {
-            												# code...
-            											}
-            										}
+            										if (empty($po_tgl_approved_rt)) {
             									?>
             									<input type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" 
             									<?php
@@ -719,7 +735,7 @@
         												if ($po_approve_by_rt==1) {
         													echo "disabled checked";
         												} else {
-        													echo "disabled";
+ 															echo "disabled";
         												}
         											} else {
         												if (!empty($po_tgl_approved_hp)&&!empty($po_tgl_approved_dl)) {
@@ -746,8 +762,18 @@
         													echo "";
         												}
         											}
+
             									?>
             									>
+            									<?php
+            											} else if (!empty($po_tgl_approved_rt)) {
+            												if ($po_approve_by_rt==0) {
+            									?>
+            									<span class="glyphicon glyphicon-remove reject"></span>
+            									<?php
+            												}
+            										}
+            									?>
             									<!-- diatas validation for checkbox -->
             									<!-- dibawah validation for textarea BOD -->
             									<textarea class="form-control" rows="2" name="comment_rt[]" <?php if($user == BOD_HP || $user == BOD_DL){echo "readonly";} ?>
@@ -787,21 +813,22 @@
 <!-- 												<input type="" name="po_tgl_approved_rt[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
 												<input type="" name="po_approve_by_rt[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly"> -->
 												<?php 
-													if (!empty($po_tgl_approved_hp)) {
-														if ($po_approve_by_hp==1) {
+													if (empty($po_tgl_approved_hp)) {
 												?>
 												<input  type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');"
 												<?php 
-													if($user==BOD_RT || $user==BOD_DL){echo "disabled ";}
+													if($user==BOD_RT || $user==BOD_DL){
+														echo "disabled ";
+													}
 														if (!empty($po_tgl_approved_rt)){
 															if($po_approve_by_rt==1){
-																echo "disabled";
+																echo " disabled";
 															}else{
-																echo "disabled";
+																echo " disabled";
 															}
 														}else if(!empty($po_tgl_approved_hp)){
 															if ($po_approve_by_hp==1) {
-																echo " disabled checked ";
+																echo "disabled checked";
 															}else{
 																echo " disabled";
 															}
@@ -813,12 +840,14 @@
 															}
 														}
 												?>
-												>
+												>	
 												<?php 
-														}else{
+													} else if (!empty($po_tgl_approved_hp)) {
+														if ($po_approve_by_hp==0) {
+															# code...
 												?>
-													<span class="glyphicon glyphicon-remove reject"></span>
-												<?php 
+															<span class="glyphicon glyphicon-remove reject"></span>
+												<?php
 														}
 													}
 												?>
@@ -992,6 +1021,9 @@
 				              					<div style='float:left; width:75px;'> Tanggal</div> <div style='float:left; margin-left:10px;margin-right:10px;'>:</div> <div style=float:left;>$po_tgl_approved_rt</div> </div>";
 				              				}
 				              			}   else  { 
+				              				if (!empty($po_tgl_approved_hp)) {
+				              					# code...
+				              				}
 				              				if ( (!is_null( $po_tgl_approved_hp ) || !empty( $po_tgl_approved_hp )) && (!is_null( $po_tgl_approved_dl ) || !empty( $po_tgl_approved_dl ))  )
 				              				{
 				              					$appA= BOD_HP;
@@ -1009,7 +1041,24 @@
 				              	?>
 				              					<tr>
 				              						<td colspan="10">
-				              							<input type="submit" class="btn btn-success submit" value="Submit">
+				              							<input type="submit" class="btn btn-success submit" value="Submit" 
+				              							<?php 
+				              								if (!empty($po_tgl_approved_hp)) {
+				              								 	if ($po_approve_by_hp==0) {
+				              								 		echo 'style="display:none;"';
+				              								 	} else {
+				              								 		echo "";
+				              								 	}
+				              								} elseif (!empty($po_tgl_approved_dl)) {
+				              									if ($po_approve_by_dl==0) {
+				              										echo 'style="display:none;"';
+				              									} else {
+				              										echo "";
+				              									}
+				              								} 
+				              								
+				              							?>
+				              							>
 				              							<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/> -->
 				              						</td>		
 				              					</tr>
@@ -1053,7 +1102,15 @@
 				              	?>
 								              	<tr>
 								              		<td colspan="10">
-								              			<input type="submit" class="btn btn-success submit" value="Submit">
+								              			<input type="submit" class="btn btn-success submit" value="Submit" 
+								              			<?php  
+								              				if (!empty($po_tgl_approved_dl)) {
+								              					if ($po_approve_by_dl==0) {
+								              						echo 'style="display:none;"';
+								              					}
+								              				}
+								              			?>
+								              			>
 								              			<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/></td> -->
 								              		</tr>
                  				<?php   
@@ -1383,6 +1440,4 @@ window.onload=startTime;
 			else
 				document.getElementById( test2 ).value = "0";
 		}
-
-
 </script>
