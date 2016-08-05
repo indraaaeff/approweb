@@ -169,6 +169,10 @@ span.reject{
 .merah{
 	color: red;
 }
+.checked{
+	float: right;
+    margin-right: 10px !important;
+}
 /*---------------*/
 /* Media Queries */
 /*---------------*/

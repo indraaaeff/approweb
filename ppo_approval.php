@@ -201,11 +201,11 @@
             						$po_tgl_approved_dl = $row['tgl_approved_dl'];	  
             						$po_comment_dl      = $row['comment_dl'];
 
-            						// $po_tgl_approved_hp = "2/6/2016";
-            						// $po_tgl_approved_dl = "2/6/2016";
-            						// $po_approve_by_hp=1;
+            						$po_tgl_approved_hp = "2/6/2016";
+            						$po_tgl_approved_dl = "3/6/2016";
+            						$po_approve_by_hp=1;
             						// $po_approve_by_dl=1;
-            						$po_tgl_approved_rt = "2/6/2016";
+            						// $po_tgl_approved_rt = "4/6/2016";
             						// $po_approve_by_rt=1;
             						?>
             						
@@ -235,9 +235,13 @@
 
             								//dummy data for checking checkbox
             								if (empty($po_tgl_approved_rt)){
-            									if (!empty($po_tgl_approved_hp)) {
-	            									if($po_approve_by_hp==0) {
+            									if (!empty($po_tgl_approved_hp) && !empty($po_tgl_approved_dl)) {
+	            									if($po_approve_by_hp==1 && $po_approve_by_dl==1) {
 	            										echo '<input type="checkbox" disabled>';
+		            								} else if($po_approve_by_hp==1 && $po_approve_by_dl==0) {
+		            									echo '<input type="checkbox" disabled>';
+		            								} else if($po_approve_by_hp==0 && $po_approve_by_dl==1){
+		            									echo '<input type="checkbox" disabled>';
 		            								} else {
 		            					?>
 		            									<input type="checkbox" class="tanggal" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" />
@@ -250,6 +254,14 @@
             							?>
             											<input type="checkbox" class="tanggal" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" />
             							<?php 				
+            										}
+            									}else if (!empty($po_tgl_approved_hp)){
+            										if ($po_approve_by_hp==0) {
+            											echo '<input type="checkbox" disabled>';
+            										} else {
+            							?>
+            											<input type="checkbox" class="tanggal" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" />
+            							<?php 
             										}
             									} else {
 	            						?>
@@ -316,7 +328,7 @@
             							?>
             						</td>
 	            					<td>
-	            						<!-- <p>Waiting</p> -->
+										<!-- <p>Waiting</p> -->
 	            						<?php 
 	            						if(!empty($po_tgl_approved_rt)){
 	            							if($po_approve_by_rt==0){
@@ -324,24 +336,29 @@
 	            							} else {
 	            								echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
 	            							}
-	            						} else if(!empty($po_tgl_approved_hp)){
+	            						} else if (!empty($po_tgl_approved_hp) && !empty($po_tgl_approved_dl)) {
+	            							if ($po_approve_by_hp==0 && $po_approve_by_dl==0) {
+	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
+	            							} else if ($po_approve_by_hp==1  && $po_approve_by_dl==1){
+	            								echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
+	            							} else if ($po_approve_by_hp==0 && $po_approve_by_dl==1) {
+	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
+	            							} else if ($po_approve_by_hp==1  && $po_approve_by_dl==0){
+	            								echo '<p class="status" style="color:red;font-weight:bold;">Rejected</p>';
+	            							}
+	            						} else if (!empty($po_tgl_approved_hp)){
 	            							if ($po_approve_by_hp==0) {
 	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
 	            							} else {
 	            								echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
 	            							}
-	            						} else if(!empty($po_tgl_approved_dl)){
+	            						} else if (!empty($po_tgl_approved_dl)){
 	            							if($po_approve_by_dl==0){
 	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
 	            							} else {
 	            								echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
 	            							}
-	            						} else if (!empty($po_tgl_approved_hp) && !empty($po_tgl_approved_dl)) {
-	            							if ($po_approve_by_hp==0 && $po_approve_by_dl==0) {
-	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
-	            							} else if ($po_approve_by_hp==1  && $po_approve_by_dl==1)
-	            							echo '<p class="status" style="color:orange;font-weight:bold;">Approved</p>';
-	            						} else {
+	            						}else {
 	            							echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
 	            						}
 	            						?>
@@ -438,7 +455,7 @@
             							?>
 	            					</td>
 	            					<td>
-	            						<!-- <p>Waiting</p> -->
+										<!-- <p>Waiting</p> -->
 	            						<?php 
 	            						if(!empty($po_tgl_approved_rt)){
 	            							if($po_approve_by_rt==0){
@@ -446,24 +463,29 @@
 	            							} else {
 	            								echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
 	            							}
-	            						} else if(!empty($po_tgl_approved_hp)){
+	            						} else if (!empty($po_tgl_approved_hp) && !empty($po_tgl_approved_dl)) {
+	            							if ($po_approve_by_hp==0 && $po_approve_by_dl==0) {
+	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
+	            							} else if ($po_approve_by_hp==1  && $po_approve_by_dl==1){
+	            								echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
+	            							} else if ($po_approve_by_hp==0 && $po_approve_by_dl==1) {
+	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
+	            							} else if ($po_approve_by_hp==1  && $po_approve_by_dl==0){
+	            								echo '<p class="status" style="color:red;font-weight:bold;">Rejected</p>';
+	            							}
+	            						} else if (!empty($po_tgl_approved_hp)){
 	            							if ($po_approve_by_hp==0) {
 	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
 	            							} else {
 	            								echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
 	            							}
-	            						} else if(!empty($po_tgl_approved_dl)){
+	            						} else if (!empty($po_tgl_approved_dl)){
 	            							if($po_approve_by_dl==0){
 	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
 	            							} else {
 	            								echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
 	            							}
-	            						} else if (!empty($po_tgl_approved_hp) && !empty($po_tgl_approved_dl)) {
-	            							if ($po_approve_by_hp==0 && $po_approve_by_dl==0) {
-	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
-	            							} else if ($po_approve_by_hp==1  && $po_approve_by_dl==1)
-	            							echo '<p class="status" style="color:orange;font-weight:bold;">Approved</p>';
-	            						} else {
+	            						}else {
 	            							echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
 	            						}
 	            						?>
@@ -561,23 +583,28 @@
 	            							} else {
 	            								echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
 	            							}
-	            						} else if(!empty($po_tgl_approved_hp)){
+	            						} else if (!empty($po_tgl_approved_hp) && !empty($po_tgl_approved_dl)) {
+	            							if ($po_approve_by_hp==0 && $po_approve_by_dl==0) {
+	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
+	            							} else if ($po_approve_by_hp==1  && $po_approve_by_dl==1){
+	            								echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
+	            							} else if ($po_approve_by_hp==0 && $po_approve_by_dl==1) {
+	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
+	            							} else if ($po_approve_by_hp==1  && $po_approve_by_dl==0){
+	            								echo '<p class="status" style="color:red;font-weight:bold;">Rejected</p>';
+	            							}
+	            						} else if (!empty($po_tgl_approved_hp)){
 	            							if ($po_approve_by_hp==0) {
 	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
 	            							} else {
 	            								echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
 	            							}
-	            						} else if(!empty($po_tgl_approved_dl)){
+	            						} else if (!empty($po_tgl_approved_dl)){
 	            							if($po_approve_by_dl==0){
 	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
 	            							} else {
 	            								echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
 	            							}
-	            						} else if (!empty($po_tgl_approved_hp) && !empty($po_tgl_approved_dl)) {
-	            							if ($po_approve_by_hp==0 && $po_approve_by_dl==0) {
-	            								echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
-	            							} else if ($po_approve_by_hp==1  && $po_approve_by_dl==1)
-	            							echo '<p class="status" style="color:orange;font-weight:bold;">Approved</p>';
 	            						}else {
 	            							echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
 	            						}
@@ -728,18 +755,40 @@
             									<?php 
             									if (!empty($po_tgl_approved_rt)) {
             										if ($po_approve_by_rt==1) {
-														echo "approved disabled";//checked disabled
+														echo '<input type="checkbox" class="checked" disabled checked>';//checked disabled
             										} else {
-														echo "icon rejected";
+														echo '<span class="glyphicon glyphicon-remove reject"></span>';
             										}
             									} else {
-            										echo "ini empty dan belum di proses RT";
+            										// echo "ini empty dan belum di proses RT ";
             										if (!empty($po_tgl_approved_hp) && !empty($po_tgl_approved_dl)) {
             											if ($po_approve_by_hp==1 && $po_approve_by_dl==1) {
-            												echo "approved disabled";
-            											}else{
-            												echo "harusnya rejected";
+            												echo '<input type="checkbox" class="checked" disabled>';
+            											} else if ($po_approve_by_hp==1 && $po_approve_by_dl==0){
+            												echo '<input type="checkbox" class="checked" disabled>';
+            											} else {
+            												echo '<input type="checkbox" class="checked" disabled>';
             											}
+            										} else if (!empty($po_tgl_approved_hp)){
+            											if ($po_approve_by_hp==0) {
+            												echo '<input type="checkbox" class="checked" disabled>';
+            											} else {
+            									?>
+            									<input  type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user==BOD_HP || $user==BOD_DL){echo " disabled";}?> >
+            									<?php 
+            											}
+            										} else if (!empty($po_tgl_approved_dl)){
+            											if ($po_approve_by_dl==0) {
+            												echo '<input type="checkbox" class="checked" disabled>';
+            											} else {
+            									?>
+												<input  type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user==BOD_HP || $user==BOD_DL){echo " disabled";}?>>
+            									<?php
+            											}
+            										} else {
+            									?>
+            									<input  type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user==BOD_HP || $user==BOD_DL){echo " disabled";}?>>
+            									<?php
             										}
             									}
             									?>
@@ -782,49 +831,92 @@
             									Harijanto Pribadi
 <!-- 												<input type="" name="po_tgl_approved_rt[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
 												<input type="" name="po_approve_by_rt[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly"> -->
-												<?php 
-													if (empty($po_tgl_approved_hp)) {
-												?>
-												<input  type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');"
-												<?php 
-													if($user==BOD_RT || $user==BOD_DL){
-														echo "disabled ";
-													}
-														if (!empty($po_tgl_approved_rt)){
-															if($po_approve_by_rt==1){
-																echo " disabled";
-															}else{
-																echo " disabled";
-															}
-														}else if(!empty($po_tgl_approved_hp)){
-															if ($po_approve_by_hp==1) {
-																echo "disabled checked";
-															}else{
-																echo " disabled";
-															}
-														} else if(!empty($po_tgl_approved_dl)){
-															if ($po_approve_by_dl==0) {
-																echo "disabled";
-															} else {
-																echo "";
-															}
+												<?php
+													if (!empty($po_tgl_approved_hp)) {
+														if ($po_approve_by_hp==1) {
+															echo '<input type="checkbox" class="checked" disabled checked>';
+														} else {
+															echo '<span class="glyphicon glyphicon-remove reject"></span>';
 														}
+													} else {
+														// echo "ini HP blm proses ";
+														if (!empty($po_tgl_approved_rt)) {
+															if ($po_approve_by_rt==1) {
+																echo '<input type="checkbox" class="checked" disabled>';
+															}else{
+																echo '<input type="checkbox" class="checked" disabled>';
+															}
+														} else if (!empty($po_tgl_approved_dl)){
+															if ($po_approve_by_dl==1) {
 												?>
-												>	
-												<?php 
-													} else if (!empty($po_tgl_approved_hp)) {
-														if ($po_approve_by_hp==0) {
-															# code...
+												<input  type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user==BOD_RT || $user==BOD_DL){echo " disabled";}?>>
+												<?php
+															} else {
+																echo '<input type="checkbox" class="checked" disabled>';
+															}
+														} else {
 												?>
-															<span class="glyphicon glyphicon-remove reject"></span>
+												<input  type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user==BOD_RT || $user==BOD_DL){echo " disabled";}?>>
 												<?php
 														}
 													}
 												?>
-												<textarea class="form-control" rows="2" name="comment_hp[]" <?php if($user == BOD_RT || $user == BOD_DL){echo "readonly";} ?> <?php if (!empty($po_tgl_approved_rt)) {echo "readonly";} else {if (!empty($po_tgl_approved_hp)) {echo "readonly";} else {echo "";}}?> ><?php if(!empty($po_comment_hp)){echo $po_comment_hp;} ?></textarea>
+												<textarea class="form-control" rows="2" name="comment_hp[]" <?php if($user == BOD_RT || $user == BOD_DL){echo "readonly";} ?> 
+													<?php 
+													if (!empty($po_tgl_approved_rt)) {
+														echo "readonly";
+													}else {
+														if (!empty($po_tgl_approved_hp)) {
+															if ($po_approve_by_hp==0) {
+																echo "readonly";
+															} else {
+																echo "readonly";
+															}
+														} else if(!empty($po_tgl_approved_dl)){
+															if ($po_approve_by_dl==0) {
+																echo "readonly";
+															} else {
+																echo "";
+															}
+														} else {
+															echo "";
+														}
+													}
+													?> 
+													><?php if(!empty($po_comment_hp)){echo $po_comment_hp;} ?></textarea>
 												<!-- DL -->
 												Dicky Lisal
-												<input type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" 
+												<?php
+													if (!empty($po_tgl_approved_dl)) {
+														if ($po_approve_by_dl==1) {
+															echo '<input type="checkbox" class="checked" disabled checked>';
+														} else {
+															echo '<span class="glyphicon glyphicon-remove reject"></span>';
+														}
+													} else {
+														// echo "ini HP blm proses ";
+														if (!empty($po_tgl_approved_rt)) {
+															if ($po_approve_by_rt==1) {
+																echo '<input type="checkbox" class="checked" disabled>';
+															}else{
+																echo '<input type="checkbox" class="checked" disabled>';
+															}
+														} else if (!empty($po_tgl_approved_hp)){
+															if ($po_approve_by_hp==1) {
+												?>
+												<input  type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user==BOD_RT || $user==BOD_HP){echo " disabled";}?>>
+												<?php
+															} else {
+																echo '<input type="checkbox" class="checked" disabled>';
+															}
+														} else {
+												?>
+												<input  type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user==BOD_RT || $user==BOD_HP){echo " disabled";}?>>
+												<?php
+														}
+													}
+												?>
+<!-- 												<input type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" 
 												<?php 
 													if($user==BOD_RT || $user==BOD_HP){echo "disabled ";}
 														if (!empty($po_tgl_approved_rt)){
@@ -845,7 +937,7 @@
 															}
 														}
 												?>
-												>
+												> -->
 												<textarea class="form-control" rows="2" name="comment_dl[]" <?php if($user == BOD_RT || $user == BOD_HP){echo "readonly";} ?> 
 													<?php 
 													if (!empty($po_tgl_approved_rt)) {
