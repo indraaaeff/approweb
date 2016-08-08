@@ -20,7 +20,6 @@
 	if ( isset($_GET['u']) && isset($_GET['p']) && isset($_GET['k']) ) {
 		include "connection.php";
 		include "user.php";
-		include "jam.php";
 		$PPO_Number = $_GET['p'];
 		$PPO_Table = $Database->query( "Call GetPPO_Number( '$PPO_Number' )" );
 		$key = "";
@@ -77,9 +76,8 @@
 			</div>
 			<div class="header-date">
 				<div class="container-fluid" style="padding-left:5%;padding-right:5%;">
-					<div class="date" style="margin-right:10px;">
-						<!-- <?php echo date("l"); echo('&nbsp;'); echo date("d/m/Y"); echo('&nbsp;'); ?> -->
-						<?php echo $hari;?> <?php echo $tanggal;?> <?php echo $bulan;?> <?php echo $tahun;?> 
+					<div class="date">
+						<?php echo date("l"); echo('&nbsp;'); echo date("d/m/Y"); echo('&nbsp;'); ?>
 					</div>
 					<div id="clock" class="time"></div>
 					<div class="user">
@@ -229,7 +227,7 @@
             							if ($user == BOD_RT)
             							{
             						?>
-            						<td id="check-box">
+            						<td>
             							<?php 
             							// $po_tgl_approved_rt = "2/6/2016";
             							// $po_approve_by_rt = 1;
@@ -246,7 +244,7 @@
 		            									echo '<input type="checkbox" disabled>';
 		            								} else {
 		            					?>
-		            									<input type="checkbox" class="tanggal" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" />
+		            									<input type="checkbox" class="tanggal checkbox-md" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" />
 		            					<?php		            								
 		            								}
             									}else if (!empty($po_tgl_approved_dl)){
@@ -254,7 +252,7 @@
             											echo '<input type="checkbox" disabled>';
             										} else {
             							?>
-            											<input type="checkbox" class="tanggal" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" />
+            											<input type="checkbox" class="tanggal checkbox-md" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" />
             							<?php 				
             										}
             									}else if (!empty($po_tgl_approved_hp)){
@@ -262,12 +260,12 @@
             											echo '<input type="checkbox" disabled>';
             										} else {
             							?>
-            											<input type="checkbox" class="tanggal" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" />
+            											<input type="checkbox" class="tanggal checkbox-md" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" />
             							<?php 
             										}
             									} else {
 	            						?>
-	            							<input type="checkbox" class="tanggal" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" />
+	            							<input type="checkbox" class="tanggal checkbox-md" name="tanggal " id="chk<?php echo $no;?>" onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" />
 	            							<!-- <input type="checkbox" name="approve_by_rt" onclick="check(this, 'date1');"> -->
 	            						<?php
 	            								}
@@ -293,7 +291,7 @@
 	            								}
 	            							}
 	            						?>
-            						<td id="check-box">
+            						<td>
             							<?php 
             								if($po_approve_by_hp==1) 
             								{ 
@@ -311,7 +309,7 @@
             								}
             							?>
             						</td>
-            						<td id="check-box">
+            						<td>
             							<?php 
             								if($po_approve_by_dl==1) 
             								{ 
@@ -324,7 +322,7 @@
             							<?php
             								} else {
             							?>
-            							<span title="" class="glyphicon glyphicon-remove merah"></span>
+            							<span class="glyphicon glyphicon-remove merah"></span>
             							<?php		
             								}
             							?>
@@ -377,7 +375,7 @@
 	            					// $po_tgl_approved_hp = 1;
 
 	            					?>
-	            					<td id="check-box">
+	            					<td>
 										<?php 
             								if($po_approve_by_rt==1) 
             								{ 
@@ -395,7 +393,7 @@
             								}
             							?>
 	            					</td>
-	            					<td id="check-box">
+	            					<td>
 	            						<?php 
             								if(!empty($po_tgl_approved_hp)){
             									if ($po_approve_by_hp==0) {
@@ -412,7 +410,7 @@
 	            							} else if (!empty($po_tgl_approved_dl)){
 	            								if ($po_approve_by_dl==1){
 	            						?>
-	            									<input type="checkbox" class="tanggal"  name="tanggal"  id="chk<?php echo $no;?>"
+	            									<input type="checkbox" class="tanggal checkbox-md"  name="tanggal"  id="chk<?php echo $no;?>"
                                                     onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" />
                                         <?php
 	            								} else {
@@ -422,7 +420,7 @@
 	            							}else{
 	            						?>
 	            							<!-- <input type="checkbox" name="approve_by_hp"> -->
-	            							<input type="checkbox" class="tanggal"  name="tanggal"  id="chk<?php echo $no;?>"
+	            							<input type="checkbox" class="tanggal checkbox-md"  name="tanggal"  id="chk<?php echo $no;?>"
                                                     onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" />
 	            							<?php 
 	            							}
@@ -438,7 +436,7 @@
 	            							<input type="hidden" name="comment_hp[]" value="<?php echo $po_comment_hp; ?>">
 	            					
 	            					</td>
-	            					 <td id="check-box">
+	            					 <td>
 										<?php 
             								if($po_approve_by_dl==1) 
             								{ 
@@ -978,7 +976,7 @@
             						<div class="modal-dialog modal-lg">
             							<!-- Modal content-->
             							<div class="modal-content" style="">
-            								<div class="modal-header" style="background: #fef5f0;border-radius:5px;">
+            								<div class="modal-header" style="background: #f26904;border-radius:5px;">
             									<button type="button" class="close" data-dismiss="modal" style="color:white;opacity:1;">&times;</button>
             									<h2 class="modal-title">Approval Details</h2>
             								</div>
