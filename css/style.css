@@ -19,7 +19,7 @@ img.logo-image{
 	box-shadow: 1px 1px 6px rgb(150, 148, 148);
 }
 .header-nav{
-	height: 50px;
+	height: 85px;
 }
 .date{
 	float: left;
@@ -175,6 +175,12 @@ span.reject{
 }
 h2.modal-title{
 	color: white;
+}
+body{
+	background: #eef2f5;
+}
+.head-mob{
+	margin-left: 10px;
 }
 /*---------------*/
 /* Media Queries */

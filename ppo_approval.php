@@ -20,6 +20,7 @@
 	if ( isset($_GET['u']) && isset($_GET['p']) && isset($_GET['k']) ) {
 		include "connection.php";
 		include "user.php";
+		include "jam.php";
 		$PPO_Number = $_GET['p'];
 		$PPO_Table = $Database->query( "Call GetPPO_Number( '$PPO_Number' )" );
 		$key = "";
@@ -77,7 +78,7 @@
 			<div class="header-date">
 				<div class="container-fluid" style="padding-left:5%;padding-right:5%;">
 					<div class="date">
-						<?php echo date("l"); echo('&nbsp;'); echo date("d/m/Y"); echo('&nbsp;'); ?>
+						<?php echo $hari;?> <?php echo $tanggal;?> <?php echo $bulan;?> <?php echo $tahun;?> 
 					</div>
 					<div id="clock" class="time"></div>
 					<div class="user">
@@ -130,16 +131,13 @@
 					</table>
 				</div>
 				<div class="hidden_po">
-				 	<b>
-				 		No Pengajuan : <?php echo $PPO_Number; ?><br>
-							Tanggal :  <?php echo $tgl_pengajuan;?><br>
-						Submitted By <?php echo $by;?><br>
+				 	<b class="head-mob">No Pengajuan : <?php echo $PPO_Number; ?><br></b>
+					<b class="head-mob">Tanggal :  <?php echo $tgl_pengajuan;?><br></b>
+					<b class="head-mob">Submitted By <?php echo $by;?><br></b>
 						<?php 
 							$total_ppo=$PPO_TableDetail->num_rows;
-							echo "Total PO : $total_ppo";
+							echo '<b class="head-mob">Total PO : $total_ppo</b>';
 						?>
-
-					</b>
 				</div>
 			</div>
 			<div class="panel-body">
