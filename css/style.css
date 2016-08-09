@@ -21,6 +21,9 @@ img.logo-image{
 .header-nav{
 	height: 85px;
 }
+.expired{
+	height: 50px !important;
+}
 .date{
 	float: left;
 }

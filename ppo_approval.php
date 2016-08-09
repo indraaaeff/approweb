@@ -166,6 +166,10 @@
 
 								?>
 							<tbody class="desktop">
+								<input type="hidden" name="key" value="<?php echo $key;?>">
+								<input type="hidden" name="u" value="<?php echo $_GET['u'];?>">
+								<input type="hidden" name="total_ppo" id="total_ppo" value="<?php echo $total_ppo;?>"	>
+								<input type="hidden" name="tgl_pengajuan" value="<?php echo $tgl_pengajuan;?>">
 								<!-- loop for row details -->
 								<tr align="center" id="detail_column">
 									<?php $Tanggal_po = date( 'd-m-Y', strtotime( $row['tgl_po'] )); ?>
@@ -232,8 +236,8 @@
             							// $po_comment_rt = "ogah";
 
             								//dummy data for checking checkbox
-            								if (empty($po_tgl_approved_rt)){
-            									if (!empty($po_tgl_approved_hp) && !empty($po_tgl_approved_dl)) {
+            								if (empty($po_tgl_approved_rt) || is_null($po_tgl_approved_rt)){
+            									if (!empty($po_tgl_approved_hp) || !is_null($po_tgl_approved_hp) && !empty($po_tgl_approved_dl) || !is_null($po_tgl_approved_dl)) {
 	            									if($po_approve_by_hp==1 && $po_approve_by_dl==1) {
 	            										echo '<input type="checkbox" disabled>';
 		            								} else if($po_approve_by_hp==1 && $po_approve_by_dl==0) {
@@ -268,17 +272,17 @@
 	            						<?php
 	            								}
 	            						?>
-	            							<input type="hidden" name="po_tgl_approved_rt[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
-	            							<input type="hidden" name="po_approve_by_rt[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly">
-	            							<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
-	            							<input type="hidden" name="total[]"  value="<?php echo $row['total'];?>">
-	            							<input type="hidden" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
-	            							<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
-	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
-	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
-	            							<input type="hidden" name="comment_rt[]" value="<?php echo $po_comment_rt ?>">
-	            							<input type="hidden" name="comment_rt[]" value="<?php echo $po_tgl_approved_hp ?>">
-	            							<input type="hidden" name="comment_rt[]" value="<?php echo $row['tgl_approved_dl']; ?>">
+	            							<input type="" name="po_tgl_approved_rt[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
+	            							<input type="" name="po_approve_by_rt[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly">
+	            							<input type="" name="no_po[]"  value="<?php echo $row['no_po'];?>">
+	            							<input type="" name="total[]"  value="<?php echo $row['total'];?>">
+	            							<input type="" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
+	            							<input type="" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
+	            							<input type="" name="no_ppo" value="<?php echo $PPO_Number;?>">
+	            							<input type="" name="sub_by" value="<?php echo $by;?>">
+	            							<input type="" name="comment_rt[]" value="<?php echo $po_comment_rt ?>">
+	            							<input type="" name="comment_rt[]" value="<?php echo $po_tgl_approved_hp ?>">
+	            							<input type="" name="comment_rt[]" value="<?php echo $row['tgl_approved_dl']; ?>">
             						</td>
 	            						<?php 
 	            							} else {

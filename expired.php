@@ -47,7 +47,7 @@ $user=$_SESSION['username'];
 
 </head>
 <body>
-	<div class="header-nav">
+	<div class="header-nav expired">
 		<nav class="navbar navbar-fixed-top navbar-style">
 			<div class="container">
 				<a class="navbar-brand logo" href="#">Approval</a>
