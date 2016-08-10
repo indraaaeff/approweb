@@ -1,2 +1,0 @@
-notif kapan di proses.
-notif kapan di approve atau di reject. (format time)

@@ -8,10 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/sticky-footer-navbar.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<script type="text/javascript" src="js/responsive-switch.min.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 </head>
 <body>
@@ -155,6 +152,7 @@
 									<th class="tengah">RT</th>
 									<th class="tengah">HP</th>
 									<th class="tengah">DL</th>
+									<th class="tengah">COMMENT</th>
 									<th class="tengah">STATUS</th>
 								</tr>
 
@@ -272,17 +270,21 @@
 	            						<?php
 	            								}
 	            						?>
-	            							<input type="" name="po_tgl_approved_rt[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
-	            							<input type="" name="po_approve_by_rt[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly">
-	            							<input type="" name="no_po[]"  value="<?php echo $row['no_po'];?>">
-	            							<input type="" name="total[]"  value="<?php echo $row['total'];?>">
-	            							<input type="" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
-	            							<input type="" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
-	            							<input type="" name="no_ppo" value="<?php echo $PPO_Number;?>">
-	            							<input type="" name="sub_by" value="<?php echo $by;?>">
-	            							<input type="" name="comment_rt[]" value="<?php echo $po_comment_rt ?>">
-	            							<input type="" name="comment_rt[]" value="<?php echo $po_tgl_approved_hp ?>">
-	            							<input type="" name="comment_rt[]" value="<?php echo $row['tgl_approved_dl']; ?>">
+		            						<!-- tambah variabel HP DAN DL di login RT -->
+		            						<input  type="hidden"  name="po_tgl_app_hp[]" value="<?php echo $po_tgl_approved_hp;?>" >
+		            						<input  type="hidden"  name="po_app_hp[]"     value="<?php echo $po_approve_by_hp;?>" >
+		            						<input  type="hidden"  name="po_tgl_app_dl[]" value="<?php echo $po_tgl_approved_dl;?>" >
+		            						<input  type="hidden"  name="po_app_dl[]"     value="<?php echo $po_approve_by_dl;?>" >
+		            						<!-- variabel RT -->
+	            							<input type="hidden" name="po_tgl_approved_rt[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
+	            							<input type="hidden" name="po_approve_by_rt[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly">
+	            							<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
+	            							<input type="hidden" name="total[]"  value="<?php echo $row['total'];?>">
+	            							<input type="hidden" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
+	            							<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
+	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
+	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
+	            							<!-- end -->
             						</td>
 	            						<?php 
 	            							} else {
@@ -329,6 +331,19 @@
             								}
             							?>
             						</td>
+	            					<td>
+	            						<?php 
+	            						if ($user == BOD_RT) {
+	            							if (empty($po_tgl_approved_rt)) {
+	            								if (!empty($po_tgl_approved_hp) || !is_null($po_tgl_approved_hp) && !empty($po_tgl_approved_dl) || !is_null($po_tgl_approved_dl)) {
+	            									if ($po_approve_by_hp==1 && $po_approve_by_dl==1) {
+	            										echo '<textarea class="form-control one" name="po_comment_rt[]" id="<?php echo $no; ?>" cols="8" rows="2" readonly></textarea>';
+	            									}
+	            								}
+	            							}
+	            						} ?>
+										<!-- <textarea class="form-control one" name="po_comment_rt[]" id="<?php echo $no; ?>" cols="8" rows="2"></textarea> -->
+	            					</td>
 	            					<td>
 										<!-- <p>Waiting</p> -->
 	            						<?php 
@@ -427,15 +442,23 @@
 	            							<?php 
 	            							}
 	            							?>
-	            							<input type="hidden" name="po_tgl_approved_hp[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_hp;?>" readonly>
-	            							<input type="hidden" name="po_approve_by_hp[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_hp;?>" readonly>
-	            							<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
-	            							<input type="hidden" name="total[]"  value="<?php echo $row['total'];?>">
-	            							<input type="hidden" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
-	            							<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
-	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
-	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
-	            							<input type="hidden" name="comment_hp[]" value="<?php echo $po_comment_hp; ?>">
+	            							<!-- tambah variabel RT DAN DL di login HP -->
+											<input  type=""  name="po_app_rt[]"     value="<?php echo $po_approve_by_rt;?>" >
+											<input  type=""  name="po_tgl_app_rt[]" value="<?php echo $po_tgl_approved_rt;?>" >
+											<input  type=""  name="po_app_dl[]"     value="<?php echo $po_approve_by_dl;?>" >
+											<input  type=""  name="po_tgl_app_dl[]" value="<?php echo $po_tgl_approved_dl;?>" >
+											<!------------------- end -------------------->
+											
+											 <!------------ variabel HP ------------------>
+											 <input type="hidden"  name="po_tgl_approved_hp[]" id="<?php echo $no;?>"     value="<?php echo $po_tgl_approved_hp;?>" >
+                                             <input type="hidden"  name="po_approve_by_hp[]"   id="pp<?php echo $no;?>"   value="<?php echo $po_approve_by_hp;?>"  >
+                                             <input type="hidden"  name="no_po[]"   value="<?php echo $row['no_po'];?>">
+                                             <input type="hidden"  name="total[]"   value="<?php echo $row['total'];?>">
+                                             <input type="hidden"  name="tgl_po[]"  value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
+											 <input type="hidden"  name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
+											 <input type="hidden"  name="x[]" id="x<?php echo $no;?>">
+                                             <input type="hidden"  name="no_ppo" value="<?php echo $PPO_Number;?>">
+                                             <input type="hidden"  name="sub_by" value="<?php echo $by;?>">
 	            					
 	            					</td>
 	            					 <td>
@@ -566,15 +589,24 @@
 	            							<?php 
 	            							}
 	            							?>
-	            							<input type="hidden" name="po_tgl_approved_hp[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_hp;?>" readonly>
-	            							<input type="hidden" name="po_approve_by_hp[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_hp;?>" readonly>
-	            							<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
-	            							<input type="hidden" name="total[]"  value="<?php echo $row['total'];?>">
-	            							<input type="hidden" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
+
+	            							<!-- tambah variabel RT DAN HP di login DL -->
+	            							<input  type="hidden"  name="po_app_rt[]"     value="<?php echo $po_approve_by_rt;?>" >
+	            							<input  type="hidden"  name="po_tgl_app_rt[]" value="<?php echo $po_tgl_approved_rt;?>" >
+	            							<input  type="hidden"  name="po_app_hp[]"     value="<?php echo $po_approve_by_hp;?>" >
+	            							<input  type="hidden"  name="po_tgl_app_hp[]" value="<?php echo $po_tgl_approved_hp;?>" >
+	            							<!------------------- end -------------------->
+
+	            							<!------------ variabel DL ------------------>
+	            							<input type="hidden" name="po_tgl_approved_dl[]" id="<?php echo $no;?>" value="<?php echo $po_tgl_approved_dl;?>" readonly="readonly">
+	            							<input type="hidden" name="po_approve_by_dl[]" size="2" id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_dl;?>" readonly="readonly">
+	            							<input type="hidden" name="no_po[]"       value="<?php echo $row['no_po'];?>">
+	            							<input type="hidden" name="total[]"       value="<?php echo $row['total'];?>">
+	            							<input type="hidden" name="tgl_po[]"      value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
 	            							<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
-	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
-	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
-	            							<input type="hidden" name="comment_dl[]" value="<?php echo $po_comment_dl; ?>">
+	            							<input type="hidden" name="x[]" id="x<?php echo $no;?>">
+	            							<input type="hidden" name="no_ppo"        value="<?php echo $PPO_Number;?>">
+	            							<input type="hidden" name="sub_by"        value="<?php echo $by;?>"> 
             						</td>
 	            					<td>
 										<!-- <p>Waiting</p> -->
@@ -974,7 +1006,7 @@
 									</div>
             					</div>
             					<!-- Modal -->
-            					<div class="modal fade" id="myModal" role="dialog">
+            					<div class="modal modals fade " id="myModal<?php echo $no; ?>" role="dialog">
             						<div class="modal-dialog modal-lg">
             							<!-- Modal content-->
             							<div class="modal-content" style="">
@@ -1003,32 +1035,12 @@
             											?>
 
             											<label for="comment_rt">Richardus Teddy</label>
-            											<textarea class="form-control" name="comment_rt[]" rows="5" <?php if($user == BOD_HP || $user == BOD_DL){echo "readonly";} ?>><?php if(!empty($po_comment_rt)){echo $po_comment_rt;} ?></textarea>
+            											<textarea id="<?php echo $no; ?>" class="form-control" name="comment_rt[]" rows="5" <?php if($user == BOD_HP || $user == BOD_DL){echo "readonly";} ?>><?php if(!empty($po_comment_rt)){echo $po_comment_rt;} ?></textarea>
             											<label for="comment_hp">Harijanto Pribadi</label>
             											<textarea class="form-control" name="comment_hp[]" rows="5" <?php if($user == BOD_RT || $user == BOD_DL){echo "readonly";} ?>><?php if(!empty($po_comment_hp)){echo $po_comment_hp;} ?></textarea>
             											<label for="comment_dl">Dicky Lisal</label>
             											<textarea class="form-control" name="comment_dl[]" rows="5" <?php if($user == BOD_RT || $user == BOD_HP){echo "readonly";} ?>><?php if(!empty($po_comment_dl)){echo $po_comment_dl;} ?></textarea>
-            										<!-- 	<?php 
-	            											if ( isset( $_POST[ '$po_comment_rt' ] )) {
-	            												$po_comment_rt = $_POST[ '$po_comment_rt' ];
-	            												foreach ($po_comment_rt as $user) {
-	            													if ( !empty( $user ) )
-	            														echo ( $user . "<br />" );
-	            												}
-	            											}
-	            											else {
-	            												for ($x=0; $x< $num_rows; $x++) { $po_comment_rt[ $x ] = ""; }
-	            											}
-            											?>
-            											<?php 
-            												for ($x=0 ; $x < $num_rows ; $x++ ) { 
-            													// # code...
-            													echo '<textarea name="$comment_rt[]">' . $po_comment_rt[$x] . '</textarea>';
-            													echo '<textarea name="$comment_hp[]">' . $po_comment_hp[$x] . '</textarea>';
-            													echo '<textarea name="$comment_dl[]">' . $po_comment_dl[$x] . '</textarea><br />';
-            											// <textarea name="$comment_rt" rows="5"> .$po_comment_rt[$x]. </textarea>
-            												}
-            											?> -->
+
             										</div>
             									</div>
             								</div>
@@ -1109,7 +1121,7 @@
 				              				} else { 
 				              	?>
 				              					<tr>
-				              						<td colspan="10">
+				              						<td colspan="11">
 				              							<input type="submit" class="btn btn-success submit" value="Submit" 
 				              							<?php 
 				              								if (!empty($po_tgl_approved_hp)) {
@@ -1335,9 +1347,13 @@
     </footer>
 </body>
 </html>
+	<script type="text/javascript" src="js/responsive-switch.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
 <script>
 $('.checkbox-md').on('click',function(){
-    $("#myModal").modal("show");
+    $(".modals").modal("show");
     $("#ppo_number").val($(this).closest('tr').children()[1].textContent);
     $("#tanggal_po").val($(this).closest('tr').children()[3].textContent);
     $("#nama_vendor").val($(this).closest('tr').children()[2].textContent);
