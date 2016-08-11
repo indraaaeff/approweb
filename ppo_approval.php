@@ -272,6 +272,13 @@
 	            						<?php
 	            								}
 	            						?>
+		            						<!-- tambah variabel HP DAN DL di login RT -->
+		            						<input  type="hidden"  name="po_tgl_app_hp[]" value="<?php echo $po_tgl_approved_hp;?>" >
+		            						<input  type="hidden"  name="po_app_hp[]"     value="<?php echo $po_approve_by_hp;?>" >
+		            						<input  type="hidden"  name="po_tgl_app_dl[]" value="<?php echo $po_tgl_approved_dl;?>" >
+		            						<input  type="hidden"  name="po_app_dl[]"     value="<?php echo $po_approve_by_dl;?>" >
+		            						<!-- end -->
+		            						<!-- variabel RT -->
 	            							<input type="hidden" name="po_tgl_approved_rt[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
 	            							<input type="hidden" name="po_approve_by_rt[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly">
 	            							<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
@@ -280,9 +287,7 @@
 	            							<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
 	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
 	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
-	            							<input type="hidden" name="comment_rt[]" value="<?php echo $po_comment_rt ?>">
-	            							<input type="hidden" name="comment_rt[]" value="<?php echo $po_tgl_approved_hp ?>">
-	            							<input type="hidden" name="comment_rt[]" value="<?php echo $row['tgl_approved_dl']; ?>">
+	            							<!-- end of variabel RT -->
             						</td>
 	            						<?php 
 	            							} else {
@@ -427,6 +432,13 @@
 	            							<?php 
 	            							}
 	            							?>
+	            							<!-- tambah variabel RT DAN DL di login HP -->
+	            							<input  type="hidden"  name="po_app_rt[]"     value="<?php echo $po_approve_by_rt;?>" >
+	            							<input  type="hidden"  name="po_tgl_app_rt[]" value="<?php echo $po_tgl_approved_rt;?>" >
+	            							<input  type="hidden"  name="po_app_dl[]"     value="<?php echo $po_approve_by_dl;?>" >
+	            							<input  type="hidden"  name="po_tgl_app_dl[]" value="<?php echo $po_tgl_approved_dl;?>" >
+	            							<!-- end -->
+	            							<!-- variabel HP -->
 	            							<input type="hidden" name="po_tgl_approved_hp[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_hp;?>" readonly>
 	            							<input type="hidden" name="po_approve_by_hp[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_hp;?>" readonly>
 	            							<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
@@ -436,6 +448,7 @@
 	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
 	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
 	            							<input type="hidden" name="comment_hp[]" value="<?php echo $po_comment_hp; ?>">
+	            							<!-- end -->
 	            					
 	            					</td>
 	            					 <td>
@@ -566,6 +579,14 @@
 	            							<?php 
 	            							}
 	            							?>
+	            							<!-- tambah variabel RT DAN HP di login DL -->
+	            							<input  type="hidden"  name="po_app_rt[]"     value="<?php echo $po_approve_by_rt;?>" >
+	            							<input  type="hidden"  name="po_tgl_app_rt[]" value="<?php echo $po_tgl_approved_rt;?>" >
+
+	            							<input  type="hidden"  name="po_app_hp[]"     value="<?php echo $po_approve_by_hp;?>" >
+	            							<input  type="hidden"  name="po_tgl_app_hp[]" value="<?php echo $po_tgl_approved_hp;?>" >
+											<!-- end -->
+											<!-- variabel DL -->
 	            							<input type="hidden" name="po_tgl_approved_hp[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_hp;?>" readonly>
 	            							<input type="hidden" name="po_approve_by_hp[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_hp;?>" readonly>
 	            							<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
@@ -575,6 +596,7 @@
 	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
 	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
 	            							<input type="hidden" name="comment_dl[]" value="<?php echo $po_comment_dl; ?>">
+	            							<!-- end -->
             						</td>
 	            					<td>
 										<!-- <p>Waiting</p> -->
