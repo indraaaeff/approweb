@@ -1,5 +1,6 @@
 <?php 
 include "user.php";
+include "jam.php";
 if ( !isset($_GET['u']) || empty($_GET['u']) )
 {
 echo'
@@ -49,7 +50,7 @@ $user=$_SESSION['username'];
 <body>
 	<div class="header-nav expired">
 		<nav class="navbar navbar-fixed-top navbar-style">
-			<div class="container">
+			<div class="container-fluid" style="padding-left:5%;padding-right:5%;">
 				<a class="navbar-brand logo" href="#">Approval</a>
 				<div>
 					<img class="logo-image" src="img/logo_hts_glowing.png" alt="">
@@ -58,9 +59,9 @@ $user=$_SESSION['username'];
 		</nav>
 	</div>
 	<div class="header-date">
-		<div class="container">
+		<div class="container-fluid" style="padding-left:5%;padding-right:5%;">
 			<div class="date">
-				<?php echo date("l"); echo('&nbsp;'); echo date("d/m/Y"); echo('&nbsp;'); ?>
+				<?php echo $hari.",";?> <?php echo $tanggal;?> <?php echo $bulan;?> <?php echo $tahun;?> 
 			</div>
 			<div id="clock" class="time"></div>
 			<div class="user">
@@ -70,7 +71,12 @@ $user=$_SESSION['username'];
 			</div>
 		</div>
 	</div>
-	<div class="container">
+	<div class="kotak_user">
+		<div class="user_res">
+			<b><?php echo ucwords($user);?></b>
+		</div>
+	</div>
+	<div class="container-fluid" style="padding-left:5%;padding-right:5%;padding-top:2%;">
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="alerts" style="line-height:30px;">
