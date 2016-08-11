@@ -1025,11 +1025,11 @@
             											?>
 
             											<label for="comment_rt">Richardus Teddy</label>
-            											<textarea class="form-control" name="comment_rt[]" rows="5" <?php if($user == BOD_HP || $user == BOD_DL){echo "readonly";} ?>><?php if(!empty($po_comment_rt)){echo $po_comment_rt;} ?></textarea>
+            											<textarea class="form-control" name="po_comment_rt[]" id="crt<?php echo $no; ?>" rows="5" <?php if($user == BOD_HP || $user == BOD_DL){echo "readonly";} ?>><?php if(!empty($po_comment_rt)){echo $po_comment_rt;} ?></textarea>
             											<label for="comment_hp">Harijanto Pribadi</label>
-            											<textarea class="form-control" name="comment_hp[]" rows="5" <?php if($user == BOD_RT || $user == BOD_DL){echo "readonly";} ?>><?php if(!empty($po_comment_hp)){echo $po_comment_hp;} ?></textarea>
+            											<textarea class="form-control" name="po_comment_hp[]" rows="5" <?php if($user == BOD_RT || $user == BOD_DL){echo "readonly";} ?>><?php if(!empty($po_comment_hp)){echo $po_comment_hp;} ?></textarea>
             											<label for="comment_dl">Dicky Lisal</label>
-            											<textarea class="form-control" name="comment_dl[]" rows="5" <?php if($user == BOD_RT || $user == BOD_HP){echo "readonly";} ?>><?php if(!empty($po_comment_dl)){echo $po_comment_dl;} ?></textarea>
+            											<textarea class="form-control" name="po_comment_dl[]" rows="5" <?php if($user == BOD_RT || $user == BOD_HP){echo "readonly";} ?>><?php if(!empty($po_comment_dl)){echo $po_comment_dl;} ?></textarea>
             										<!-- 	<?php 
 	            											if ( isset( $_POST[ '$po_comment_rt' ] )) {
 	            												$po_comment_rt = $_POST[ '$po_comment_rt' ];
@@ -1132,7 +1132,7 @@
 				              	?>
 				              					<tr>
 				              						<td colspan="10">
-				              							<input type="submit" class="btn btn-success submit" value="Submit" 
+				              							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')" 
 				              							<?php 
 				              								if (!empty($po_tgl_approved_hp)) {
 				              								 	if ($po_approve_by_hp==0) {
@@ -1204,7 +1204,7 @@
 				              	?>
 								              	<tr>
 								              		<td colspan="10">
-								              			<input type="submit" class="btn btn-success submit" value="Submit" 
+								              			<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')"
 								              			<?php  
 								              				if (!empty($po_tgl_approved_dl)) {
 								              					if ($po_approve_by_dl==0) {
@@ -1266,7 +1266,7 @@
 	                        	?>
 	                        					<tr>
 	                        						<td colspan="10">
-	                        							<input type="submit" class="btn btn-success submit" value="Submit">
+	                        							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
 	                        							<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/>-->
 	                        						</td> 
 	                        					</tr>
