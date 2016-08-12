@@ -417,8 +417,19 @@
 	            							} else if (!empty($po_tgl_approved_dl)){
 	            								if ($po_approve_by_dl==1){
 	            						?>
-	            									<input type="checkbox" class="tanggal checkbox-md"  name="tanggal"  id="chk<?php echo $no;?>"
-                                                    onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" />
+	            									<input type="checkbox" class="tanggal"  name="tanggal"  id="chk<?php echo $no;?>"
+                                                    onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');" />
+                                                    <!-- variabel HP -->
+                                                    <input type="" name="po_tgl_approved_hp[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_hp;?>" readonly>
+                                                    <input type="" name="po_approve_by_hp[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_hp;?>" readonly>
+                                                    <input type="" name="no_po[]"  value="<?php echo $row['no_po'];?>">
+                                                    <input type="" name="total[]"  value="<?php echo $row['total'];?>">
+                                                    <input type="" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
+                                                    <input type="" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
+                                                    <input type=""  name="x[]" id="x<?php echo $no;?>">
+                                                    <input type="" name="no_ppo" value="<?php echo $PPO_Number;?>">
+                                                    <input type="" name="sub_by" value="<?php echo $by;?>">
+                                                    <!-- end -->
                                         <?php
 	            								} else {
 	            									
@@ -426,28 +437,29 @@
 	            								}
 	            							}else{
 	            						?>
-	            							<!-- <input type="checkbox" name="approve_by_hp"> -->
-	            							<input type="checkbox" class="tanggal checkbox-md"  name="tanggal"  id="chk<?php echo $no;?>"
-                                                    onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" />
+											<input type="checkbox" class="tanggal"  name="tanggal"  id="chk<?php echo $no;?>"
+                                                    onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');" />
+	            							<!-- <input type="checkbox" class="tanggal"  name="tanggal"  id="chk<?php echo $no;?>"
+                                                    onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');" /> -->
 	            							<?php 
 	            							}
 	            							?>
 	            							<!-- tambah variabel RT DAN DL di login HP -->
-	            							<input  type="hidden"  name="po_app_rt[]"     value="<?php echo $po_approve_by_rt;?>" >
-	            							<input  type="hidden"  name="po_tgl_app_rt[]" value="<?php echo $po_tgl_approved_rt;?>" >
-	            							<input  type="hidden"  name="po_app_dl[]"     value="<?php echo $po_approve_by_dl;?>" >
-	            							<input  type="hidden"  name="po_tgl_app_dl[]" value="<?php echo $po_tgl_approved_dl;?>" >
+	            							<!-- <input  type=""  name="po_app_rt[]"     value="<?php echo $po_approve_by_rt;?>" >
+	            							<input  type=""  name="po_tgl_app_rt[]" value="<?php echo $po_tgl_approved_rt;?>" >
+	            							<input  type=""  name="po_app_dl[]"     value="<?php echo $po_approve_by_dl;?>" >
+	            							<input  type=""  name="po_tgl_app_dl[]" value="<?php echo $po_tgl_approved_dl;?>" > -->
 	            							<!-- end -->
 	            							<!-- variabel HP -->
-	            							<input type="hidden" name="po_tgl_approved_hp[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_hp;?>" readonly>
-	            							<input type="hidden" name="po_approve_by_hp[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_hp;?>" readonly>
-	            							<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
-	            							<input type="hidden" name="total[]"  value="<?php echo $row['total'];?>">
-	            							<input type="hidden" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
-	            							<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
-	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
-	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
-	            							<input type="hidden" name="comment_hp[]" value="<?php echo $po_comment_hp; ?>">
+	            							<input type="" name="po_tgl_approved_hp[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_hp;?>" readonly>
+	            							<input type="" name="po_approve_by_hp[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_hp;?>" readonly>
+	            							<input type="" name="no_po[]"  value="<?php echo $row['no_po'];?>">
+	            							<input type="" name="total[]"  value="<?php echo $row['total'];?>">
+	            							<input type="" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
+	            							<input type="" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
+	            							<input type=""  name="x[]" id="x<?php echo $no;?>">
+	            							<input type="" name="no_ppo" value="<?php echo $PPO_Number;?>">
+	            							<input type="" name="sub_by" value="<?php echo $by;?>">
 	            							<!-- end -->
 	            					
 	            					</td>
@@ -780,6 +792,7 @@
             									
             									<u>NOTE</u> : <br>
             									<!-- RT -->
+
             									Richardus Teddy
             									<?php 
             									if (!empty($po_tgl_approved_rt)) {
@@ -803,7 +816,7 @@
             												echo '<input type="checkbox" class="checked" disabled>';
             											} else {
             									?>
-            									<input  type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user==BOD_HP || $user==BOD_DL){echo " disabled";}?> >
+            									<input  type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');" <?php if($user==BOD_HP || $user==BOD_DL){echo " disabled";}?> >
             									<?php 
             											}
             										} else if (!empty($po_tgl_approved_dl)){
@@ -811,17 +824,33 @@
             												echo '<input type="checkbox" class="checked" disabled>';
             											} else {
             									?>
-												<input  type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user==BOD_HP || $user==BOD_DL){echo " disabled";}?>>
+												<input  type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');" <?php if($user==BOD_HP || $user==BOD_DL){echo " disabled";}?>>
             									<?php
             											}
             										} else {
             									?>
-            									<input  type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" <?php if($user==BOD_HP || $user==BOD_DL){echo " disabled";}?>>
+            									<input  type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');" <?php if($user==BOD_HP || $user==BOD_DL){echo " disabled";}?>>
             									<?php
             										}
             									}
             									?>
-
+            									<!-- tambah variabel HP DAN DL di login RT -->
+            									<input  type=""  name="po_tgl_app_hp[]" value="<?php echo $po_tgl_approved_hp;?>" >
+            									<input  type=""  name="po_app_hp[]"     value="<?php echo $po_approve_by_hp;?>" >
+            									<input  type=""  name="po_tgl_app_dl[]" value="<?php echo $po_tgl_approved_dl;?>" >
+            									<input  type=""  name="po_app_dl[]"     value="<?php echo $po_approve_by_dl;?>" >
+            									<!-- end -->
+            									<!-- variabel RT -->
+            									<input type="" name="po_tgl_approved_rt[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
+            									<input type="" name="po_approve_by_rt[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly">
+            									<input type="" name="no_po[]"  value="<?php echo $row['no_po'];?>">
+            									<input type="" name="total[]"  value="<?php echo $row['total'];?>">
+            									<input type="" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
+            									<input type="" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
+            									<input type=""  name="x[]" id="x<?php echo $no;?>">
+            									<input type="" name="no_ppo" value="<?php echo $PPO_Number;?>">
+            									<input type="" name="sub_by" value="<?php echo $by;?>">
+            									<!-- end of variabel RT -->
             									<!-- diatas validation for checkbox -->
             									<!-- dibawah validation for textarea BOD -->
             									<textarea class="form-control" rows="2" name="comment_rt[]" <?php if($user == BOD_HP || $user == BOD_DL){echo "readonly";} ?>
@@ -858,8 +887,12 @@
             									 ><?php if(!empty($po_comment_rt)){echo $po_comment_rt;} ?></textarea>
             									<!-- HP -->
             									Harijanto Pribadi
-<!-- 												<input type="" name="po_tgl_approved_rt[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
-												<input type="" name="po_approve_by_rt[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly"> -->
+												<input type="" name="dl_tgl" value="<?php echo $po_tgl_approved_dl;?>" >				
+												<input type="" name="hp_tgl" id="<?php echo $no;?>" class="tgl" value="<?php echo $po_tgl_approved_hp;?>" >				
+												<input type="" name="rt_tgl" id="<?php echo $no;?>" class="tgl" value="<?php echo $po_tgl_approved_rt;?>" >
+
+												<!-- <input type="" name="po_tgl_approved_hp[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_hp;?>" readonly="readonly"> -->
+												<input type="" name="po_approve_by_hp[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_hp;?>" readonly="readonly">
 												<?php
 													if (!empty($po_tgl_approved_hp)) {
 														if ($po_approve_by_hp==1) {
@@ -912,7 +945,9 @@
 														}
 													}
 													?> 
-													><?php if(!empty($po_comment_hp)){echo $po_comment_hp;} ?></textarea>
+													><?php if(!empty($po_comment_hp)){echo $po_comment_hp;} ?>
+												</textarea>
+
 												<!-- DL -->
 												Dicky Lisal
 												<?php
@@ -1062,6 +1097,10 @@
             						</div>
             					</div>
             					<!-- end of modal -->
+<!--             					<input type="" name="grand" value="<?php echo $grand; ?>">
+            					<input type="" name="hp_tgl" id="<?php echo $no;?>" class="tgl" value="<?php echo $po_tgl_approved_hp;?>" >				
+            					<input type="" name="dl_tgl" value="<?php echo $po_tgl_approved_dl;?>" >				
+            					<input type="" name="rt_tgl" value="<?php echo $po_tgl_approved_rt;?>" > -->	
             					<?php 
             						$no++;
             					}
@@ -1358,12 +1397,136 @@
 </body>
 </html>
 <script>
+function startTime()
+{
+	var today=new Date()
+	var h=today.getHours()
+	var m=today.getMinutes()
+	var s=today.getSeconds()
+	var ap="AM";
+
+	//to add AM or PM after time
+	if(h>11) ap="PM";
+	if(h>12) h=h-12;
+	if(h==0) h=12;
+
+	//to add a zero in front of numbers<10
+	m=checkTime(m)
+	s=checkTime(s)
+
+	document.getElementById('clock').innerHTML=h+":"+m+":"+s+" "+ap
+	t=setTimeout('startTime()', 500)
+}
+function checkTime(i)
+{
+	if (i<10)
+	{ i="0" + i}
+	return i
+}
+
+window.onload=startTime;
+
 $('.checkbox-md').on('click',function(){
     $("#myModal").modal("show");
     $("#ppo_number").val($(this).closest('tr').children()[1].textContent);
     $("#tanggal_po").val($(this).closest('tr').children()[3].textContent);
     $("#nama_vendor").val($(this).closest('tr').children()[2].textContent);
 });
+
+		function formatDate(date) {
+			var year = date.getFullYear(),
+				month = date.getMonth() + 1, // months are zero indexed
+				month = month < 10 ? "0" + month : month,
+				day = date.getDate(),
+				hour = date.getHours(),
+				minute = date.getMinutes(),
+				second = date.getSeconds(),
+				hourFormatted = hour % 12 || 12, // hour returned in 24 hour format
+				minuteFormatted = minute < 10 ? "0" + minute : minute,
+				morning = hour < 12 ? " am" : " pm";
+
+			return year + "-" + month + "-" + day + " " + hourFormatted + ":" +
+					minuteFormatted + ":" + second;
+		}
+
+		function check(cb, test)
+		{
+			if (cb.checked) {
+			
+				document.getElementById( test ).value = formatDate(new Date ());
+			}
+			else
+				document.getElementById( test ).value = "";
+		}
+		
+		
+		function check2(cb2, test2)
+		{
+			if (cb2.checked) {
+				
+				document.getElementById( test2 ).value = '1';	
+			}
+			else
+				document.getElementById( test2 ).value = "0";
+		}
+		
+		function check3(cb3, test3)
+		{
+			if (cb3.checked) {
+				
+				document.getElementById( test3 ).value = '1';				
+			}
+			else
+				document.getElementById( test3 ).value = "0";
+		}
+		
+		function check4(cb4, test4)
+		{
+			if (cb4.checked) {
+				
+				document.getElementById( test4 ).value = '1';		
+			}
+			else
+				document.getElementById( test4 ).value = "0";
+		}
+	
+	function check33(cb33, test33)
+		{
+		if (cb33.checked) {
+				
+				document.getElementById( test33 ).value = 'y';
+				
+				
+			}
+			else
+				document.getElementById( test33 ).value = "";
+		}
+		
+		
+		function check44(cb44, test44)
+		{
+		if (cb44.checked) {
+				
+				document.getElementById( test44 ).value = 'y';
+				
+				
+			}
+			else
+				document.getElementById( test44 ).value = "";
+		}
+		
+		function check22(cb22, test22)
+		{
+		if (cb22.checked) {
+				
+				document.getElementById( test22 ).value = 'y';
+				
+				
+			}
+			else
+				document.getElementById( test22 ).value = "";
+		}
+
 $(document).ready(function(){
 	$(window).on('load', function(){
 	    var win = $(this);
@@ -1523,67 +1686,5 @@ $(window).resize(function () {
     fakewaffle.responsiveTabs(['xs', 'sm']);
 })(jQuery);
 
-function startTime()
-{
-	var today=new Date()
-	var h=today.getHours()
-	var m=today.getMinutes()
-	var s=today.getSeconds()
-	var ap="AM";
 
-	//to add AM or PM after time
-	if(h>11) ap="PM";
-	if(h>12) h=h-12;
-	if(h==0) h=12;
-
-	//to add a zero in front of numbers<10
-	m=checkTime(m)
-	s=checkTime(s)
-
-	document.getElementById('clock').innerHTML=h+":"+m+":"+s+" "+ap
-	t=setTimeout('startTime()', 500)
-}
-function checkTime(i)
-{
-	if (i<10)
-	{ i="0" + i}
-	return i
-}
-
-window.onload=startTime;
-// window.onload=responsive;
-
-		function formatDate(date) {
-			var year = date.getFullYear(),
-				month = date.getMonth() + 1, // months are zero indexed
-				month = month < 10 ? "0" + month : month,
-				day = date.getDate(),
-				hour = date.getHours(),
-				minute = date.getMinutes(),
-				second = date.getSeconds(),
-				hourFormatted = hour % 12 || 12, // hour returned in 24 hour format
-				minuteFormatted = minute < 10 ? "0" + minute : minute,
-				morning = hour < 12 ? " am" : " pm";
-
-			return year + "-" + month + "-" + day + " " + hourFormatted + ":" +
-					minuteFormatted + ":" + second;
-		}
-		function check(cb, test)
-		{
-			if (cb.checked) {
-			
-				document.getElementById( test ).value = formatDate(new Date ());
-			}
-			else
-				document.getElementById( test ).value = "";
-		}
-				function check2(cb2, test2)
-		{
-			if (cb2.checked) {
-				
-				document.getElementById( test2 ).value = '1';	
-			}
-			else
-				document.getElementById( test2 ).value = "0";
-		}
 </script>
