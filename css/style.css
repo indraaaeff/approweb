@@ -219,7 +219,7 @@ body{
 		display:none;
 	}
 }
-@media (max-width:896px){
+@media (max-width:939px){
 	img.logo-image{
 		width:90px; margin-top:10px
 	}
@@ -236,7 +236,7 @@ body{
 		display: none;
 	}
 }
-@media (min-width: 897px){
+@media (min-width: 940px){
 	.gadget{
 		display: none;
 	}
