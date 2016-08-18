@@ -1,7 +1,7 @@
 <?php
-define ('BOD_RT','richardus teddy');
-define ('BOD_HP','harijanto pribadi');
-define ('BOD_DL','dicky lisal');
+define ('BOD_RT','Richardus Teddy');
+define ('BOD_HP','Harijanto Pribadi');
+define ('BOD_DL','Dicky Lisal');
 define ('BOD','bod@hts.net.id');
 define ('BOD_RT_ID','01');
 define ('BOD_HP_ID','02');

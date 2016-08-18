@@ -1,12 +1,11 @@
 <?php
 if($user=BOD_HP){
-
-if (
-   !empty($_POST['po_tgl_approved_hp']) && !empty($_POST['po_approve_by_hp']) &&
-   is_array($_POST['po_tgl_approved_hp']) && is_array($_POST['po_approve_by_hp']) &&
-   count($_POST['po_tgl_approved_hp']) === count($_POST['po_approve_by_hp'])
-   ) 
-   {
+	if (
+		!empty($_POST['po_tgl_approved_hp']) && !empty($_POST['po_approve_by_hp']) &&
+		is_array($_POST['po_tgl_approved_hp']) && is_array($_POST['po_approve_by_hp']) &&
+		count($_POST['po_tgl_approved_hp']) === count($_POST['po_approve_by_hp'])
+	   )
+   	{
    
     $tgl_app_rt    = $_POST['po_tgl_app_rt'];
 	$po_app_rt     = $_POST['po_app_rt'];
