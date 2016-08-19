@@ -1,19 +1,23 @@
 <?php 
-if($user=BOD_RT){
+if($user=BOD_RT)
+{
 	if (
 		!empty($_POST['po_tgl_approved_rt']) && !empty($_POST['po_approve_by_rt']) &&
 		is_array($_POST['po_tgl_approved_rt']) && is_array($_POST['po_approve_by_rt']) &&
 		count($_POST['po_tgl_approved_rt']) === count($_POST['po_approve_by_rt'])
 		) 
 	{
+		//var HP
 		$tgl_app_hp    = $_POST['po_tgl_app_hp'];
 		$po_app_hp     = $_POST['po_app_hp'];
 		$hp_tgl        = $_POST['hp_tgl'];
 		$keterangan_hp = $_POST['po_comment_hp'];
+		//var DL
 		$tgl_app_dl    = $_POST['po_tgl_app_dl'];
 		$po_app_dl     = $_POST['po_app_dl'];
 		$dl_tgl        = $_POST['dl_tgl'];
 		$keterangan_dl = $_POST['po_comment_dl'];
+		//var RT
 		$tgl_pengajuan = $_POST['tgl_pengajuan'];
 		$tanggal_rt    = $_POST['po_tgl_approved_rt'];
 		$app_rt        = $_POST['po_approve_by_rt'];
@@ -141,7 +145,6 @@ if($user=BOD_RT){
 					}
 				} //end if 
 
-
 			   if($end_keterangan_rt !=='')
 			   {
 			   		$usr="<div style='text-align:left; padding:4px;'>$end_keterangan_rt (By $end_user)</div>";
@@ -192,19 +195,17 @@ if($user=BOD_RT){
 			   }
 
 			   $total_po    = number_format($end_total);
-
 			   $message->HTMLBody .= "<tr>
-			   <td style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$end_vendor</td>       
-			   <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #888; '>$end_po</td>
-			   <td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$end_tgl_po</td>
-			   <td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '> $total_po</td>
-			   <td align='center' bgcolor='#eee' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp</td>
-			   <td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp_hp</td>
-			   <td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp_dl</td>
-			   <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #888; '>$usr $usr_hp $usr_dl</td>
-			   </tr>
-
-			   ";
+								   <td style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$end_vendor</td>       
+								   <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #888; '>$end_po</td>
+								   <td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$end_tgl_po</td>
+								   <td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '> $total_po</td>
+								   <td align='center' bgcolor='#eee' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp</td>
+								   <td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp_hp</td>
+								   <td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp_dl</td>
+								   <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #888; '>$usr $usr_hp $usr_dl</td>
+								   </tr>
+								   ";
 			   //------------------------------------------------------------------------------------------------------------------------------------
 			  
 			  
@@ -231,22 +232,22 @@ if($user=BOD_RT){
 
 	        $message->HTMLBody  .= "</table><br>";
 	        $message->HTMLBody .= "
-	        <table style=' margin-top:10px; border:solid 1px #888; background:#f1f1f1; padding:8px;'>											      
-	        <tr>
-	        <td width='160' style=' font-weight:bold;'>Approved By </td>  <td width='30' align='center'> : </td> <td> $end_user </td>
-	        </tr>
-	        <tr>
-	        <td style=' font-weight:bold;'>Tanggal Approval </td> <td width='30' align='center'> : </td> <td> $tanggal $bulan $tahun </td>
-	        </tr>
-	        <tr>
-	        <td style=' font-weight:bold;'>Total Approved </td> <td width='30' align='center'> : </td> <td> $total_appro (Rp.$total_app)</td>
-	        </tr>
-	        <tr>
-	        <td style=' font-weight:bold;'>Total Reject </td>  <td width='30' align='center'> : </td> <td> $total_rejek (Rp.$grandtotal2)</td>
-	        </tr>			 											    
-	        </table>
-	        <br>
-	        ";
+							        <table style=' margin-top:10px; border:solid 1px #888; background:#f1f1f1; padding:8px;'>											      
+							        <tr>
+							        <td width='160' style=' font-weight:bold;'>Approved By </td>  <td width='30' align='center'> : </td> <td> $end_user </td>
+							        </tr>
+							        <tr>
+							        <td style=' font-weight:bold;'>Tanggal Approval </td> <td width='30' align='center'> : </td> <td> $tanggal $bulan $tahun </td>
+							        </tr>
+							        <tr>
+							        <td style=' font-weight:bold;'>Total Approved </td> <td width='30' align='center'> : </td> <td> $total_appro (Rp.$total_app)</td>
+							        </tr>
+							        <tr>
+							        <td style=' font-weight:bold;'>Total Reject </td>  <td width='30' align='center'> : </td> <td> $total_rejek (Rp.$grandtotal2)</td>
+							        </tr>			 											    
+							        </table>
+							        <br>
+							        ";
 
 	        $message->Configuration = $messageCon;
 	        $message->Send() ;
@@ -257,13 +258,13 @@ if($user=BOD_RT){
         	print $e . "\n";
         	print "<hr>\n\n";
         }
-        // if (!$res) {
+        if (!$res) {
         // redirect ke halaman approval
-        // 	echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data gagal di submit';</script>";
-        // } else{
+        	echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data gagal di submit';</script>";
+        } else{
         // redirect ke halaman approval
-        // 	echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data telah berhasil di submit';</script>";
-        // }
+        	echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data telah berhasil di submit';</script>";
+        }
    	}  //end post
 } // end if rt
 ?>

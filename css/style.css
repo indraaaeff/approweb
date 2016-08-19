@@ -189,6 +189,10 @@ body{
 .footer{
 	box-shadow: 1px 1px 6px rgb(150, 148, 148);
 }
+.sa{
+	background-color:white;
+	border: 1px solid;
+}
 /*---------------*/
 /* Media Queries */
 /*---------------*/
