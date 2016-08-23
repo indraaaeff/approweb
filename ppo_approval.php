@@ -155,7 +155,7 @@
 									<th class="tengah">TANGGAL PO</th>
 									<th class="tengah">PPN</th>
 									<th class="tengah">TOTAL</th>
-									<th class="tengah"><p>RT</p><!-- <input type="checkbox" id="select_all"> --></th>
+									<th class="tengah"><p>RT</p><!-- <input type="checkbox" id="select_all" onClick="cball(this, '<?php echo $no;?>');"> --></th>
 									<th class="tengah">HP</th>
 									<th class="tengah">DL</th>
 									<th class="tengah">STATUS</th>
@@ -245,6 +245,7 @@
 		            									echo '<input type="checkbox" disabled>';
 		            								} else {
 		            					?>
+		            									<label><input type="checkbox" id="select_all" class="submit" onClick="cball(this, 'pp<?php echo $no;?>'); check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');">Check All</label>
 		            									<input type="checkbox" class="tanggal checkbox-md" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');" />
 		            					<?php		            								
 		            								}
@@ -265,7 +266,7 @@
             							<?php 
             										}
             									} else {
-	            						?>
+	            						?>	
 	            							<input type="checkbox" class="tanggal checkbox-md" name="tanggal " id="chk<?php echo $no;?>" onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');" />
 	            							<!-- <input type="checkbox" name="approve_by_rt" onclick="check(this, 'date1');"> -->
 	            						<?php
@@ -280,16 +281,16 @@
 		            						<input  type="hidden"  name="po_comment_dl[]" value="<?php echo $po_comment_dl; ?>"> -->
 											
 											<!-- variabel RT -->
-											<input type="hidden" name="user" id="<?php echo $user.$no; ?>" value="<?php echo $user; ?>">
-	            							<input type="hidden" name="po_tgl_approved_rt[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
-	            							<input type="hidden" name="po_approve_by_rt[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly">
-	            							<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
-	            							<input type="hidden" name="total[]"  value="<?php echo $row['total'];?>">
-	            							<input type="hidden" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
-	            							<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
-	            							<input type="hidden"  name="x[]" id="x<?php echo $no;?>">
-	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
-	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
+											<input type="" name="user" id="<?php echo $user.$no; ?>" value="<?php echo $user; ?>">
+	            							<input type="" name="po_tgl_approved_rt[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
+	            							<input type="" name="po_approve_by_rt[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly">
+	            							<input type="" name="no_po[]"  value="<?php echo $row['no_po'];?>">
+	            							<input type="" name="total[]"  value="<?php echo $row['total'];?>">
+	            							<input type="" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
+	            							<input type="" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
+	            							<input type="" name="x[]" id="x<?php echo $no;?>">
+	            							<input type="" name="no_ppo" value="<?php echo $PPO_Number;?>">
+	            							<input type="" name="sub_by" value="<?php echo $by;?>">
 
             						</td>
 	            						<?php 
@@ -453,7 +454,7 @@
 	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
 	            					
 	            					</td>
-	            					 <td>
+	            					<td>
 										<?php 
             								if($po_approve_by_dl==1) 
             								{ 
@@ -595,7 +596,7 @@
 	            							<input type="hidden" name="total[]"  value="<?php echo $row['total'];?>">
 	            							<input type="hidden" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
 	            							<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
-	            							<input type="hidden"  name="x[]" id="x<?php echo $no;?>">
+	            							<input type="hidden" name="x[]" id="x<?php echo $no;?>">
 	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
 	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
             						</td>
@@ -1067,15 +1068,20 @@
             					}
             					?>
             					<input type="hidden" name="grand" value="<?php echo $grand; ?>">
-            					<input  type="hidden"  name="hp_tgl" value="<?php echo $po_tgl_approved_hp;?>" >				
-            					<input  type="hidden"  name="dl_tgl" value="<?php echo $po_tgl_approved_dl;?>" >				
-            					<input  type="hidden"  name="rt_tgl" value="<?php echo $po_tgl_approved_rt;?>" >
+            					<input type="hidden"  name="hp_tgl" value="<?php echo $po_tgl_approved_hp;?>" >				
+            					<input type="hidden"  name="dl_tgl" value="<?php echo $po_tgl_approved_dl;?>" >				
+            					<input type="hidden"  name="rt_tgl" value="<?php echo $po_tgl_approved_rt;?>" >
  								<!-- validation if BOD processed or not -->
             					<?php 
+            					$noline=+1;
             					if ( isset($_GET['notif']) )
-            					{
-            					 	echo"<div class='alerts'> $_GET[notif] </div>";
-									            					 	if ($user==BOD_RT) 
+            					{	
+            						if (!empty($po_tgl_approved_rt) || !empty($po_tgl_approved_hp) || !empty($po_tgl_approved_dl)) {
+            							echo "";
+            						} else {
+            					 		echo"<div class='alerts'> $_GET[notif] </div>";
+            						}
+									if ($user==BOD_RT) 
             					 	{
             					 		if (!is_null( $po_tgl_approved_rt ) || !empty( $po_tgl_approved_rt ))
             					 		{
@@ -1115,9 +1121,6 @@
 				              					<div style='float:left; width:75px;'> Tanggal</div> <div style='float:left; margin-left:10px;margin-right:10px;'>:</div> <div style=float:left;>$po_tgl_approved_rt</div> </div>";
 				              				}
 				              			}   else  { 
-				              				if (!empty($po_tgl_approved_hp)) {
-				              					# code...
-				              				}
 				              				if ( (!is_null( $po_tgl_approved_hp ) || !empty( $po_tgl_approved_hp )) && (!is_null( $po_tgl_approved_dl ) || !empty( $po_tgl_approved_dl ))  )
 				              				{
 				              					$appA= BOD_HP;
@@ -1135,6 +1138,7 @@
 				              	?>
 				              					<tr>
 				              						<td colspan="10">
+\
 				              							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')"
 				              							<?php 
 				              								if (!empty($po_tgl_approved_hp)) {
@@ -1153,11 +1157,14 @@
 				              								
 				              							?>
 				              							>
+				              							<!-- <label><input type="checkbox" id="select_all" class="submit" onClick="cball(this, 'pp<?php echo $no;?>'); check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');">Check All</label> -->
 				              							<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/> -->
+				              						<?php 
+				              						?>
 				              						</td>		
 				              					</tr>
 				              	<?php 
-				              				} 
+				              				}
 				              			} 
 				              		} 
 				              		else if ($user==BOD_HP) 
@@ -1203,21 +1210,23 @@
 				              					<div style='float:left; width:75px;'> Tanggal</div> 
 				              					<div style='float:left; margin-left:10px;margin-right:10px;'>:</div>
 				              					<div style=float:left;> $po_tgl_approved_dl</div> </div>";
+				              	?>
+				              					<tr>
+								              		<td colspan="10">
+								              			<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
+													</td>
+												</tr>
+								<?php
+
 				              				} else {
 				              	?>
 								              	<tr>
 								              		<td colspan="10">
-								              			<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')"
-								              			<?php  
-								              				if (!empty($po_tgl_approved_dl)) {
-								              					if ($po_approve_by_dl==0) {
-								              						echo 'style="display:none;"';
-								              					}
-								              				}
-								              			?>
-								              			>
+								              			<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
+								              			<!-- <label><input type="checkbox" id="select_all" class="submit" onClick="cball(this, 'pp<?php echo $no;?>'); check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');">Check All</label> -->
 								              			<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/></td> -->
-								              		</tr>
+													</td>
+												</tr>
                  				<?php   
                  							} 
                  						}
@@ -1265,21 +1274,32 @@
 		            							<div style='float:left; width:75px;'> Tanggal</div> 
 		            							<div style='float:left; margin-left:10px;margin-right:10px;'>:</div> 
 		            							<div style=float:left;>$po_tgl_approved_hp</div> </div>";
-		            						} else {
-	                        	?>
+		            			?>
 	                        					<tr>
 	                        						<td colspan="10">
 	                        							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
-	                        							<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/>-->
 	                        						</td> 
 	                        					</tr>
-		              			<?php  
-		              						} 
+		            			<?php
+		            						}
 		              					}
-									} else {
-										//do something	
-									} 
-            					} else 
+								?>
+												<tr>
+									                <td colspan="10">
+	                        							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')"
+														<?php 
+															if (!empty($po_tgl_approved_dl)) {
+																echo 'style="display:none;"';
+															}
+														?>
+	                        							>
+	                        						</td> 
+												</tr>
+								<?php
+										
+									}
+            					} 
+								else 
 								{
             					 	if ($user==BOD_RT) 
             					 	{
@@ -1321,27 +1341,6 @@
 				              					<div style='float:left; width:75px;'> Tanggal</div> <div style='float:left; margin-left:10px;margin-right:10px;'>:</div> <div style=float:left;>$po_tgl_approved_rt</div> </div>";
 				              				}
 				              			}   else  { 
-				              				if (!empty($po_tgl_approved_hp)) {
-				              					$appA= BOD_HP;
-				              					$end_appA = ucwords($appA);
-				              					echo"<div class='alerts' style='line-height:170%;'><b>Data pengajuan PO ini telah selesai di proses</b><br>
-				              					<div style='float:left; width:75px;'> Process By</div> 
-				              					<div style='float:left;margin-left:10px;margin-right:10px;'> : </div> 
-				              					<div style=float:left;>$end_appA</div><br>
-				              					<div style='float:left; width:75px;'>Tanggal</div><div style='float:left;margin-left:10px;margin-right:10px;'>:</div>     
-				              					<div style=float:left;>$po_tgl_approved_hp</div><br>                            
-				              					</div>";
-				              				} else if (!empty($po_tgl_approved_dl)){
-				              					$appA= BOD_DL;
-				              					$end_appA = ucwords($appA);
-				              					echo"<div class='alerts' style='line-height:170%;'><b>Data pengajuan PO ini telah selesai di proses</b><br>
-				              					<div style='float:left; width:75px;'> Process By</div> 
-				              					<div style='float:left;margin-left:10px;margin-right:10px;'> : </div> 
-				              					<div style=float:left;>$end_appA</div><br>
-				              					<div style='float:left; width:75px;'>Tanggal</div><div style='float:left;margin-left:10px;margin-right:10px;'>:</div>     
-				              					<div style=float:left;>$po_tgl_approved_dl</div><br>                            
-				              					</div>";
-				              				}
 				              				if ( (!is_null( $po_tgl_approved_hp ) || !empty( $po_tgl_approved_hp )) && (!is_null( $po_tgl_approved_dl ) || !empty( $po_tgl_approved_dl ))  )
 				              				{
 				              					$appA= BOD_HP;
@@ -1360,23 +1359,9 @@
 				              					<tr>
 				              						<td colspan="10">
 				              							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')"
-				              							<?php 
-				              								if (!empty($po_tgl_approved_hp)) {
-				              								 	if ($po_approve_by_hp==0) {
-				              								 		echo 'style="display:none;"';
-				              								 	} else {
-				              								 		echo "";
-				              								 	}
-				              								} elseif (!empty($po_tgl_approved_dl)) {
-				              									if ($po_approve_by_dl==0) {
-				              										echo 'style="display:none;"';
-				              									} else {
-				              										echo "";
-				              									}
-				              								} 
-				              								
-				              							?>
 				              							>
+				              							<label><input type="checkbox" id="select_all" class="submit" onClick="cball(this, 'pp<?php echo $no;?>');">Check All</label>
+				              							<input type="text">
 				              							<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/> -->
 				              						</td>		
 				              					</tr>
@@ -1431,6 +1416,13 @@
 				              					<div style='float:left; width:75px;'> Tanggal</div> 
 				              					<div style='float:left; margin-left:10px;margin-right:10px;'>:</div>
 				              					<div style=float:left;> $po_tgl_approved_dl</div> </div>";
+				              	?>
+				           						<tr>
+								              		<td colspan="10">
+								              			<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
+													</td>
+												</tr>
+				              	<?php
 				              				} else {
 				              	?>
 								              	<tr>
@@ -1444,8 +1436,11 @@
 								              				}
 								              			?>
 								              			>
-								              			<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/></td> -->
-								              		</tr>
+								              			<!-- <label><input type="checkbox" id="select_all" class="submit" onClick="cball(this, 'pp<?php echo $no;?>'); check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');">Check All</label> -->
+								              			<!-- <input type="" name="po_tgl_approved_dl[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_dl;?>" readonly> -->
+								              			<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/>-->
+								              		</td> 
+								              	</tr>
                  				<?php   
                  							} 
                  						}
@@ -1496,28 +1491,40 @@
 		            							<div style='float:left; width:75px;'> Tanggal</div> 
 		            							<div style='float:left; margin-left:10px;margin-right:10px;'>:</div> 
 		            							<div style=float:left;>$po_tgl_approved_hp</div> </div>";
-		            						} else {
-	                        	?>
-	                        					<tr>
+		            			?>
+		            							<tr>
 	                        						<td colspan="10">
 	                        							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
-	                        							<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/>-->
 	                        						</td> 
 	                        					</tr>
-		              			<?php  
-		              						} 
-		              					}
-									} else {
-										//do something	
+		            			<?php
+		            						} else {
+								?>
+												<tr>
+									                <td colspan="10">
+													<!-- dl blm proses -->
+	                        							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')"
+								              			<?php  
+								              				if (!empty($po_tgl_approved_hp)) {
+								              						echo 'style="display:none;"';	
+								              				}
+								              			?>
+	                        							>
+	                        							<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/>-->
+	                        							<!-- <label><input type="checkbox" id="select_all" onClick="cball(this, 'pp<?php echo $no;?>'); check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');">Check All</label> -->
+	                        						</td> 
+												</tr>
+								<?php
+											}
+										} 
 									} 
-						 		?> 
-								<?php 
-								} 
+								}
 								?>
 								<!-- end of validation processed or not -->
 							</tbody>
 						</table>
 					</div>
+						<!-- tombol sumbit gadget -->
 						<?php 
 						if ($user == BOD_RT) {
 							if (!empty($po_tgl_approved_rt)) {
@@ -1583,7 +1590,7 @@
 		} 
 	}
 	?>
-	<input type="checkbox" id="select_all">
+	<!-- <input type="checkbox" id="select_all"> -->
 	<footer class="footer" box-shadow: 1px 1px 6px rgb(150, 148, 148);>
       <div class="container" style="background-color:white;text-align:center;">
 		<a href="#" id="mob-desk" class="rs-link" data-link-desktop="<?php  echo 'Switch to Desktop version'; ?>" data-link-responsive="Switch to Mobile version"></a>
@@ -1593,6 +1600,108 @@
 </body>
 </html>
 <script>
+function formatDate(date) {
+	var year = date.getFullYear(),
+		month = date.getMonth() + 1, // months are zero indexed
+		month = month < 10 ? "0" + month : month,
+		day = date.getDate(),
+		hour = date.getHours(),
+		minute = date.getMinutes(),
+		second = date.getSeconds(),
+		hourFormatted = hour % 12 || 12, // hour returned in 24 hour format
+		minuteFormatted = minute < 10 ? "0" + minute : minute,
+		morning = hour < 12 ? " am" : " pm";
+
+		return year + "-" + month + "-" + day + " " + hourFormatted + ":" +
+		minuteFormatted + ":" + second;
+	}
+
+	function checkall(cball, dt)
+	{
+		if (cball.checked) {
+			document.getElementById(dt).value = formatDate(new Date());
+		}
+		else {
+			document.getElementById(dt).value = "";
+		}
+	}
+	function check(cb, test)
+	{
+		if (cb.checked) {
+
+			document.getElementById( test ).value = formatDate(new Date ());
+		}
+		else
+			document.getElementById( test ).value = "";
+	}
+
+
+	function check2(cb2, test2)
+	{
+		if (cb2.checked) {
+
+			document.getElementById( test2 ).value = '1';	
+		}
+		else
+			document.getElementById( test2 ).value = "0";
+	}
+
+	function check3(cb3, test3)
+	{
+		if (cb3.checked) {
+
+			document.getElementById( test3 ).value = '1';				
+		}
+		else
+			document.getElementById( test3 ).value = "0";
+	}
+
+	function check4(cb4, test4)
+	{
+		if (cb4.checked) {
+
+			document.getElementById( test4 ).value = '1';		
+		}
+		else
+			document.getElementById( test4 ).value = "0";
+	}
+
+	function check33(cb33, test33)
+	{
+		if (cb33.checked) {
+
+			document.getElementById( test33 ).value = 'y';
+
+
+		}
+		else
+			document.getElementById( test33 ).value = "";
+	}
+
+
+	function check44(cb44, test44)
+	{
+		if (cb44.checked) {
+
+			document.getElementById( test44 ).value = 'y';
+
+
+		}
+		else
+			document.getElementById( test44 ).value = "";
+	}
+
+	function check22(cb22, test22)
+	{
+		if (cb22.checked) {
+
+			document.getElementById( test22 ).value = 'y';
+
+
+		}
+		else
+			document.getElementById( test22 ).value = "";
+	}
 $("#select_all").change(function(){  //"select all" change 
     var status = this.checked; // "select all" checked status
     $('.checkbox-md').each(function(){ //iterate all listed checkbox items
@@ -1633,6 +1742,7 @@ $('.checkbox-md').on('click',function(){
     $("#tanggal_po").val($(this).closest('tr').children()[3].textContent);
     $("#nama_vendor").val($(this).closest('tr').children()[2].textContent);
 });
+
 $(document).ready(function(){
 	$(window).on('load', function(){
 	    var win = $(this);
@@ -1822,97 +1932,5 @@ function checkTime(i)
 window.onload=startTime;
 // window.onload=responsive;
 
-		function formatDate(date) {
-			var year = date.getFullYear(),
-				month = date.getMonth() + 1, // months are zero indexed
-				month = month < 10 ? "0" + month : month,
-				day = date.getDate(),
-				hour = date.getHours(),
-				minute = date.getMinutes(),
-				second = date.getSeconds(),
-				hourFormatted = hour % 12 || 12, // hour returned in 24 hour format
-				minuteFormatted = minute < 10 ? "0" + minute : minute,
-				morning = hour < 12 ? " am" : " pm";
 
-			return year + "-" + month + "-" + day + " " + hourFormatted + ":" +
-					minuteFormatted + ":" + second;
-		}
-
-		function check(cb, test)
-		{
-			if (cb.checked) {
-			
-				document.getElementById( test ).value = formatDate(new Date ());
-			}
-			else
-				document.getElementById( test ).value = "";
-		}
-		
-		
-		function check2(cb2, test2)
-		{
-			if (cb2.checked) {
-				
-				document.getElementById( test2 ).value = '1';	
-			}
-			else
-				document.getElementById( test2 ).value = "0";
-		}
-		
-		function check3(cb3, test3)
-		{
-			if (cb3.checked) {
-				
-				document.getElementById( test3 ).value = '1';				
-			}
-			else
-				document.getElementById( test3 ).value = "0";
-		}
-		
-		function check4(cb4, test4)
-		{
-			if (cb4.checked) {
-				
-				document.getElementById( test4 ).value = '1';		
-			}
-			else
-				document.getElementById( test4 ).value = "0";
-		}
-	
-	function check33(cb33, test33)
-		{
-		if (cb33.checked) {
-				
-				document.getElementById( test33 ).value = 'y';
-				
-				
-			}
-			else
-				document.getElementById( test33 ).value = "";
-		}
-		
-		
-		function check44(cb44, test44)
-		{
-		if (cb44.checked) {
-				
-				document.getElementById( test44 ).value = 'y';
-				
-				
-			}
-			else
-				document.getElementById( test44 ).value = "";
-		}
-		
-		function check22(cb22, test22)
-		{
-		if (cb22.checked) {
-				
-				document.getElementById( test22 ).value = 'y';
-				
-				
-			}
-			else
-				document.getElementById( test22 ).value = "";
-		}
 </script>
