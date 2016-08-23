@@ -4,6 +4,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
   	<link rel="stylesheet" href="js/bootstrap.js">
+  	<!-- <link rel="stylesheet" type="text/css" href="css/stylehome.css"> -->
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/sticky-footer-navbar.css">
@@ -140,9 +141,6 @@
 						?>
 				</div>
 			</div>
-<!-- 			<div class="checkbox">
-				<label><input type="checkbox" id="select_all">Check All</label>
-			</div> -->
 			<div class="panel-body">
 				<form method="post" action="post.php">
 					<div id="tabel" class="table-responsive">
@@ -155,11 +153,11 @@
 									<th class="tengah">TANGGAL PO</th>
 									<th class="tengah">PPN</th>
 									<th class="tengah">TOTAL</th>
-									<th class="tengah"><p>RT</p><!-- <input type="checkbox" id="select_all" onClick="cball(this, '<?php echo $no;?>');"> --></th>
+									<th class="tengah"><p>RT</p>
 									<th class="tengah">HP</th>
 									<th class="tengah">DL</th>
 									<th class="tengah">STATUS</th>
-									<!-- <?php echo $user; ?> -->
+									<th class="tengah">NOTE</th>
 								</tr>
 
 							</thead>
@@ -245,7 +243,6 @@
 		            									echo '<input type="checkbox" disabled>';
 		            								} else {
 		            					?>
-		            									<label><input type="checkbox" id="select_all" class="submit" onClick="cball(this, 'pp<?php echo $no;?>'); check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');">Check All</label>
 		            									<input type="checkbox" class="tanggal checkbox-md" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');" />
 		            					<?php		            								
 		            								}
@@ -281,16 +278,16 @@
 		            						<input  type="hidden"  name="po_comment_dl[]" value="<?php echo $po_comment_dl; ?>"> -->
 											
 											<!-- variabel RT -->
-											<input type="" name="user" id="<?php echo $user.$no; ?>" value="<?php echo $user; ?>">
-	            							<input type="" name="po_tgl_approved_rt[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
-	            							<input type="" name="po_approve_by_rt[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly">
-	            							<input type="" name="no_po[]"  value="<?php echo $row['no_po'];?>">
-	            							<input type="" name="total[]"  value="<?php echo $row['total'];?>">
-	            							<input type="" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
-	            							<input type="" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
-	            							<input type="" name="x[]" id="x<?php echo $no;?>">
-	            							<input type="" name="no_ppo" value="<?php echo $PPO_Number;?>">
-	            							<input type="" name="sub_by" value="<?php echo $by;?>">
+											<input type="hidden" name="user" id="<?php echo $user.$no; ?>" value="<?php echo $user; ?>">
+	            							<input type="hidden" name="po_tgl_approved_rt[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
+	            							<input type="hidden" name="po_approve_by_rt[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly">
+	            							<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
+	            							<input type="hidden" name="total[]"  value="<?php echo $row['total'];?>">
+	            							<input type="hidden" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
+	            							<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
+	            							<input type="hidden" name="x[]" id="x<?php echo $no;?>">
+	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
+	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
 
             						</td>
 	            						<?php 
@@ -637,9 +634,291 @@
 	            						?>
 	            					</td>
 	            					<?php
-	            						}
-	            					?>
+	            				}
+	            				?>
+	            				<!-- START COMMENT BOD_RT -->
+	            				<td>
+	            					<?php 	if ($user == BOD_RT) 
+	            					{
+	            						?>
+
+	            						<!-- start show comment BOD_RT -->
+	            						<?php if($po_comment_rt=='')
+	            						{
+	            							?>
+	            							<label class="check-box">
+	            								<input type="checkbox" id="chk<?php echo $no;?>rt1"  >
+	            								<span></span>
+	            							</label>
+
+	            							<p id="sb<?php echo $no;?>rt1" style="position:absolute; margin-top:2px; margin-left:-112px;">									
+	            								<textarea name="po_comment_rt[]"  class="one" id="<?php echo $no;?>"  
+	            									style="height:120px;  box-shadow: 0 0 3px rgba(0,0,0,0.4);"  ></textarea>                                
+	            								</p>
+	            								<?php 
+	            							}  
+	            							else
+	            							{
+	            								?>
+	            								<label class="check-boxrt">
+	            									<input type="checkbox" id="chk<?php echo $no;?>rt1"  >
+	            									<span></span>
+	            								</label>
+
+	            								<p id="sb<?php echo $no;?>rt1" style="position:absolute; margin-top:2px; margin-left:-112px;"> 
+	            									<input type="hidden" name="po_comment_rt[]" class="one" id="<?php echo $no;?>">
+	            									<textarea style="height:120px;  box-shadow: 0 0 3px rgba(0,0,0,0.4);" readonly><?php echo $row['comment_rt'];?></textarea> 
+	            								</p>
+	            								<?php 
+	            							} 
+	            							?>	
+
+	            							<textarea name="t[]" id="t<?php echo $no;?>" 
+	            								style=" height:20px; width:20px; visibility:hidden;position:absolute;"></textarea>
+
+										   <!-- end show comment BOD_RT -->
+										   
+										 
+													<!-- start show comment BOD_HP -->
+
+													<?php if($po_comment_hp=='')
+														  {
+														  ?>
+														  <input type="hidden" name="po_comment_hp[]" value="<?php echo $row['comment_hp'];?>">
+														  <?php
+														  } 
+														  else{
+														  ?>
+													           <label class="check-boxhp">
+													           <input type="checkbox" id="chk<?php echo $no;?>hp1"  >
+													           <span></span>
+													           </label>
+															
+														       <p id="sb<?php echo $no;?>hp1" style="position:absolute; margin-top:2px; margin-left:-112px;">
+														       <textarea name="po_comment_hp[]" style="height:120px;  box-shadow: 0 0 3px rgba(0,0,0,0.4);" readonly="readonly" ><?php echo $row['comment_hp'];?></textarea>
+													           </p>
+														  <?php 
+														  } 
+														  ?>
+													<!-- end show comment BOD_HP -->	  
+	  
+	  			
+                                                           <!-- start show comment BOD_DL -->
+                                                           <?php if($po_comment_dl=='')
+	                                                       {
+														   ?>
+	  <input type="hidden" name="po_comment_dl[]" value="<?php echo $row['comment_dl'];?>">
+	  <?php
+	                                                       } else{
+	                                                       ?>
+		                                                          <label class="check-boxdl">
+                                                                  <input type="checkbox" id="chk<?php echo $no;?>dl1"  >
+                                                                  <span></span>
+                                                                  </label>
+		
+		                                                          <p id="sb<?php echo $no;?>dl1" style="position:absolute; margin-top:2px; margin-left:-112px;">
+		                                                          <textarea name="po_comment_dl[]" style="height:120px;  box-shadow: 0 0 3px rgba(0,0,0,0.4);" 
+			                                                       readonly="readonly" ><?php echo $row['comment_dl'];?></textarea>
+                                                                  </p>
+	                                                       <?php 
+														   } 
+														   ?>
+														   <!-- end show comment BOD_DL -->
+														   
+														   				
+                                                           <!-- end comment BOD_RT -->		
+
+
+
+
+                                                           <!-- start comment BOD_HP -->
+                                                           <?php	
+                                                       } elseif ($user == BOD_HP) {
+                                                       	?>	
+<!-- start show comment BOD_RT -->
+                   <?php if($po_comment_rt=='')
+	               {
+				   ?>
+	  <input type="hidden" name="po_comment_rt[]" value="<?php echo $row['comment_rt'];?>">
+	  <?php
+	               } else{
+	               ?>
+		                  <label class="check-boxrt">
+                          <input type="checkbox" id="chk<?php echo $no;?>rt2"  >
+                          <span></span>
+                          </label>
+		
+		                  <p id="sb<?php echo $no;?>rt2" style="position:absolute; margin-left:-112px;">
+                          <textarea name="po_comment_rt[]" style="height:120px;  box-shadow: 0 0 3px rgba(0,0,0,0.4);" 
+                           readonly="readonly" ><?php echo $row['comment_rt'];?></textarea>
+                          </p>
+	               <?php
+				   } 
+				   ?>	
+				   <!-- end show comment BOD_RT -->				   
+
+
+<!-- start show comment BOD_HP -->
+
+ <?php if($po_comment_hp=='')
+	{
+	?>	
+	      <label class="check-box">
+          <input type="checkbox" id="chk<?php echo $no;?>hp2"  >
+          <span></span>
+          </label>
+		
+          <p id="sb<?php echo $no;?>hp2" style="position:absolute; margin-left:-112px;">
+          <textarea name="po_comment_hp[]" class="one" id="<?php echo $no;?>" style="height:120px;  box-shadow: 0 0 3px rgba(0,0,0,0.4);"  ></textarea>
+          </p>	
+    <?php  
+	} 
+	else
+	{
+	?>
+           <label class="check-boxhp">
+           <input type="checkbox" id="chk<?php echo $no;?>hp2"  >
+           <span></span>
+           </label>
+		
+	       <p id="sb<?php echo $no;?>hp2" style="position:absolute; margin-left:-112px;">
+	       <input type="hidden" name="po_comment_hp[]" class="one" id="<?php echo $no;?>">
+           <textarea style="height:120px;  box-shadow: 0 0 3px rgba(0,0,0,0.4);" readonly><?php echo $row['comment_hp'];?></textarea> 
+           </p>
+	<?php
+	} 
+	?>	
+	       <textarea name="t[]" id="t<?php echo $no;?>" style=" height:20px; width:20px; visibility:hidden;position:absolute;" ></textarea>
+
+    <!-- end show comment BOD_HP -->
+
+
+<!-- start show comment BOD_DL -->			
+    <?php if($po_comment_dl=='')
+	{
+	?>
+	  <input type="hidden" name="po_comment_dl[]" value="<?php echo $row['comment_dl'];?>">
+	  <?php
+	} else{
+	?>
+	       <label class="check-boxdl">
+           <input type="checkbox" id="chk<?php echo $no;?>dl2"  >
+           <span></span>
+           </label>
+		
+           <p id="sb<?php echo $no;?>dl2" style="position:absolute; margin-left:-112px;">
+	       <textarea name="po_comment_dl[]" style="height:120px;  box-shadow: 0 0 3px rgba(0,0,0,0.4);" readonly="readonly" ><?php echo $row['comment_dl'];?></textarea>
+           </p>
+	<?php 
+	} 
+	?>	
+<!-- end show comment BOD_DL -->
+
+
+<!-- start comment BOD_DL -->
+
+<?php 
+} elseif ($user == BOD_DL) {
+	?>
+
+<!-- start show comment BOD_RT -->			
+<?php if($po_comment_rt=='')
+	{
+	?>
+	  <input type="hidden" name="po_comment_rt[]" value="<?php echo $row['comment_rt'];?>">
+	  <?php
+	} else{
+	?>
+	       <label class="check-boxrt">
+           <input type="checkbox" id="chk<?php echo $no;?>rt3"  >
+           <span></span>
+           </label>
+		
+	       <p id="sb<?php echo $no;?>rt3" style="position:absolute; margin-left:-112px;">
+	       <textarea name="po_comment_rt[]" style="height:120px;  box-shadow: 0 0 3px rgba(0,0,0,0.4);" readonly="readonly" ><?php echo $row['comment_rt'];?></textarea>
+           </p>
+	<?php 
+	} 
+	?>	
+<!-- end show comment BOD_RT -->			
+
+
+<!-- start show comment BOD_HP -->			
+ 
+    <?php if($po_comment_hp=='')
+	{
+	?>
+	  <input type="hidden" name="po_comment_hp[]" value="<?php echo $row['comment_hp'];?>">
+	  <?php
+	} 
+	else
+	{
+	?>
+	        <label class="check-boxhp">
+            <input type="checkbox" id="chk<?php echo $no;?>hp3"  >
+            <span></span>
+            </label>
+		
+	        <p id="sb<?php echo $no;?>hp3" style="position:absolute; margin-left:-112px;">
+	        <textarea name="po_comment_hp[]" style="height:120px;  box-shadow: 0 0 3px rgba(0,0,0,0.4);" readonly="readonly" ><?php echo $row['comment_hp'];?></textarea>
+            </p>
+	<?php
+	} 
+	?>			
+<!-- end show comment BOD_HP -->			
+ 
+ 
+ 
+<!-- start show comment BOD_DL -->			
+
+ <?php if($po_comment_dl=='')
+	{
+	?>	
+	      <label class="check-box">
+          <input type="checkbox" id="chk<?php echo $no;?>dl3"  >
+          <span></span>
+          </label>
+		
+	      <p id="sb<?php echo $no;?>dl3" style="position:absolute; margin-left:-112px;">
+	      <textarea name="po_comment_dl[]"   class="one" id="<?php echo $no;?>" style="height:120px;  box-shadow: 0 0 3px rgba(0,0,0,0.4);"  ></textarea>
+          </p>	
+		
+    <?php  
+	} 
+	else
+	{
+	?>
+	       <label class="check-boxdl">
+           <input type="checkbox" id="chk<?php echo $no;?>dl3"  >
+           <span></span>
+           </label>
+		
+	       <p id="sb<?php echo $no;?>dl3" style="position:absolute; margin-left:-112px;">
+	       <input type="hidden" name="po_comment_dl[]" class="one" id="<?php echo $no;?>">
+           <textarea style="height:120px;  box-shadow: 0 0 3px rgba(0,0,0,0.4);" readonly><?php echo $row['comment_dl'];?></textarea> 
+           </p>
+	<?php 
+	} 
+	?>	
+	       <textarea name="t[]" id="t<?php echo $no;?>" style=" height:20px; width:20px; visibility:hidden; position:absolute;" ></textarea>
+
+
+
+     <!-- end show comment BOD_DL -->			
+
+
+
+
+<?php	
+		} else {
+		
+		}
+		?>
+
+		</td>
+
             					</tr>
+            					<!-- mobile view -->
             					<div class="gadget">
             						<ul class="nav nav-tabs responsive" id="myTab">
             							<li class="">
@@ -685,7 +964,6 @@
             									<?php 
             									if ($user == BOD_RT) {
             										if (!empty($po_tgl_approved_rt)) {
-            											# code...
 	            										if ($po_approve_by_rt==0) {
 	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Anda</b> -</i></u></p>';
 	            										} else {
@@ -693,7 +971,6 @@
 	            										}
             										}
             										if (!empty($po_tgl_approved_hp)) {
-            											# code...
 	            										if ($po_approve_by_hp==0) {
 	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Harijanto Pribadi</b> -</i></u></p>';
 	            										} else {
@@ -701,7 +978,6 @@
 	            										}
             										}
             										if (!empty($po_tgl_approved_dl)) {
-            											# code...
 	            										if ($po_approve_by_dl==0) {
 	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Dicky Lisal</b> -</i></u></p>';
 	            										} else {
@@ -710,7 +986,6 @@
             										}
             									} else if ($user == BOD_HP){
             										if (!empty($po_tgl_approved_rt)) {
-            											# code...
 	            										if ($po_approve_by_rt==0) {
 	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
 	            										} else {
@@ -718,7 +993,6 @@
 	            										}
             										}
             										if (!empty($po_tgl_approved_hp)) {
-            											# code...
 	            										if ($po_approve_by_hp==0) {
 	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Anda</b> -</i></u></p>';
 	            										} else {
@@ -726,7 +1000,6 @@
 	            										}
             										}
             										if (!empty($po_tgl_approved_dl)) {
-            											# code...
 	            										if ($po_approve_by_dl==0) {
 	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Dicky Lisal</b> -</i></u></p>';
 	            										} else {
@@ -735,7 +1008,6 @@
             										}
             									} else {
             										if (!empty($po_tgl_approved_rt)) {
-            											# code...
 	            										if ($po_approve_by_rt==0) {
 	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
 	            										} else {
@@ -743,7 +1015,6 @@
 	            										}
             										}
             										if (!empty($po_tgl_approved_hp)) {
-            											# code...
 	            										if ($po_approve_by_hp==0) {
 	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Harijanto Pribadi</b> -</i></u></p>';
 	            										} else {
@@ -751,7 +1022,6 @@
 	            										}
             										}
             										if (!empty($po_tgl_approved_dl)) {
-            											# code...
 	            										if ($po_approve_by_dl==0) {
 	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Anda</b> -</i></u></p>';
 	            										} else {
@@ -949,28 +1219,6 @@
 														}
 													}
 												?>
-<!-- 												<input type="checkbox" class="cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>');" 
-												<?php 
-													if($user==BOD_RT || $user==BOD_HP){echo "disabled ";}
-														if (!empty($po_tgl_approved_rt)){
-															if($po_approve_by_rt==1){
-																echo "disabled";
-															}else{
-																echo "disabled";
-															}
-														}else if(!empty($po_tgl_approved_dl)){
-															if ($po_approve_by_dl==1) {
-																echo "disabled checked";
-															}else{
-																echo "disabled";
-															}
-														}else if(!empty($po_tgl_approved_hp)){
-															if ($po_approve_by_hp==0) {
-																echo "disabled";
-															}
-														}
-												?>
-												> -->
 												<textarea class="form-control" rows="2" name="po_comment_dl[]" <?php if($user == BOD_RT || $user == BOD_HP){echo "readonly";} ?> 
 													<?php 
 													if (!empty($po_tgl_approved_rt)) {
@@ -1000,9 +1248,9 @@
 									</div>
             					</div>
             					<!-- Modal -->
-            					<div class="modal fade" id="myModal" role="dialog">
+            					<!-- <div class="modal fade" id="myModal" role="dialog">
             						<div class="modal-dialog modal-lg">
-            							<!-- Modal content-->
+            							 Modal content
             							<div class="modal-content" style="">
             								<div class="modal-header" style="background: #f26904;border-radius:5px;">
             									<button type="button" class="close" data-dismiss="modal" style="color:white;opacity:1;">&times;</button>
@@ -1031,27 +1279,7 @@
             											<textarea class="form-control" name="po_comment_hp[]" rows="5" <?php if($user == BOD_RT || $user == BOD_DL){echo "readonly";} ?>><?php if(!empty($po_comment_hp)){echo $po_comment_hp;} ?></textarea>
             											<label for="comment_dl">Dicky Lisal</label>
             											<textarea class="form-control" name="po_comment_dl[]" rows="5" <?php if($user == BOD_RT || $user == BOD_HP){echo "readonly";} ?>><?php if(!empty($po_comment_dl)){echo $po_comment_dl;} ?></textarea>
-            										<!-- 	<?php 
-	            											if ( isset( $_POST[ '$po_comment_rt' ] )) {
-	            												$po_comment_rt = $_POST[ '$po_comment_rt' ];
-	            												foreach ($po_comment_rt as $user) {
-	            													if ( !empty( $user ) )
-	            														echo ( $user . "<br />" );
-	            												}
-	            											}
-	            											else {
-	            												for ($x=0; $x< $num_rows; $x++) { $po_comment_rt[ $x ] = ""; }
-	            											}
-            											?>
-            											<?php 
-            												for ($x=0 ; $x < $num_rows ; $x++ ) { 
-            													// # code...
-            													echo '<textarea name="$comment_rt[]">' . $po_comment_rt[$x] . '</textarea>';
-            													echo '<textarea name="$comment_hp[]">' . $po_comment_hp[$x] . '</textarea>';
-            													echo '<textarea name="$comment_dl[]">' . $po_comment_dl[$x] . '</textarea><br />';
-            											// <textarea name="$comment_rt" rows="5"> .$po_comment_rt[$x]. </textarea>
-            												}
-            											?> -->
+
             										</div>
             									</div>
             								</div>
@@ -1061,7 +1289,7 @@
             								</div>
             							</div>
             						</div>
-            					</div>
+            					</div> -->
             					<!-- end of modal -->
             					<?php 
             						$no++;
@@ -1157,7 +1385,6 @@
 				              								
 				              							?>
 				              							>
-				              							<!-- <label><input type="checkbox" id="select_all" class="submit" onClick="cball(this, 'pp<?php echo $no;?>'); check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');">Check All</label> -->
 				              							<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/> -->
 				              						<?php 
 				              						?>
@@ -1223,7 +1450,6 @@
 								              	<tr>
 								              		<td colspan="10">
 								              			<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
-								              			<!-- <label><input type="checkbox" id="select_all" class="submit" onClick="cball(this, 'pp<?php echo $no;?>'); check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');">Check All</label> -->
 								              			<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/></td> -->
 													</td>
 												</tr>
@@ -1360,7 +1586,6 @@
 				              						<td colspan="10">
 				              							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')"
 				              							>
-				              							<label><input type="checkbox" id="select_all" class="submit" onClick="cball(this, 'pp<?php echo $no;?>');">Check All</label>
 				              							<input type="text">
 				              							<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/> -->
 				              						</td>		
@@ -1436,7 +1661,6 @@
 								              				}
 								              			?>
 								              			>
-								              			<!-- <label><input type="checkbox" id="select_all" class="submit" onClick="cball(this, 'pp<?php echo $no;?>'); check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');">Check All</label> -->
 								              			<!-- <input type="" name="po_tgl_approved_dl[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_dl;?>" readonly> -->
 								              			<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/>-->
 								              		</td> 
@@ -1511,7 +1735,6 @@
 								              			?>
 	                        							>
 	                        							<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/>-->
-	                        							<!-- <label><input type="checkbox" id="select_all" onClick="cball(this, 'pp<?php echo $no;?>'); check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');">Check All</label> -->
 	                        						</td> 
 												</tr>
 								<?php
