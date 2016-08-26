@@ -241,9 +241,6 @@ body{
 	img.logo-image{
 		width:90px; margin-top:10px
 	}
-	.desktop{
-		display: none;
-	}
 	.alerts{
 		/*display:none;*/
 	}
