@@ -33,10 +33,12 @@ if($user=BOD_RT)
 		$ppn           = $_POST['ppn'];
 		$end_user      = ucwords($user);
 		$rt_tgl        = $_POST['rt_tgl'];	 
+		$isUpdate      = false;
 
 		include_once "mailserver.php";
 		$message   = new COM('CDO.Message');
 		$messageCon= new COM('CDO.Configuration') ;
+
 
 		try 
 		{
@@ -46,7 +48,7 @@ if($user=BOD_RT)
 			$messageCon->Fields['http://schemas.microsoft.com/cdo/configuration/sendusername'] = HTSMAIL_USERNAME;
 			$messageCon->Fields['http://schemas.microsoft.com/cdo/configuration/sendpassword'] = HTSMAIL_PASSWORD;
 			$messageCon->Fields['http://schemas.microsoft.com/cdo/configuration/sendusing'] = SMTP_USEPORT ;
-			$messageCon->Fields['http://schemas.microsoft.com/cdo/configuration/smtpconnectiontimeout'] = 60 ;
+			$messageCon->Fields['http://schemas.microsoft.com/cdo/configuration/smtpconnectiontimeout'] = 30 ;
 			$messageCon->Fields->Update();
 
 			$message->From     = 'indra <indraeff@hts.net.id>'; //ISP Integrated System [mailto:no-reply@hts.net.id] 
@@ -216,54 +218,61 @@ if($user=BOD_RT)
 			else
 				echo 'NO <br/>';
 			  echo $user . ', ' . $ppo . ', ' . $end_po . ', ' . $prove_rt . ', ' . $end_tgl . ', ' . $end_keterangan_rt . '<br/>';
- */              $res= $Database->query( "Call SetPPO_Detail( '$user','$ppo','$end_po',$prove_rt,'$end_tgl','$end_keterangan_rt', 0, null )" );			 
+ */              
+			  $Database->autocommit( FALSE );
+			  $res= $Database->query( "Call SetPPO_Detail( '$user','$ppo','$end_po',$prove_rt,'$end_tgl','$end_keterangan_rt', 0, null )" );			 
 
             }//end for
 
-	        $total_reject= $grand-$totalprice;
-	        $grandtotal2  = number_format($total_reject);
+			if ( $res ) {
+				$total_reject= $grand-$totalprice;
+				$grandtotal2  = number_format($total_reject);
 
-	        if(empty($grandtotal))
-	        {
-	          	$total_app=0;
-	        } else {
-	          	$total_app=$grandtotal;
-	        }			  
+				if(empty($grandtotal))
+				{
+					$total_app=0;
+				} else {
+					$total_app=$grandtotal;
+				}			  
 
-	        $message->HTMLBody  .= "</table><br>";
-	        $message->HTMLBody .= "
-							        <table style=' margin-top:10px; border:solid 1px #888; background:#f1f1f1; padding:8px;'>											      
-							        <tr>
-							        <td width='160' style=' font-weight:bold;'>Approved By </td>  <td width='30' align='center'> : </td> <td> $end_user </td>
-							        </tr>
-							        <tr>
-							        <td style=' font-weight:bold;'>Tanggal Approval </td> <td width='30' align='center'> : </td> <td> $tanggal $bulan $tahun </td>
-							        </tr>
-							        <tr>
-							        <td style=' font-weight:bold;'>Total Approved </td> <td width='30' align='center'> : </td> <td> $total_appro (Rp.$total_app)</td>
-							        </tr>
-							        <tr>
-							        <td style=' font-weight:bold;'>Total Reject </td>  <td width='30' align='center'> : </td> <td> $total_rejek (Rp.$grandtotal2)</td>
-							        </tr>			 											    
-							        </table>
-							        <br>
-							        ";
-
-	        $message->Configuration = $messageCon;
-	        $message->Send() ;
-
+				$message->HTMLBody  .= "</table><br>";
+				$message->HTMLBody .= "
+										<table style=' margin-top:10px; border:solid 1px #888; background:#f1f1f1; padding:8px;'>											      
+										<tr>
+										<td width='160' style=' font-weight:bold;'>Approved By </td>  <td width='30' align='center'> : </td> <td> $end_user </td>
+										</tr>
+										<tr>
+										<td style=' font-weight:bold;'>Tanggal Approval </td> <td width='30' align='center'> : </td> <td> $tgl_rt </td>
+										</tr>
+										<tr>
+										<td style=' font-weight:bold;'>Total Approved </td> <td width='30' align='center'> : </td> <td> $total_appro (Rp.$total_app)</td>
+										</tr>
+										<tr>
+										<td style=' font-weight:bold;'>Total Reject </td>  <td width='30' align='center'> : </td> <td> $total_rejek (Rp.$grandtotal2)</td>
+										</tr>			 											    
+										</table>
+										<br>
+										";
+				$message->Configuration = $messageCon;
+				$message->Send() ;
+				$isUpdate = true;
+			}
         }
         catch (com_exception $e) {
-        	print "<hr>\n\n";
-        	print $e . "\n";
-        	print "<hr>\n\n";
+//        	print "<hr>\n\n";
+//        	print $e . "\n";
+//        	var_dump($e);
+//        	print "<hr>\n\n";
         }
-        if (!$res) {
-        // redirect ke halaman approval
-        	echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data gagal di submit';</script>";
-        } else{
-        // redirect ke halaman approval
+
+        if ( $isUpdate ) {
+			$Database->commit();
+			// redirect ke halaman approval
         	echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data telah berhasil di submit';</script>";
+        } else{
+			$Database->rollback();
+			// redirect ke halaman approval
+        	echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data gagal di submit';</script>";
         }
    	}  //end post
 } // end if rt

@@ -30,6 +30,9 @@ if($user=BOD_DL)
 		// $t             = $_POST['t']; 
 		$total_ppo     = $_POST['total_ppo'];	                                         	                                         
 		$end_user      = ucwords($user);
+		$dl_tgl        = $_POST['dl_tgl'];
+		$isUpdate      = false;
+
 
 		include_once "mailserver.php";
 		$message   = new COM('CDO.Message');
@@ -81,6 +84,7 @@ if($user=BOD_DL)
 			$totalprice  = 0; 
 			$total_appro = 0;
 			$total_rejek = 0;
+			
 			for ($i = 0; $i < count($po); $i++) 
 			{
 				$end_tgl_rt = $tgl_app_rt[$i];
@@ -186,56 +190,61 @@ if($user=BOD_DL)
 				</tr>
 				";
 
+
 				if (is_null( $end_tgl_hp ) || empty( $end_tgl_hp ))
-				{
+				{	
+					$Database->autocommit( FALSE );
 					$resdl= $Database->query( "Call SetPPO_Detail( '$user','$ppo','$end_po',$prove_dl,'$end_tgl','$end_keterangan_dl',$proval_hp, null )" );
 				}
 				else
 				{
+					$Database->autocommit( FALSE );
 	             	$resdl= $Database->query( "Call SetPPO_Detail( '$user','$ppo','$end_po',$prove_dl,'$end_tgl','$end_keterangan_dl',$proval_hp,'$end_tgl_hp' )" );
 				}
 
 			} //end for dl
-			$total_reject= $grand-$totalprice;
-			$grandtotal2  = number_format($total_reject);
-			if(empty($grandtotal))
-			{
-				$total_app=0;
-			} else {
-				$total_app=$grandtotal;
-			}			
-			$message->HTMLBody .= "</table><br>";
-			$message->HTMLBody .= "<table style=' margin-top:10px; border:solid 1px #888; background:#f1f1f1; padding:8px;'>
-									<tr>
-									<td width='160' style=' font-weight:bold;'>Approved By </td>  <td width='30' align='center'> : </td> <td> $end_user </td>
-									</tr>
-									<tr>
-									<td style=' font-weight:bold;'>Tanggal Approval </td> <td width='30' align='center'> : </td> <td> $tanggal $bulan $tahun </td>
-									</tr>
-									<tr>
-									<td style=' font-weight:bold;'>Total Approved </td> <td width='30' align='center'> : </td> <td> $total_appro (Rp.$total_app)</td>
-									</tr>
-									<tr>
-									<td style=' font-weight:bold;'>Total Reject </td>  <td width='30' align='center'> : </td> <td> $total_rejek (Rp.$grandtotal2)</td>
-									</tr>					    
-									</table>
-									<br>";
-			$message->Configuration = $messageCon;
-			$message->Send() ;
-
+			if ( $resdl ) {
+				$total_reject= $grand-$totalprice;
+				$grandtotal2  = number_format($total_reject);
+				if(empty($grandtotal))
+				{
+					$total_app=0;
+				} else {
+					$total_app=$grandtotal;
+				}			
+				$message->HTMLBody .= "</table><br>";
+				$message->HTMLBody .= "<table style=' margin-top:10px; border:solid 1px #888; background:#f1f1f1; padding:8px;'>
+										<tr>
+										<td width='160' style=' font-weight:bold;'>Approved By </td>  <td width='30' align='center'> : </td> <td> $end_user </td>
+										</tr>
+										<tr>
+										<td style=' font-weight:bold;'>Tanggal Approval </td> <td width='30' align='center'> : </td> <td> $tgl_dl </td>
+										</tr>
+										<tr>
+										<td style=' font-weight:bold;'>Total Approved </td> <td width='30' align='center'> : </td> <td> $total_appro (Rp.$total_app)</td>
+										</tr>
+										<tr>
+										<td style=' font-weight:bold;'>Total Reject </td>  <td width='30' align='center'> : </td> <td> $total_rejek (Rp.$grandtotal2)</td>
+										</tr>					    
+										</table>
+										<br>";
+				$message->Configuration = $messageCon;
+				$message->Send() ;
+				$isUpdate = true;
+			}
 		}
 		catch (com_exception $e) {
-			print "<hr>\n\n";
-			print $e . "\n";
-			print "<hr>\n\n";
+			// print "<hr>\n\n";
+			// print $e . "\n";
+			// print "<hr>\n\n";
 		}
-		if (!$resdl) {
-
-			echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data gagal di submit';</script>";
-
-		} else{
+		if ( $isUpdate ) {
+			$Database->commit();
 
 			echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data telah berhasil di submit';</script>";
+		} else{
+			$Database->rollback();
+			echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data gagal di submit';</script>";
 		} 
     }  //end post
 } //end if dl

@@ -297,6 +297,7 @@ $user=$_SESSION['username'];
             									?>
 												<b>Total : </b><?php echo number_format($row['total']); ?><br>
             									PPN : <?php echo $ppn; ?><br><br>
+            									<input type="hidden" name="ppn" value="<?php echo $ppn; ?>">
             									<u>NOTE</u>  <br>
             									<!-- RT -->
             									<?php 
@@ -350,16 +351,16 @@ $user=$_SESSION['username'];
             									<input  type="hidden"  name="po_app_dl[]"     value="<?php echo $po_approve_by_dl;?>" >
 
 			            						<!-- variabel RT -->
-			            						<input type="hidden" name="user" id="<?php echo $user.$no; ?>" value="<?php echo $user; ?>">
-			            						<input type="hidden" name="po_tgl_approved_rt[]" class="datetime" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
-			            						<input type="hidden" name="po_approve_by_rt[]" class="approved" id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly">
-			            						<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
-			            						<input type="hidden" name="total[]"  value="<?php echo $row['total'];?>">
-			            						<input type="hidden" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
-			            						<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
-			            						<input type="hidden" name="x[]" class="xy" id="x<?php echo $no;?>">
-			            						<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
-			            						<input type="hidden" name="sub_by" value="<?php echo $by;?>">
+			            						<input type="" name="user" id="<?php echo $user.$no; ?>" value="<?php echo $user; ?>">
+			            						<input type="" name="po_tgl_approved_rt[]" class="datetime" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
+			            						<input type="" name="po_approve_by_rt[]" class="approved" id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly">
+			            						<input type="" name="no_po[]"  value="<?php echo $row['no_po'];?>">
+			            						<input type="" name="total[]"  value="<?php echo $row['total'];?>">
+			            						<input type="" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
+			            						<input type="" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
+			            						<input type="" name="x[]" class="xy" id="x<?php echo $no;?>">
+			            						<input type="" name="no_ppo" value="<?php echo $PPO_Number;?>">
+			            						<input type="" name="sub_by" value="<?php echo $by;?>">
             									<?php 
             									}
             									?>
@@ -623,16 +624,16 @@ $user=$_SESSION['username'];
 												<input  type="hidden"  name="po_app_dl[]"     value="<?php echo $po_approve_by_dl;?>" >
 												<input  type="hidden"  name="po_tgl_app_dl[]" value="<?php echo $po_tgl_approved_dl;?>" >
 												<!-- variabel HP -->
-												<input type="" name="user" id="<?php echo $user.$no; ?>" value="<?php echo $user; ?>">
-												<input type="" name="po_tgl_approved_hp[]" class="datetime" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_hp;?>" readonly>
-												<input type="" name="po_approve_by_hp[]" class="approved" id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_hp;?>" readonly>
-												<input type="" name="no_po[]"  value="<?php echo $row['no_po'];?>">
-												<input type="" name="total[]"  value="<?php echo $row['total'];?>">
-												<input type="" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
-												<input type="" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
-												<input type="" name="x[]" class="xy" id="x<?php echo $no;?>">
-												<input type="" name="no_ppo" value="<?php echo $PPO_Number;?>">
-												<input type="" name="sub_by" value="<?php echo $by;?>">
+												<input type="hidden" name="user" id="<?php echo $user.$no; ?>" value="<?php echo $user; ?>">
+												<input type="hidden" name="po_tgl_approved_hp[]" class="datetime" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_hp;?>" readonly>
+												<input type="hidden" name="po_approve_by_hp[]" class="approved" id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_hp;?>" readonly>
+												<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
+												<input type="hidden" name="total[]"  value="<?php echo $row['total'];?>">
+												<input type="hidden" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
+												<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
+												<input type="hidden" name="x[]" class="xy" id="x<?php echo $no;?>">
+												<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
+												<input type="hidden" name="sub_by" value="<?php echo $by;?>">
 												<?php
 													}
 												?>
@@ -719,8 +720,6 @@ $user=$_SESSION['username'];
 												?>
 													<!-- rt on DL -->
 	            									Richardus Teddy
-	            									<input type="hidden" name="po_tgl_approved_hp[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_hp;?>" readonly="readonly">
-													<input type="hidden" name="po_approve_by_hp[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_hp;?>" readonly="readonly">
 	            									<?php 
 	            									if (!empty($po_tgl_approved_rt)) {
 	            										if ($po_approve_by_rt==1) {
@@ -851,53 +850,53 @@ $user=$_SESSION['username'];
 													<!-- dl on dl -->
 													Dicky Lisal
 													<?php
-														if (!empty($po_tgl_approved_dl)) {
-															if ($po_approve_by_dl==1) {
-																echo '<input type="checkbox" class="checked" disabled checked>';
-															} else {
+													if (!empty($po_tgl_approved_dl)) {
+														if ($po_approve_by_dl==1) {
+															echo '<input type="checkbox" class="checked" disabled checked>';
+														} else {
+															echo '<span class="glyphicon glyphicon-remove reject"></span>';
+														}
+													} else {
+														// echo "ini HP blm proses ";
+														if (!empty($po_tgl_approved_rt)) {
+															if ($po_approve_by_rt==1) {
+																echo '<input type="checkbox" class="checked" disabled>';
+															}else{
 																echo '<span class="glyphicon glyphicon-remove reject"></span>';
 															}
-														} else {
-															// echo "ini HP blm proses ";
-															if (!empty($po_tgl_approved_rt)) {
-																if ($po_approve_by_rt==1) {
-																	echo '<input type="checkbox" class="checked" disabled>';
-																}else{
-																	echo '<input type="checkbox" class="checked" disabled>';
-																}
-															} else if (!empty($po_tgl_approved_hp)){
-																if ($po_approve_by_hp==1) {
-													?>
-													<input  type="checkbox" class="tanggal cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');" <?php if($user==BOD_RT || $user==BOD_HP){echo " disabled";}?>>
-													<?php
-																} else {
-																	echo '<input type="checkbox" class="checked" disabled>';
-																}
+														} else if (!empty($po_tgl_approved_hp)){
+															if ($po_approve_by_hp==1) {
+												?>
+												<input  type="checkbox" class="tanggal cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');" <?php if($user==BOD_RT || $user==BOD_HP){echo " disabled";}?>>
+												<?php
 															} else {
-													?>
-													<input  type="checkbox" class="tanggal cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');" <?php if($user==BOD_RT || $user==BOD_HP){echo " disabled";}?>>
-													<?php
+																echo '<input type="checkbox" class="checked" disabled>';
 															}
-													?>
-													<!-- tambah variabel RT DAN HP di login DL -->
-													<input  type="hidden"  name="po_app_rt[]"     value="<?php echo $po_approve_by_rt;?>" >
-													<input  type="hidden"  name="po_tgl_app_rt[]" value="<?php echo $po_tgl_approved_rt;?>" >
-													<input  type="hidden"  name="po_app_hp[]"     value="<?php echo $po_approve_by_hp;?>" >
-													<input  type="hidden"  name="po_tgl_app_hp[]" value="<?php echo $po_tgl_approved_hp;?>" >
-													<!-- variabel DL -->
-													<input type="hidden" name="user" id="<?php echo $user.$no; ?>" value="<?php echo $user; ?>">
-													<input type="hidden" name="po_tgl_approved_dl[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_dl;?>" readonly>
-													<input type="hidden" name="po_approve_by_dl[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_dl;?>" readonly>
-													<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
-													<input type="hidden" name="total[]"  value="<?php echo $row['total'];?>">
-													<input type="hidden" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
-													<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
-													<input type="hidden" name="x[]" id="x<?php echo $no;?>">
-													<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
-													<input type="hidden" name="sub_by" value="<?php echo $by;?>">
-													<?php 
+														} else {
+												?>
+												<input  type="checkbox" class="tanggal cb-gadget" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this,'<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');" <?php if($user==BOD_RT || $user==BOD_HP){echo " disabled";}?>>
+												<?php
 														}
-													?>
+												?>
+												<!-- tambah variabel RT DAN DL di login HP -->
+												<input  type="hidden"  name="po_app_rt[]"     value="<?php echo $po_approve_by_rt;?>" >
+												<input  type="hidden"  name="po_tgl_app_rt[]" value="<?php echo $po_tgl_approved_rt;?>" >
+												<input  type="hidden"  name="po_app_hp[]"     value="<?php echo $po_approve_by_hp;?>" >
+												<input  type="hidden"  name="po_tgl_app_hp[]" value="<?php echo $po_tgl_approved_hp;?>" >
+												<!-- variabel HP -->
+												<input type="hidden" name="user" id="<?php echo $user.$no; ?>" value="<?php echo $user; ?>">
+												<input type="hidden" name="po_tgl_approved_dl[]" class="datetime" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_dl;?>" readonly>
+												<input type="hidden" name="po_approve_by_dl[]" class="approved" id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_dl;?>" readonly>
+												<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
+												<input type="hidden" name="total[]"  value="<?php echo $row['total'];?>">
+												<input type="hidden" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
+												<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
+												<input type="hidden" name="x[]" class="xy" id="x<?php echo $no;?>">
+												<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
+												<input type="hidden" name="sub_by" value="<?php echo $by;?>">
+												<?php
+													}
+												?>
 													<textarea class="form-control" rows="2" name="po_comment_dl[]" <?php if($user == BOD_RT || $user == BOD_HP){echo "readonly";} ?> 
 														<?php 
 														if (!empty($po_tgl_approved_rt)) {
@@ -943,9 +942,12 @@ $user=$_SESSION['username'];
             					if ( isset($_GET['notif']) )
             					{	
             						if (!empty($po_tgl_approved_rt) || !empty($po_tgl_approved_hp) || !empty($po_tgl_approved_dl)) {
-            							echo "";
+            							echo "<div class='alert alert-success'>
+            							<a href='#'' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+            							$_GET[notif] 
+            							</div>";
             						} else {
-            					 		echo"<div class='alerts'> $_GET[notif] </div>";
+            							echo "<div class='alert alert-danger'> $_GET[notif] </div>";
             						}
 									if ($user==BOD_RT) 
             					 	{
@@ -1105,26 +1107,12 @@ $user=$_SESSION['username'];
 		            							<div style='float:left; margin-left:10px;margin-right:10px;'>:</div> 
 		            							<div style=float:left;>$po_tgl_approved_hp</div> </div>";
 		            			?>
-	                        					<tr>
-	                        						<td colspan="11">
-	                        							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
-	                        						</td> 
-	                        					</tr>
+	                        				
 		            			<?php
 		            						}
 		              					}
 								?>
-												<tr>
-									                <td colspan="11">
-	                        							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')"
-														<?php 
-															if (!empty($po_tgl_approved_dl)) {
-																echo 'style="display:none;"';
-															}
-														?>
-	                        							>
-	                        						</td> 
-												</tr>
+
 								<?php
 										
 									}
@@ -1316,16 +1304,16 @@ $user=$_SESSION['username'];
 							} else {
 								if (!empty($po_tgl_approved_hp)) {
 									if ($po_approve_by_hp==0) {
-										echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all">Approve All</label>';
+										echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all"><u>Approve All</u></label>';
 										echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit" style="display:none;">';
 									}
 								}else if (!empty($po_tgl_approved_dl)){
 									if ($po_approve_by_hp==0) {
-										echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all">Approve All</label>';
+										echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all"><u>Approve All</u></label>';
 										echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit" style="display:none;">';
 									}
 								} else {
-										echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all">Approve All</label>';
+										echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all"><u>Approve All</u></label>';
 										echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit">';
 									}
 							}
@@ -1335,19 +1323,19 @@ $user=$_SESSION['username'];
 							} else {
 								if (!empty($po_tgl_approved_hp)) {
 									if ($po_approve_by_hp==0) {
-										echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all">Approve All</label>';
+										echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all"><u>Approve All</u></label>';
 										echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit" style="display:none;">';
 									}
 								}else if (!empty($po_tgl_approved_dl)){
 									if ($po_approve_by_dl==0) {
-										echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all">Approve All</label>';
+										echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all"><u>Approve All</u></label>';
 										echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit" style="display:none;">';
 									}else{
-										echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all">Approve All</label>';
+										echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all"><u>Approve All</u></label>';
 										echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit">';
 									}
 								} else {
-									echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all">Approve All</label>';
+									echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all"><u>Approve All</u></label>';
 									echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit">';
 								}
 							}
@@ -1358,18 +1346,18 @@ $user=$_SESSION['username'];
 								if (!empty($po_tgl_approved_dl)) {
 									if ($po_approve_by_dl==0) {
 										echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit" style="display:none;">';
-										echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all">Approve All</label>';
+										echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all"><u>Approve All</u></label>';
 									}
 								}else if (!empty($po_tgl_approved_hp)){
 									if ($po_approve_by_hp==0) {
-										echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all">Approve All</label>';
+										echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all"><u>Approve All</u></label>';
 										echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit" style="display:none;">';
 									} else {
-										echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all">Approve All</label>';
+										echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all"><u>Approve All</u></label>';
 										echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit">';
 									}
 								} else {
-									echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all">Approve All</label>';
+									echo '<label class="" style="margin:20px;"><input type="checkbox" id="check_all"><u>Approve All</u></label>';
 									echo '<input type="submit" class="btn btn-success submit sub-gadget" value="Submit">';
 								}
 							}

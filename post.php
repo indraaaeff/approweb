@@ -17,5 +17,13 @@ $u               = $_POST['u'];
 include"rt.php";
 include"hp.php";
 include"dl.php"; 
-                             
+
+if (isset($messageCon)) {
+	unset($messageCon);
+}
+if (isset($message)) {
+	unset($message);
+} 
+
+$Database->close()
 ?>

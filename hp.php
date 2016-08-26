@@ -31,6 +31,7 @@ if($user=BOD_HP)
 		$total_ppo     = $_POST['total_ppo'];
 		$end_user      = ucwords($user);
 		$hp_tgl        = $_POST['hp_tgl'];
+		$isUpdate      = false;
 	
 		include_once "mailserver.php";
 		$message1   = new COM('CDO.Message');
@@ -46,7 +47,7 @@ if($user=BOD_HP)
 			$messageCon->Fields['http://schemas.microsoft.com/cdo/configuration/sendusername'] = HTSMAIL_USERNAME;
 			$messageCon->Fields['http://schemas.microsoft.com/cdo/configuration/sendpassword'] = HTSMAIL_PASSWORD;
 			$messageCon->Fields['http://schemas.microsoft.com/cdo/configuration/sendusing'] = SMTP_USEPORT ;
-			$messageCon->Fields['http://schemas.microsoft.com/cdo/configuration/smtpconnectiontimeout'] = 60 ;
+			$messageCon->Fields['http://schemas.microsoft.com/cdo/configuration/smtpconnectiontimeout'] = 30 ;
 			$messageCon->Fields->Update();
 
 		    $message->From    = 'indra <indraeff@hts.net.id>'; //ISP Integrated System [mailto:no-reply@hts.net.id] 
@@ -80,7 +81,7 @@ if($user=BOD_HP)
 								<td align='center' width='76' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> DL </td>
 								<td align='center' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> NOTE </td>
 								</tr>";
-//---------------------------------------------------------------------------------------------------------------------------------
+
 			$totalprice   = 0;
 			$total_appro  = 0;
 			$total_rejek  = 0;
@@ -191,57 +192,66 @@ if($user=BOD_HP)
 
 			
 				if (is_null( $end_tgl_dl ) || empty( $end_tgl_dl ))
-					$reshp= $Database->query( "Call SetPPO_Detail( '$user','$ppo','$end_po',$prove_hp,'$end_tgl',
-						'$end_keterangan_hp',$proval_dl, null )" );
+				{
+					$Database->autocommit( FALSE );
+					$reshp= $Database->query( "Call SetPPO_Detail( '$user','$ppo','$end_po',$prove_hp,'$end_tgl','$end_keterangan_hp',$proval_dl, null )" );
+				}
 				else
-					$reshp= $Database->query( "Call SetPPO_Detail( '$user','$ppo','$end_po',$prove_hp,'$end_tgl',
-						'$end_keterangan_hp',$proval_dl,'$end_tgl_dl' )" );
+				{
+					$Database->autocommit( FALSE );
+					$reshp= $Database->query( "Call SetPPO_Detail( '$user','$ppo','$end_po',$prove_hp,'$end_tgl','$end_keterangan_hp',$proval_dl,'$end_tgl_dl' )" );
+				}
 			
    
 			} //end for hp
-			$total_reject= $grand-$totalprice;
-			$grandtotal2  = number_format($total_reject);
-			if(empty($grandtotal))
-	        {
-				$total_app=0;
-			} else {
-				$total_app=$grandtotal;
-			}			
-			$message->HTMLBody .= "</table><br>";
-			$message1->HTMLBody .= "</table><br>";
-			$message2->HTMLBody .= "</table><br>";
-			$message->HTMLBody .= "
-								   <table style=' margin-top:10px; border:solid 1px #888; background:#f1f1f1; padding:8px;'>				      
-								   <tr>
-								   <td width='160' style=' font-weight:bold; '>Approved By </td>  <td width='30' align='center'> : </td> <td> $end_user </td>
-								   </tr>
-								   <tr>
-								   <td style=' font-weight:bold;'>Tanggal Approval </td> <td width='30' align='center'> : </td> <td> $tanggal $bulan $tahun </td>
-								   </tr>
-								   <tr>
-								   <td style=' font-weight:bold;'>Total Approved </td> <td width='30' align='center'> : </td> <td> $total_appro (Rp.$total_app) </td>
-								   </tr>
-								   <tr>
-								   <td style=' font-weight:bold;'>Total Reject </td>  <td width='30' align='center'> : </td> <td> $total_rejek (Rp.$grandtotal2) </td>
-								   </tr>									    
-								   </table>
-								   <br>";
-								   
-			 $message->Configuration = $messageCon;
-			 $message->Send() ;
+			if ($reshp) {
+				$total_reject= $grand-$totalprice;
+				$grandtotal2  = number_format($total_reject);
+				if(empty($grandtotal))
+		        {
+					$total_app=0;
+				} else {
+					$total_app=$grandtotal;
+				}			
+				$message->HTMLBody .= "</table><br>";
+				$message1->HTMLBody .= "</table><br>";
+				$message2->HTMLBody .= "</table><br>";
+				$message->HTMLBody .= "
+									   <table style=' margin-top:10px; border:solid 1px #888; background:#f1f1f1; padding:8px;'>				      
+									   <tr>
+									   <td width='160' style=' font-weight:bold; '>Approved By </td>  <td width='30' align='center'> : </td> <td> $end_user </td>
+									   </tr>
+									   <tr>
+									   <td style=' font-weight:bold;'>Tanggal Approval </td> <td width='30' align='center'> : </td> <td> $tgl_hp </td>
+									   </tr>
+									   <tr>
+									   <td style=' font-weight:bold;'>Total Approved </td> <td width='30' align='center'> : </td> <td> $total_appro (Rp.$total_app) </td>
+									   </tr>
+									   <tr>
+									   <td style=' font-weight:bold;'>Total Reject </td>  <td width='30' align='center'> : </td> <td> $total_rejek (Rp.$grandtotal2) </td>
+									   </tr>									    
+									   </table>
+									   <br>";
+									   
+				$message->Configuration = $messageCon;
+				$message->Send() ;
+				$isUpdate = true;
+			}
         }
         catch (com_exception $e) {
-        	print "<hr>\n\n";
-        	print $e . "\n";
-        	print "<hr>\n\n";
+        	// print "<hr>\n\n";
+        	// print $e . "\n";
+        	// print "<hr>\n\n";
         }
         
-        if (!$reshp) {
-        	//redirect ke approval
-        	echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data gagal di submit';</script>";
-        } else{
+        if ( $isUpdate ) {
+        	$Database->commit();
         	//redirect ke approval
         	echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data telah berhasil di submit';</script>";
+        } else{
+        	// $Database->rollback();
+        	//redirect ke approval
+        	echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data gagal di submit';</script>";
         }
 
     } //end post

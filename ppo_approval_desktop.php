@@ -58,7 +58,6 @@ $user=$_SESSION['username'];
 	<link rel="stylesheet" type="text/css" href="css/sticky-footer-navbar.css">
 	<link rel="stylesheet" type="text/css" href="css/stylehome.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<script type="text/javascript" src="js/responsive-switch.min.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -580,13 +579,13 @@ $user=$_SESSION['username'];
 	            							<input  type="hidden"  name="po_tgl_app_hp[]" value="<?php echo $po_tgl_approved_hp;?>" >
 											<!-- variabel DL -->
 											<input type="hidden" name="user" id="<?php echo $user.$no; ?>" value="<?php echo $user; ?>">
-	            							<input type="hidden" name="po_tgl_approved_dl[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_dl;?>" readonly>
-	            							<input type="hidden" name="po_approve_by_dl[]"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_dl;?>" readonly>
+	            							<input type="hidden" name="po_tgl_approved_dl[]" class="datetime" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_dl;?>" readonly>
+	            							<input type="hidden" name="po_approve_by_dl[]" class="approved"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_dl;?>" readonly>
 	            							<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
 	            							<input type="hidden" name="total[]"  value="<?php echo $row['total'];?>">
 	            							<input type="hidden" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
 	            							<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
-	            							<input type="hidden" name="x[]" id="x<?php echo $no;?>">
+	            							<input type="hidden" name="x[]" class="xy"id="x<?php echo $no;?>">
 	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
 	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
             						</td>
@@ -928,9 +927,12 @@ $user=$_SESSION['username'];
             					if ( isset($_GET['notif']) )
             					{	
             						if (!empty($po_tgl_approved_rt) || !empty($po_tgl_approved_hp) || !empty($po_tgl_approved_dl)) {
-            							echo "";
+            							echo "<div class='alert alert-success'>
+            							<a href='#'' class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+            							$_GET[notif] 
+            							</div>";
             						} else {
-            					 		echo"<div class='alerts'> $_GET[notif] </div>";
+            							echo "<div class='alert alert-danger'> $_GET[notif] </div>";
             						}
 									if ($user==BOD_RT) 
             					 	{
@@ -1007,7 +1009,7 @@ $user=$_SESSION['username'];
 				              								
 				              							?>
 				              							>
-				              							<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all">Approve All </label>
+				              							<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
 				              							<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/> -->
 				              						<?php 
 				              						?>
@@ -1064,7 +1066,7 @@ $user=$_SESSION['username'];
 				              					<tr>
 								              		<td colspan="11">
 								              			<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
-								              			<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all">Approve All </label>
+								              			<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
 													</td>
 												</tr>
 								<?php
@@ -1074,7 +1076,7 @@ $user=$_SESSION['username'];
 								              	<tr>
 								              		<td colspan="11">
 								              			<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
-								              			<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all">Approve All </label>
+								              			<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
 								              			<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/></td> -->
 													</td>
 												</tr>
@@ -1129,7 +1131,7 @@ $user=$_SESSION['username'];
 	                        					<tr>
 	                        						<td colspan="11">
 	                        							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
-	                        							<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all">Approve All </label>
+	                        							<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
 	                        						</td> 
 	                        					</tr>
 		            			<?php
@@ -1145,7 +1147,7 @@ $user=$_SESSION['username'];
 															}
 														?>
 	                        							>
-	                        							<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all">Approve All </label>
+	                        							<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
 	                        						</td> 
 												</tr>
 								<?php
@@ -1213,7 +1215,7 @@ $user=$_SESSION['username'];
 				              						<td colspan="11">
 				              							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')"
 				              							>
-				              							<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all">Approve All </label>
+				              							<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
 				              							<input type="hidden" id="CBX" name="check_all" value="">
 				              							
 				              							<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/> -->
@@ -1274,7 +1276,7 @@ $user=$_SESSION['username'];
 				           						<tr>
 								              		<td colspan="11">
 								              			<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
-								              			<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all">Approve All </label>
+								              			<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
 													</td>
 												</tr>
 				              	<?php
@@ -1291,7 +1293,7 @@ $user=$_SESSION['username'];
 								              				}
 								              			?>
 								              			>
-								              			<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all">Approve All </label>
+								              			<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
 								              			<!-- <input type="" name="po_tgl_approved_dl[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_dl;?>" readonly> -->
 								              			<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/>-->
 								              		</td> 
@@ -1350,7 +1352,7 @@ $user=$_SESSION['username'];
 		            							<tr>
 	                        						<td colspan="11">
 	                        							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
-	                        							<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all">Approve All </label>
+	                        							<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
 	                        						</td> 
 	                        					</tr>
 		            			<?php
@@ -1366,7 +1368,7 @@ $user=$_SESSION['username'];
 								              				}
 								              			?>
 	                        							>
-	                        							<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all">Approve All </label>
+	                        							<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
 	                        							<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/>-->
 	                        						</td> 
 												</tr>
