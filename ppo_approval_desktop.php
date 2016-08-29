@@ -203,7 +203,7 @@ $user=$_SESSION['username'];
             						$po_approve_by_dl   = $row['approve_by_dl'];
             						$po_tgl_approved_dl = $row['tgl_approved_dl'];	  
             						$po_comment_dl      = $row['comment_dl'];
-
+            						
             						// $po_tgl_approved_hp = "2/6/2016";
             						// $po_tgl_approved_dl = "3/6/2016";
             						// $po_approve_by_hp=1;
@@ -237,9 +237,9 @@ $user=$_SESSION['username'];
 	            									if($po_approve_by_hp==1 && $po_approve_by_dl==1) {
 	            										echo '<input type="checkbox" disabled>';
 		            								} else if($po_approve_by_hp==1 && $po_approve_by_dl==0) {
-		            									echo '<input type="checkbox" disabled>';
+		            									echo '<span class="glyphicon glyphicon-remove merah"></span>';
 		            								} else if($po_approve_by_hp==0 && $po_approve_by_dl==1){
-		            									echo '<input type="checkbox" disabled>';
+		            									echo '<span class="glyphicon glyphicon-remove merah"></span>';
 		            								} else {
 		            					?>
 		            									<input type="checkbox" class="tanggal checkbox-md" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');" />
@@ -247,7 +247,7 @@ $user=$_SESSION['username'];
 		            								}
             									}else if (!empty($po_tgl_approved_dl)){
             										if ($po_approve_by_dl==0) {
-            											echo '<input type="checkbox" disabled>';
+            											echo '<span class="glyphicon glyphicon-remove merah"></span>';
             										} else {
             							?>
             											<input type="checkbox" class="tanggal checkbox-md" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');" />
@@ -255,7 +255,7 @@ $user=$_SESSION['username'];
             										}
             									}else if (!empty($po_tgl_approved_hp)){
             										if ($po_approve_by_hp==0) {
-            											echo '<input type="checkbox" disabled>';
+            											echo '<span class="glyphicon glyphicon-remove merah"></span>';
             										} else {
             							?>
             											<input type="checkbox" class="tanggal checkbox-md" name="tanggal" id="chk<?php echo $no;?>" onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');" />
@@ -268,30 +268,28 @@ $user=$_SESSION['username'];
 	            						<?php
 	            								}
 	            						?>
-		            						<!-- tambah variabel HP DAN DL di login RT -->
+											<!-- tambah variabel HP DAN DL di login RT -->
 		            						<input  type="hidden"  name="po_tgl_app_hp[]" value="<?php echo $po_tgl_approved_hp;?>" >
 		            						<input  type="hidden"  name="po_app_hp[]"     value="<?php echo $po_approve_by_hp;?>" >
 		            						<input  type="hidden"  name="po_tgl_app_dl[]" value="<?php echo $po_tgl_approved_dl;?>" >
 		            						<input  type="hidden"  name="po_app_dl[]"     value="<?php echo $po_approve_by_dl;?>" >
 		            						<!-- <input  type="hidden"  name="po_comment_hp[]" value="<?php echo $po_comment_hp; ?>">
 		            						<input  type="hidden"  name="po_comment_dl[]" value="<?php echo $po_comment_dl; ?>"> -->
-											
 											<!-- variabel RT -->
 											<input type="hidden" name="user" id="<?php echo $user.$no; ?>" value="<?php echo $user; ?>">
 	            							<input type="hidden" name="po_tgl_approved_rt[]" class="datetime" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_rt;?>" readonly="readonly">
-	            							<input type="hidden" name="po_approve_by_rt[]" class="approved" id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly">
+	            							<input type="hidden" name="po_approve_by_rt[]" class='<?php if (empty($po_tgl_approved_rt)) { if (!empty($po_tgl_approved_hp) || !empty($po_tgl_approved_dl)) { if ($po_approve_by_hp==1 || $po_approve_by_dl==1) {echo "approved";} else {echo "rejected";}}}?>' id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_rt;?>" readonly="readonly">
 	            							<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
 	            							<input type="hidden" name="total[]"  value="<?php echo $row['total'];?>">
 	            							<input type="hidden" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
 	            							<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
-	            							<input type="hidden" name="x[]" class="xy" id="x<?php echo $no;?>">
+	            							<input type="hidden" name="x[]" class='<?php if (empty($po_tgl_approved_rt)) { if (!empty($po_tgl_approved_hp) || !empty($po_tgl_approved_dl)) { if ($po_approve_by_hp==1 || $po_approve_by_dl==1) {echo "xy";} else {echo "rejected";}}}?>' id="x<?php echo $no;?>">
 	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
 	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
-
             						</td>
 	            						<?php 
 	            							} else {
-	            								if (!empty($po_approve_by_rt)) {
+	            								if (!empty($po_approve_by_rt) || $po_approve_by_rt==1) {
 	            									echo '<input type="checkbox" disabled checked>';
 	            								} else {
 	            									echo '<span class="glyphicon glyphicon-remove merah"></span>';
@@ -300,37 +298,41 @@ $user=$_SESSION['username'];
 	            						?>
             						<td>
             							<?php 
-            								if($po_approve_by_hp==1) 
-            								{ 
+            								if (!empty($po_tgl_approved_hp)) {
+            									if($po_approve_by_hp==0) 
+            									{
             							?>
-            							<input type="checkbox" disabled checked>
+													<span class="glyphicon glyphicon-remove merah"></span>
             							<?php 
-            								} else if (empty($po_tgl_approved_hp)) {
+            									} else {
             							?>
-            							<input type="checkbox" disabled>
+            										<input type="checkbox" disabled checked>
             							<?php
+            									}
             								} else {
             							?>
-										<span class="glyphicon glyphicon-remove merah"></span>
-										<?php
+            										<input type="checkbox" disabled>
+            							<?php 
             								}
             							?>
             						</td>
             						<td>
             							<?php 
-            								if($po_approve_by_dl==1) 
-            								{ 
+            								if (!empty($po_tgl_approved_dl)) {
+            									if($po_approve_by_dl==0) 
+            									{
             							?>
-										<input type="checkbox" disabled checked>
+													<span class="glyphicon glyphicon-remove merah"></span>
             							<?php 
-            								} else if(empty($po_tgl_approved_dl)) {
+            									} else {
             							?>
-            							<input type="checkbox" disabled>
+            										<input type="checkbox" disabled checked>
             							<?php
+            									}
             								} else {
             							?>
-            							<span class="glyphicon glyphicon-remove merah"></span>
-            							<?php		
+            										<input type="checkbox" disabled>
+            							<?php 
             								}
             							?>
             						</td>
@@ -376,20 +378,22 @@ $user=$_SESSION['username'];
 	            						{
 	            					?>
 	            					<td>
-										<?php 
-            								if($po_approve_by_rt==1) 
-            								{ 
-            							?>
-            							<input type="checkbox" disabled checked>
             							<?php 
-            								} else if(empty($po_tgl_approved_rt)){
+            								if (!empty($po_tgl_approved_rt)) {
+            									if($po_approve_by_rt==0) 
+            									{
             							?>
-            							<input type="checkbox" disabled>
+													<span class="glyphicon glyphicon-remove merah"></span>
             							<?php 
+            									} else {
+            							?>
+            										<input type="checkbox" disabled checked>
+            							<?php
+            									}
             								} else {
             							?>
-            							<span class="glyphicon glyphicon-remove merah"></span>
-            							<?php
+            										<input type="checkbox" disabled>
+            							<?php 
             								}
             							?>
 	            					</td>
@@ -403,7 +407,7 @@ $user=$_SESSION['username'];
             									}
 	            							} else if (!empty($po_tgl_approved_rt)){
 	            								if ($po_approve_by_rt==0){
-	            									echo '<input type="checkbox" disabled>';
+	            									echo '<span class="glyphicon glyphicon-remove merah"></span>';
 	            								}else{
 	            									echo '<input type="checkbox" disabled>';
 	            								}
@@ -414,8 +418,7 @@ $user=$_SESSION['username'];
                                                     onClick="check(this, '<?php echo $no;?>'); check2(this, 'pp<?php echo $no;?>'); check33(this, 'x<?php echo $no;?>');" />
                                         <?php
 	            								} else {
-	            									
-	            									echo '<input type="checkbox" disabled>';
+	            									echo '<span class="glyphicon glyphicon-remove merah"></span>';
 	            								}
 	            							}else{
 	            						?>
@@ -431,33 +434,35 @@ $user=$_SESSION['username'];
 	            							<input  type="hidden"  name="po_app_dl[]"     value="<?php echo $po_approve_by_dl;?>">
 	            							<input  type="hidden"  name="po_tgl_app_dl[]" value="<?php echo $po_tgl_approved_dl;?>">
 	            							<!-- variabel HP -->
-	            							<input type="hidden" name="user" id="<?php echo $user.$no; ?>" value="<?php echo $user; ?>">
+	            							<input type="hidden" name="user" id="<?php echo $user.$no; ?>" value="<?php echo $user; ?>" readonly>
 	            							<input type="hidden" name="po_tgl_approved_hp[]" class="datetime" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_hp;?>" readonly>
-	            							<input type="hidden" name="po_approve_by_hp[]" class="approved" id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_hp;?>" readonly>
-	            							<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
-	            							<input type="hidden" name="total[]"  value="<?php echo $row['total'];?>">
-	            							<input type="hidden" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
-	            							<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
-	            							<input type="hidden" name="x[]" class="xy" id="x<?php echo $no;?>">
-	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
-	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
+	            							<input type="hidden" name="po_approve_by_hp[]" class='<?php if (empty($po_tgl_approved_hp)) { if (!empty($po_tgl_approved_dl)) { if ($po_approve_by_dl==1) {echo "approved";} else {echo "rejected";}}}?>' id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_hp;?>" readonly>
+	            							<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>" readonly>
+	            							<input type="hidden" name="total[]"  value="<?php echo $row['total'];?>" readonly>
+	            							<input type="hidden" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>" readonly>
+	            							<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>" readonly>
+	            							<input type="hidden" name="x[]" class='<?php if (empty($po_tgl_approved_hp)) { if (!empty($po_tgl_approved_dl)) { if ($po_approve_by_dl==1) {echo "xy";} else {echo "rejected";}}}?>' id="x<?php echo $no;?>" readonly>
+	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>" readonly>
+	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>" readonly>
 	            					
 	            					</td>
 	            					<td>
-										<?php 
-            								if($po_approve_by_dl==1) 
-            								{ 
-            							?>
-            							<input type="checkbox" disabled checked>
             							<?php 
-            								} else if(empty($po_tgl_approved_dl)){
+            								if (!empty($po_tgl_approved_dl)) {
+            									if($po_approve_by_dl==0) 
+            									{
             							?>
-            							<input type="checkbox" disabled>
+													<span class="glyphicon glyphicon-remove merah"></span>
             							<?php 
+            									} else {
+            							?>
+            										<input type="checkbox" disabled checked>
+            							<?php
+            									}
             								} else {
             							?>
-            							<span class="glyphicon glyphicon-remove merah"></span>
-            							<?php
+            										<input type="checkbox" disabled>
+            							<?php 
             								}
             							?>
 	            					</td>
@@ -505,38 +510,42 @@ $user=$_SESSION['username'];
 	            							// $po_approve_by_rt =1 ;
 	            					?>
 	            					<td>
-										<?php 
-            								if($po_approve_by_rt==1) 
-            								{ 
-            							?>
-            							<input type="checkbox" disabled checked>
             							<?php 
-            								} else if(empty($po_tgl_approved_rt)){
+            								if (!empty($po_tgl_approved_rt)) {
+            									if($po_approve_by_rt==0) 
+            									{
             							?>
-            							<input type="checkbox" disabled>
+													<span class="glyphicon glyphicon-remove merah"></span>
             							<?php 
+            									} else {
+            							?>
+            										<input type="checkbox" disabled checked>
+            							<?php
+            									}
             								} else {
             							?>
-            							<span class="glyphicon glyphicon-remove merah"></span>
-            							<?php
+            										<input type="checkbox" disabled>
+            							<?php 
             								}
             							?>
 	            					</td>
 	            					<td>
             							<?php 
-            								if($po_approve_by_hp==1) 
-            								{ 
+            								if (!empty($po_tgl_approved_hp)) {
+            									if($po_approve_by_hp==0) 
+            									{
             							?>
-            							<input type="checkbox" disabled checked>
+													<span class="glyphicon glyphicon-remove merah"></span>
             							<?php 
-            								} else if (empty($po_tgl_approved_hp)){
+            									} else {
             							?>
-            							<input type="checkbox" disabled>
+            										<input type="checkbox" disabled checked>
             							<?php
+            									}
             								} else {
             							?>
-										<span class="glyphicon glyphicon-remove merah"></span>
-										<?php
+            										<input type="checkbox" disabled>
+            							<?php 
             								}
             							?>
 	            					</td>
@@ -550,7 +559,7 @@ $user=$_SESSION['username'];
             									}
 	            							} else if (!empty($po_tgl_approved_rt)){
 	            								if ($po_approve_by_rt==0){
-	            									echo '<input type="checkbox" disabled>';
+	            									echo '<span class="glyphicon glyphicon-remove merah"></span>';
 	            								}else{
 	            									echo '<input type="checkbox" disabled>';
 	            								}
@@ -562,7 +571,7 @@ $user=$_SESSION['username'];
                                         <?php
 	            								} else {
 	            									
-	            									echo '<input type="checkbox" disabled>';
+	            									echo '<span class="glyphicon glyphicon-remove merah"></span>';
 	            								}
 	            							} else {
 	            						?>
@@ -580,12 +589,12 @@ $user=$_SESSION['username'];
 											<!-- variabel DL -->
 											<input type="hidden" name="user" id="<?php echo $user.$no; ?>" value="<?php echo $user; ?>">
 	            							<input type="hidden" name="po_tgl_approved_dl[]" class="datetime" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_dl;?>" readonly>
-	            							<input type="hidden" name="po_approve_by_dl[]" class="approved"  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_dl;?>" readonly>
+	            							<input type="hidden" name="po_approve_by_dl[]" class='<?php if (empty($po_tgl_approved_dl)) { if (!empty($po_tgl_approved_hp)) { if ($po_approve_by_hp==1) {echo "approved";} else {echo "rejected";}}}?>'  id="pp<?php echo $no;?>" value="<?php echo $po_approve_by_dl;?>" readonly>
 	            							<input type="hidden" name="no_po[]"  value="<?php echo $row['no_po'];?>">
 	            							<input type="hidden" name="total[]"  value="<?php echo $row['total'];?>">
 	            							<input type="hidden" name="tgl_po[]" value="<?php echo  date( 'd-m-Y', strtotime( $row['tgl_po'] ));?>">
 	            							<input type="hidden" name="nama_vendor[]" value="<?php echo $row['nama_vendor'];?>">
-	            							<input type="hidden" name="x[]" class="xy"id="x<?php echo $no;?>">
+	            							<input type="hidden" name="x[]" class='<?php if (empty($po_tgl_approved_dl)) { if (!empty($po_tgl_approved_hp)) { if ($po_approve_by_hp==1) {echo "xy";} else {echo "rejected";}}}?>' id="x<?php echo $no;?>">
 	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
 	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
             						</td>
@@ -923,7 +932,6 @@ $user=$_SESSION['username'];
             					<input type="hidden"  name="rt_tgl" value="<?php echo $po_tgl_approved_rt;?>" >
  								<!-- validation if BOD processed or not -->
             					<?php 
-            					$noline=+1;
             					if ( isset($_GET['notif']) )
             					{	
             						if (!empty($po_tgl_approved_rt) || !empty($po_tgl_approved_hp) || !empty($po_tgl_approved_dl)) {
@@ -991,26 +999,9 @@ $user=$_SESSION['username'];
 				              	?>
 				              					<tr>
 				              						<td colspan="11">
-				              							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')"
-				              							<?php 
-				              								if (!empty($po_tgl_approved_hp)) {
-				              								 	if ($po_approve_by_hp==0) {
-				              								 		echo 'style="display:none;"';
-				              								 	} else {
-				              								 		echo "";
-				              								 	}
-				              								} elseif (!empty($po_tgl_approved_dl)) {
-				              									if ($po_approve_by_dl==0) {
-				              										echo 'style="display:none;"';
-				              									} else {
-				              										echo "";
-				              									}
-				              								} 
-				              								
-				              							?>
-				              							>
+				              							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
 				              							<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
-				              							<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/> -->
+				              							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
 				              						<?php 
 				              						?>
 				              						</td>		
@@ -1067,6 +1058,7 @@ $user=$_SESSION['username'];
 								              		<td colspan="11">
 								              			<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
 								              			<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
+								              			<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
 													</td>
 												</tr>
 								<?php
@@ -1077,7 +1069,7 @@ $user=$_SESSION['username'];
 								              		<td colspan="11">
 								              			<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
 								              			<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
-								              			<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/></td> -->
+								              			<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
 													</td>
 												</tr>
                  				<?php   
@@ -1132,11 +1124,12 @@ $user=$_SESSION['username'];
 	                        						<td colspan="11">
 	                        							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
 	                        							<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
+	                        							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
 	                        						</td> 
 	                        					</tr>
 		            			<?php
-		            						}
-		              					}
+		            						} else {
+		            							
 								?>
 												<tr>
 									                <td colspan="11">
@@ -1148,9 +1141,12 @@ $user=$_SESSION['username'];
 														?>
 	                        							>
 	                        							<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
+	                        							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
 	                        						</td> 
 												</tr>
 								<?php
+		            						}
+		              					}
 										
 									}
             					} 
@@ -1216,9 +1212,8 @@ $user=$_SESSION['username'];
 				              							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')"
 				              							>
 				              							<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
-				              							<input type="hidden" id="CBX" name="check_all" value="">
-				              							
-				              							<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/> -->
+				              							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
+				              							<!-- <input type="hidden" id="CBX" name="check_all" value=""> -->
 				              						</td>		
 				              					</tr>
 				              	<?php 
@@ -1277,6 +1272,7 @@ $user=$_SESSION['username'];
 								              		<td colspan="11">
 								              			<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
 								              			<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
+								              			<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
 													</td>
 												</tr>
 				              	<?php
@@ -1294,8 +1290,7 @@ $user=$_SESSION['username'];
 								              			?>
 								              			>
 								              			<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
-								              			<!-- <input type="" name="po_tgl_approved_dl[]" class="tgl" id="<?php echo $no;?>"  value="<?php echo $po_tgl_approved_dl;?>" readonly> -->
-								              			<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/>-->
+								              			<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
 								              		</td> 
 								              	</tr>
                  				<?php   
@@ -1353,6 +1348,7 @@ $user=$_SESSION['username'];
 	                        						<td colspan="11">
 	                        							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
 	                        							<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
+	                        							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
 	                        						</td> 
 	                        					</tr>
 		            			<?php
@@ -1369,7 +1365,7 @@ $user=$_SESSION['username'];
 								              			?>
 	                        							>
 	                        							<label class="submit" style="margin:20px;"><input type="checkbox" id="select_all"><u>Approve All</u> </label>
-	                        							<!-- <input type="submit" name="submit" value="submit"  onClick="return confirm('Anda sudah yakin?')"/>-->
+	                        							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
 	                        						</td> 
 												</tr>
 								<?php
@@ -1549,6 +1545,10 @@ $('.checkbox-md').change(function(){ //".checkbox" change
         $("#select_all")[0].checked = false; //change "select all" checked status to false
         $('#CBX').val('');
     }
+});
+$('.submit').click(function(){
+	var dt=formatDate(new Date());
+	$('#tgl_approval').val(dt);
 });
 $('.checkbox-md').on('click',function(){
     $("#myModal").modal("show");

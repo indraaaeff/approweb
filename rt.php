@@ -18,6 +18,7 @@ if($user=BOD_RT)
 		$dl_tgl        = $_POST['dl_tgl'];
 		$keterangan_dl = $_POST['po_comment_dl'];
 		//var RT
+		$tgl_approval  = $_POST['tgl_approval'];
 		$tgl_pengajuan = $_POST['tgl_pengajuan'];
 		$tanggal_rt    = $_POST['po_tgl_approved_rt'];
 		$app_rt        = $_POST['po_approve_by_rt'];
@@ -242,7 +243,7 @@ if($user=BOD_RT)
 										<td width='160' style=' font-weight:bold;'>Approved By </td>  <td width='30' align='center'> : </td> <td> $end_user </td>
 										</tr>
 										<tr>
-										<td style=' font-weight:bold;'>Tanggal Approval </td> <td width='30' align='center'> : </td> <td> $tgl_rt </td>
+										<td style=' font-weight:bold;'>Tanggal Approval </td> <td width='30' align='center'> : </td> <td> $tgl_approval </td>
 										</tr>
 										<tr>
 										<td style=' font-weight:bold;'>Total Approved </td> <td width='30' align='center'> : </td> <td> $total_appro (Rp.$total_app)</td>

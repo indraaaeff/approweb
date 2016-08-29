@@ -18,6 +18,8 @@ if($user=BOD_HP)
 		$dl_tgl        = $_POST['dl_tgl'];
 		$keterangan_dl = $_POST['po_comment_dl'];
 		//var HP
+		$tgl_approval  = $_POST['tgl_approval'];
+		$tgl_pengajuan = $_POST['tgl_pengajuan'];
 		$tanggal_hp    = $_POST['po_tgl_approved_hp'];
 		$app_hp        = $_POST['po_approve_by_hp'];
 		$po            = $_POST['no_po'];
@@ -61,6 +63,9 @@ if($user=BOD_HP)
 					  		    <table style=' margin-top:10px;'>
 								<tr>
 								<td style=' font-weight:bold;' width='160'>No PPO </td>  <td width='30' align='center'> : </td> <td> $ppo </td>
+							    </tr>
+							    <tr>
+							    <td style=' font-weight:bold;' width='160'>Tanggal Pengajuan </td>  <td width='30' align='center'> : </td> <td> $tgl_pengajuan </td>
 							    </tr>
 								<tr>
 								<td style=' font-weight:bold;' width='160'>Total PO </td>  <td width='30' align='center'> : </td> <td> $total_ppo (<i>Rp.$end_grand</i>)</td>
@@ -222,7 +227,7 @@ if($user=BOD_HP)
 									   <td width='160' style=' font-weight:bold; '>Approved By </td>  <td width='30' align='center'> : </td> <td> $end_user </td>
 									   </tr>
 									   <tr>
-									   <td style=' font-weight:bold;'>Tanggal Approval </td> <td width='30' align='center'> : </td> <td> $tgl_hp </td>
+									   <td style=' font-weight:bold;'>Tanggal Approval </td> <td width='30' align='center'> : </td> <td> $tgl_approval </td>
 									   </tr>
 									   <tr>
 									   <td style=' font-weight:bold;'>Total Approved </td> <td width='30' align='center'> : </td> <td> $total_appro (Rp.$total_app) </td>
