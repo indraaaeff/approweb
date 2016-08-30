@@ -207,6 +207,10 @@ body{
 .table-bordered>thead>tr>th {
     border: 1px solid black;
 }
+.appall{
+	float:right;
+	margin: 20px;
+}
 /*---------------*/
 /* Media Queries */
 /*---------------*/
