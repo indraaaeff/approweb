@@ -85,6 +85,7 @@ if($user=BOD_RT)
 							    <td align='center' width='76' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> HP </td>
 							    <td align='center' width='76' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> DL </td>
 							    <td align='center' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> NOTE </td>
+							    <td align='center' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> FINAL STATUS </td>
 							    </tr>";
 
 		    $totalprice  = 0;
@@ -98,6 +99,9 @@ if($user=BOD_RT)
 		    $totalprice_dl  = 0;
 		    $total_appro_dl = 0;
 		    $total_rejek_dl = 0;
+
+		    $final_stats = '';
+		    $temp_total = 0;
 
 		    for ($i = 0; $i < count($po); $i++) 
 		    {
@@ -163,11 +167,36 @@ if($user=BOD_RT)
 			   		$grandtotal  = number_format($totalprice);	
 			   }
 			   else 
-			   {
-			   		$byapp='Reject';
-			   		$total_rejek++;
-			   }
+			   {	
+			   		if (!empty($end_tgl_dl) || !empty($end_tgl_hp)) {
+			   			
+			   		}
+			   		if ($proval_dl==0) {
+			   			$byapp = '-';
+			   		} else {
+				   		$byapp='Reject';
+				   		$total_rejek++;
+				   		$temp_total += $end_total;
 
+			   		}
+			   }
+			   // isi final status
+			   if (empty($end_tgl_dl) || empty($end_tgl_hp)) {
+				   	if ($prove_rt==1) {
+				   		if ($proval_hp==1 || $proval_dl==1) {
+				   			$final_stats = 'Approved';
+				   		}
+				   	} else {
+				   		$final_stats = 'Reject';
+				   	}
+			   } else {
+			   		if ($prove_rt==1) {
+			   			$final_stats = 'Approved';
+			   		} else {
+			   			$final_stats = 'Reject';
+			   		}
+			   }
+			   
 			   if($tgl_rt !=='')
 			   {
 			   		$tg=$tgl_rt;
@@ -207,6 +236,7 @@ if($user=BOD_RT)
 								   <td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp_hp</td>
 								   <td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp_dl</td>
 								   <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #888; '>$usr $usr_hp $usr_dl</td>
+								   <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #888; '><u>$final_stats</u></td>
 								   </tr>
 								   ";
 			   //------------------------------------------------------------------------------------------------------------------------------------
@@ -228,6 +258,8 @@ if($user=BOD_RT)
 			if ( $res ) {
 				$total_reject= $grand-$totalprice;
 				$grandtotal2  = number_format($total_reject);
+				$unprocessed_po = $total_reject-$temp_total;
+				$unprocessed_total = number_format($unprocessed_po);
 
 				if(empty($grandtotal))
 				{
@@ -240,17 +272,20 @@ if($user=BOD_RT)
 				$message->HTMLBody .= "
 										<table style=' margin-top:10px; border:solid 1px #888; background:#f1f1f1; padding:8px;'>											      
 										<tr>
-										<td width='160' style=' font-weight:bold;'>Approved By </td>  <td width='30' align='center'> : </td> <td> $end_user </td>
+										<td width='160' style=' font-weight:bold;'>Processed by </td>  <td width='30' align='center'> : </td> <td> $end_user </td>
 										</tr>
 										<tr>
-										<td style=' font-weight:bold;'>Tanggal Approval </td> <td width='30' align='center'> : </td> <td> $tgl_approval </td>
+										<td style=' font-weight:bold;'>Date Processed </td> <td width='30' align='center'> : </td> <td> $tgl_approval </td>
 										</tr>
 										<tr>
 										<td style=' font-weight:bold;'>Total Approved </td> <td width='30' align='center'> : </td> <td> $total_appro (Rp.$total_app)</td>
 										</tr>
 										<tr>
 										<td style=' font-weight:bold;'>Total Reject </td>  <td width='30' align='center'> : </td> <td> $total_rejek (Rp.$grandtotal2)</td>
-										</tr>			 											    
+										</tr>	
+										<tr>
+										<td style=' font-weight:bold;'>Rejected PPO </td>  <td width='30' align='center'> : </td> <td> sudah di rejek sembelumnya (Rp.$unprocessed_total)</td>
+										</tr>	 											    
 										</table>
 										<br>
 										";

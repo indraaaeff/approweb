@@ -1654,6 +1654,7 @@ $('.checkbox-md').change(function(){ //".checkbox" change
 });
 $('.submit').click(function(){
 	var datesub=formatDate(new Date());
+	$(".datetime").val(datesub);
 	$('#tgl_approval').val(datesub);
 });
 $('.checkbox-md').on('click',function(){
