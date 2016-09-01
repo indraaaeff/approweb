@@ -77,15 +77,15 @@ if($user=BOD_RT)
 							    <br>
 							    <table style=' border-spacing: 0; margin-top:2px; margin-bottom:2px; border-collapse: collapse; border:solid 1px #555; '>	                  
 							    <tr bgcolor='#0099CC' style=' border-spacing: 0;border-collapse: collapse; font-weight:bold; border:solid 1px #555; color:#FFFFFF;text-transform:uppercase'>
-							    <td align='center' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> NAMA VENDOR </td>
-							    <td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #555; '> NO PO </td>
-							    <td align='center' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> TGL PO </td>
-							    <td align='center' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> TOTAL </td>
-							    <td align='center' width='76' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> RT </td>
-							    <td align='center' width='76' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> HP </td>
-							    <td align='center' width='76' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> DL </td>
-							    <td align='center' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> NOTE </td>
-							    <td align='center' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> FINAL STATUS </td>
+							    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> NAMA VENDOR </td>
+							    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555; '> NO PO </td>
+							    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> TGL PO </td>
+							    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> TOTAL </td>
+							    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> RT </td>
+							    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> HP </td>
+							    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> DL </td>
+							    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> NOTE </td>
+							    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> STATUS </td>
 							    </tr>";
 
 		    $totalprice  = 0;
@@ -101,7 +101,10 @@ if($user=BOD_RT)
 		    $total_rejek_dl = 0;
 
 		    $final_stats = '';
-		    $temp_total = 0;
+		    $end_user2='';
+		    $end_user='RT';
+		    $tgl_approval2='';
+		   	$approval2='';
 
 		    for ($i = 0; $i < count($po); $i++) 
 		    {
@@ -124,7 +127,7 @@ if($user=BOD_RT)
 
 		    	if($proval_hp ==1)
 		    	{
-		    		$byapp_hp='Approved';
+		    		$byapp_hp='A';
 		    	} 
 		    	else 
 		    	{
@@ -132,13 +135,13 @@ if($user=BOD_RT)
 		    		{
 		    			$byapp_hp='';
 		    		} else {
-		    			$byapp_hp='Reject';
+		    			$byapp_hp='R';
 		    		}
 				} //end if 
 
 				if($proval_dl ==1)
 				{
-					$byapp_dl='Approved';
+					$byapp_dl='A';
 				} 
 				else 
 				{
@@ -148,7 +151,7 @@ if($user=BOD_RT)
 					} 
 					else 
 					{
-						$byapp_dl='Reject';
+						$byapp_dl='R';
 					}
 				} //end if 
 
@@ -158,44 +161,70 @@ if($user=BOD_RT)
 			   }else {
 			   		$usr='';
 			   }
-
+			   //status per BOD
 			   if($prove_rt ==1)
 			   {
 			   		$total_appro++;
-			   		$byapp='Approved';
+			   		$byapp='A';
 			   		$totalprice += $end_total;
 			   		$grandtotal  = number_format($totalprice);	
 			   }
-			   else 
+			   else if ($prove_rt ==0)
 			   {	
-			   		if (!empty($end_tgl_dl) || !empty($end_tgl_hp)) {
-			   			
-			   		}
-			   		if ($proval_dl==0) {
-			   			$byapp = '-';
+			   		if (!empty($end_tgl_hp)) {
+			   			if ($proval_hp==0) {
+			   				$byapp = '-';
+			   				$total_rejek++;
+			   			} else {
+			   				$byapp = 'R';
+			   				$total_rejek++;
+			   			}
+			   		} else if (!empty($end_tgl_dl)) {
+			   			if ($proval_dl==0) {
+			   				$byapp = '-';
+			   				$total_rejek++;
+			   			} else {
+			   				$byapp = 'R';
+			   				$total_rejek++;
+			   			}
 			   		} else {
-				   		$byapp='Reject';
+				   		$byapp='R';
 				   		$total_rejek++;
-				   		$temp_total += $end_total;
-
 			   		}
 			   }
 			   // isi final status
-			   if (empty($end_tgl_dl) || empty($end_tgl_hp)) {
-				   	if ($prove_rt==1) {
-				   		if ($proval_hp==1 || $proval_dl==1) {
-				   			$final_stats = 'Approved';
-				   		}
-				   	} else {
-				   		$final_stats = 'Reject';
-				   	}
-			   } else {
-			   		if ($prove_rt==1) {
-			   			$final_stats = 'Approved';
+			   if ($prove_rt==1) {
+			   		if (!empty($end_tgl_hp)) {
+			   			if ($proval_hp==1) {
+			   				$final_stats = 'Approved';
+			   			} else {
+			   				$final_stats = 'Rejected';
+			   			}
+			   		} else if (!empty($end_tgl_dl)) {
+			   			if ($proval_dl==1) {
+			   				$final_stats = 'Approved';
+			   			} else {
+			   				$final_stats = 'Rejected';
+			   			}
 			   		} else {
-			   			$final_stats = 'Reject';
+			   			$final_stats = 'Approved';	
 			   		}
+			   } else {
+			   		$final_stats = 'Rejected';
 			   }
+			   // proses2
+			   if (!empty($end_tgl_hp)) {
+			   		$end_user = 'RT';
+			   		$end_user2 = 'HP';
+			   		$tgl_approval2 = $end_tgl_hp;
+			   		$approval2 = "<tr><td width='160' style=' font-weight:bold;'>$end_user2 approved</td>  <td width='30' align='center'> : </td> <td> $tgl_approval2 </td></tr>";
+			   } else if (!empty($end_tgl_dl)) {
+			   		$end_user = 'RT';
+			   		$end_user2 = 'DL';
+			   		$tgl_approval2 = $end_tgl_dl;
+			   		$approval2 = "<tr><td width='160' style=' font-weight:bold;'>$end_user2 approved</td>  <td width='30' align='center'> : </td> <td> $tgl_approval2 </td></tr>";
+			   }
+
 			   
 			   if($tgl_rt !=='')
 			   {
@@ -232,11 +261,11 @@ if($user=BOD_RT)
 								   <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #888; '>$end_po</td>
 								   <td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$end_tgl_po</td>
 								   <td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '> $total_po</td>
-								   <td align='center' bgcolor='#eee' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp</td>
-								   <td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp_hp</td>
-								   <td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp_dl</td>
-								   <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #888; '>$usr $usr_hp $usr_dl</td>
-								   <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #888; '><u>$final_stats</u></td>
+								   <td align='center' bgcolor='#eee' style='border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp</td>
+								   <td align='center' style='border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp_hp</td>
+								   <td align='center' style='border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp_dl</td>
+								   <td align='center' style='border-spacing: 0; border-collapse: collapse; border:solid 1px #888; '>$usr $usr_hp $usr_dl</td>
+								   <td align='center' style='border-spacing: 0; border-collapse: collapse; border:solid 1px #888; '>$final_stats</td>
 								   </tr>
 								   ";
 			   //------------------------------------------------------------------------------------------------------------------------------------
@@ -258,9 +287,9 @@ if($user=BOD_RT)
 			if ( $res ) {
 				$total_reject= $grand-$totalprice;
 				$grandtotal2  = number_format($total_reject);
-				$unprocessed_po = $total_reject-$temp_total;
-				$unprocessed_total = number_format($unprocessed_po);
-
+				// $unprocessed_po = $total_reject-$temp_total;
+				// $unprocessed_total = number_format($unprocessed_po);
+				
 				if(empty($grandtotal))
 				{
 					$total_app=0;
@@ -272,20 +301,12 @@ if($user=BOD_RT)
 				$message->HTMLBody .= "
 										<table style=' margin-top:10px; border:solid 1px #888; background:#f1f1f1; padding:8px;'>											      
 										<tr>
-										<td width='160' style=' font-weight:bold;'>Processed by </td>  <td width='30' align='center'> : </td> <td> $end_user </td>
+										<td width='160' style=' font-weight:bold;'>$end_user approved</td>  <td width='30' align='center'> : </td> <td> $tgl_approval </td>
 										</tr>
+										$approval2
 										<tr>
-										<td style=' font-weight:bold;'>Date Processed </td> <td width='30' align='center'> : </td> <td> $tgl_approval </td>
+										<td style=' font-weight:bold;'>Total Approved </td> <td width='30' align='center'> : </td> <td> $total_appro/$total_ppo (Rp.$total_app)</td>
 										</tr>
-										<tr>
-										<td style=' font-weight:bold;'>Total Approved </td> <td width='30' align='center'> : </td> <td> $total_appro (Rp.$total_app)</td>
-										</tr>
-										<tr>
-										<td style=' font-weight:bold;'>Total Reject </td>  <td width='30' align='center'> : </td> <td> $total_rejek (Rp.$grandtotal2)</td>
-										</tr>	
-										<tr>
-										<td style=' font-weight:bold;'>Rejected PPO </td>  <td width='30' align='center'> : </td> <td> sudah di rejek sembelumnya (Rp.$unprocessed_total)</td>
-										</tr>	 											    
 										</table>
 										<br>
 										";

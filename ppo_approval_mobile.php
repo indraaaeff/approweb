@@ -124,10 +124,11 @@ $user=$_SESSION['username'];
 				 	<b class="head-mob">No Pengajuan : <?php echo $PPO_Number; ?><br></b>
 					<b class="head-mob">Tanggal :  <?php echo $tgl_pengajuan;?><br></b>
 					<b class="head-mob">Submitted By <?php echo $by;?><br></b>
+					<b class="head-mob">
 						<?php 
-							$total_ppo=$PPO_TableDetail->num_rows;
-							echo '<b class="head-mob">Total PO : $total_ppo</b>';
+							$total_ppo=$PPO_TableDetail->num_rows; echo "Total PO : $total_ppo";
 						?>
+					</b>
 				</div>
 			</div>
 			<div class="panel-body">
@@ -214,11 +215,110 @@ $user=$_SESSION['username'];
             									<?php 
             									if ($user == BOD_RT) {
             										if (!empty($po_tgl_approved_rt)) {
-	            										if ($po_approve_by_rt==0) {
-	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Anda</b> -</i></u></p>';
+            											if (!empty($po_tgl_approved_hp) || !empty($po_tgl_approved_dl)) {
+            												if ($po_approve_by_rt==1) {
+	            												if ($po_approve_by_hp==0 || $po_approve_by_dl==0) {
+	            													echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Anda</b> -</i></u></p>';
+	            												}
+            												} else {
+            													if ($po_approve_by_hp==0 || $po_approve_by_dl==0) {
+            														echo "";
+	            												}
+            												}
+            											} else {
+		            										if ($po_approve_by_rt==0) {
+		            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Anda</b> -</i></u></p>';
+		            										} else {
+		            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Anda</b> -</i></u></p>';
+		            										}
+            											}
+            										} else {
+
+            											if (!empty($po_tgl_approved_hp)) {
+            												if (!empty($po_tgl_approved_dl)) {
+	            												if ($po_approve_by_hp==0) {
+	            													echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Harijanto Pribadi</b> -</i></u></p>';
+	            												} else {
+	            													echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Harijanto Pribadi</b> -</i></u></p>';
+	            												}
+	            											}
+            											}
+            											if (!empty($po_tgl_approved_dl)) {
+            												if ($po_approve_by_dl==0) {
+            													echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Dicky Lisal</b> -</i></u></p>';
+            												} else {
+            													echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Dicky Lisal</b> -</i></u></p>';
+            												}
+            											}
+            										} 
+            									} 
+            									else if ($user == BOD_HP){
+            										if (!empty($po_tgl_approved_rt)) {
+            											if (!empty($po_tgl_approved_hp) || !empty($po_tgl_approved_dl)) {
+            												if ($po_approve_by_rt==1) {
+	            												if ($po_approve_by_hp==0 || $po_approve_by_dl==0) {
+	            													echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
+	            												}
+            												} else {
+            													if ($po_approve_by_hp==0 || $po_approve_by_dl==0) {
+            														echo "";
+	            												}
+            												}
+            											} else {
+		            										if ($po_approve_by_rt==0) {
+		            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
+		            										} else {
+		            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
+		            										}
+            											}
+            										}
+            										if (!empty($po_tgl_approved_hp)) {
+            											if (!empty($po_tgl_approved_dl)) {
+            												if ($po_approve_by_hp==1) {
+            													if ($po_approve_by_dl==1) {
+            														echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Anda</b> -</i></u></p>';
+            													} else {
+            														echo "";
+            													}
+            												} else {
+            													if ($po_approve_by_dl == 1) {
+            														echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Anda</b> -</i></u></p>';
+            													}
+            												}
+            											} else {
+            												if ($po_approve_by_hp==0) {
+            													echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Anda</b> -</i></u></p>';
+            												} else {
+            													echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Anda</b> -</i></u></p>';
+            												}
+            											}
+            										}
+            										if (!empty($po_tgl_approved_dl)) {
+	            										if ($po_approve_by_dl==0) {
+	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Dicky Lisal</b> -</i></u></p>';
 	            										} else {
-	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Anda</b> -</i></u></p>';
+	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Dicky Lisal</b> -</i></u></p>';
 	            										}
+            										}
+            									} else if($user == BOD_DL) {
+            										if (!empty($po_tgl_approved_rt)) {
+            											if (!empty($po_tgl_approved_hp) || !empty($po_tgl_approved_dl)) {
+            												if ($po_approve_by_rt==1) {
+	            												if ($po_approve_by_hp==0 || $po_approve_by_dl==0) {
+	            													echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
+	            												}
+            												} else {
+            													if ($po_approve_by_hp==0 || $po_approve_by_dl==0) {
+            														echo "";
+	            												}
+            												}
+            											} else {
+		            										if ($po_approve_by_rt==0) {
+		            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
+		            										} else {
+		            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
+		            										}
+            											}
             										}
             										if (!empty($po_tgl_approved_hp)) {
 	            										if ($po_approve_by_hp==0) {
@@ -228,55 +328,26 @@ $user=$_SESSION['username'];
 	            										}
             										}
             										if (!empty($po_tgl_approved_dl)) {
-	            										if ($po_approve_by_dl==0) {
-	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Dicky Lisal</b> -</i></u></p>';
-	            										} else {
-	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Dicky Lisal</b> -</i></u></p>';
-	            										}
-            										}
-            									} else if ($user == BOD_HP){
-            										if (!empty($po_tgl_approved_rt)) {
-	            										if ($po_approve_by_rt==0) {
-	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
-	            										} else {
-	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
-	            										}
-            										}
-            										if (!empty($po_tgl_approved_hp)) {
-	            										if ($po_approve_by_hp==0) {
-	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Anda</b> -</i></u></p>';
-	            										} else {
-	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Anda</b> -</i></u></p>';
-	            										}
-            										}
-            										if (!empty($po_tgl_approved_dl)) {
-	            										if ($po_approve_by_dl==0) {
-	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Dicky Lisal</b> -</i></u></p>';
-	            										} else {
-	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Dicky Lisal</b> -</i></u></p>';
-	            										}
-            										}
-            									} else {
-            										if (!empty($po_tgl_approved_rt)) {
-	            										if ($po_approve_by_rt==0) {
-	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
-	            										} else {
-	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
-	            										}
-            										}
-            										if (!empty($po_tgl_approved_hp)) {
-	            										if ($po_approve_by_hp==0) {
-	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Harijanto Pribadi</b> -</i></u></p>';
-	            										} else {
-	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Harijanto Pribadi</b> -</i></u></p>';
-	            										}
-            										}
-            										if (!empty($po_tgl_approved_dl)) {
-	            										if ($po_approve_by_dl==0) {
-	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Anda</b> -</i></u></p>';
-	            										} else {
-	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Anda</b> -</i></u></p>';
-	            										}
+            											if (!empty($po_tgl_approved_hp)) {
+            												if ($po_approve_by_dl==1) {
+            													if ($po_approve_by_hp==1) {
+            														echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Anda</b> -</i></u></p>';
+            													} else {
+            														echo "";
+            													}
+            												} else {
+            													if ($po_approve_by_hp==1) {
+            														echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Anda</b> -</i></u></p>';
+            													}
+            												}
+            											} else {
+
+            												if ($po_approve_by_dl==0) {
+            													echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Anda</b> -</i></u></p>';
+            												} else {
+            													echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Anda</b> -</i></u></p>';
+            												}
+            											}
             										}
             									}
             									?>

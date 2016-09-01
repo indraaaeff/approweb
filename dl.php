@@ -76,43 +76,51 @@ if($user=BOD_DL)
 								<br>
 								<table  style=' border-spacing: 0; margin-top:2px; margin-bottom:2px; border-collapse: collapse; border:solid 1px #555; '>	                  
 								<tr bgcolor='#00DF55' style=' border-spacing: 0;border-collapse: collapse; font-weight:bold; border:solid 1px #555; color:#FFFFFF;text-transform:uppercase'>
-								<td align='center' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> NAMA VENDOR </td>
-								<td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #555; '> NO PO </td>
-								<td align='center' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> TGL PO </td>
-								<td align='center' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> TOTAL </td>
-								<td align='center' width='76' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> RT </td>
-								<td align='center' width='76' style='padding:8px;   border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> HP </td>
-								<td align='center' width='76' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> DL </td>
-								<td align='center' style='padding:8px;  border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> NOTE </td>
+								<td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> NAMA VENDOR </td>
+								<td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555; '> NO PO </td>
+								<td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> TGL PO </td>
+								<td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> TOTAL </td>
+								<td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> RT </td>
+								<td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> HP </td>
+								<td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> DL </td>
+								<td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> NOTE </td>
+								<td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> STATUS </td>
 								</tr>";
 
 			$totalprice  = 0; 
 			$total_appro = 0;
 			$total_rejek = 0;
 			
+			$final_stats = '';
+			$final_proses = 0;
+			$end_user2 = '';
+			$tgl_approval2 = '';
+			$end_user='DL';
+			$approval2='';
+
 			for ($i = 0; $i < count($po); $i++) 
 			{
-				$end_tgl_rt = $tgl_app_rt[$i];
-				$proval_rt  = $po_app_rt[$i];
+				$end_tgl_rt         = $tgl_app_rt[$i];
+				$proval_rt          = $po_app_rt[$i];
 
-				$end_tgl_hp        = $tgl_app_hp[$i];
-				$proval_hp         = $po_app_hp[$i];
+				$end_tgl_hp         = $tgl_app_hp[$i];
+				$proval_hp          = $po_app_hp[$i];
 
-				$tgl_dl                = $tanggal_dl[$i];
-				$prove_dl              = $app_dl[$i];  	                                              
-				$end_po                = $po[$i];
-				$end_vendor            = $vendor[$i];
-				$end_total             = $total[$i];
-				$end_tgl_po            = $tgl_po[$i];
-				$x                     = $y[$i];
+				$tgl_dl             = $tanggal_dl[$i];
+				$prove_dl           = $app_dl[$i];  	                                              
+				$end_po             = $po[$i];
+				$end_vendor         = $vendor[$i];
+				$end_total          = $total[$i];
+				$end_tgl_po         = $tgl_po[$i];
+				$x                  = $y[$i];
 				// $tt                    = $t[$i];
-				$end_keterangan_dl     = $keterangan_dl[$i];
-				$end_keterangan_rt     = $keterangan_rt[$i];
-				$end_keterangan_hp     = $keterangan_hp[$i];
+				$end_keterangan_dl  = $keterangan_dl[$i];
+				$end_keterangan_rt  = $keterangan_rt[$i];
+				$end_keterangan_hp  = $keterangan_hp[$i];
 
 				if($proval_hp ==1)
 				{
-					$byapp_hp='Approved';
+					$byapp_hp='A';
 				} 
 				else 
 				{
@@ -120,20 +128,20 @@ if($user=BOD_DL)
 					{
 						$byapp_hp='';
 					} else {
-						$byapp_hp='Reject';
+						$byapp_hp='R';
 					}
 				} //end if 
 
 				if($proval_rt ==1)
 				{
-					$byapp_rt='Approved';
+					$byapp_rt='A';
 				} else {
 
 					if ($end_tgl_rt =='') 
 					{
 						$byapp_rt='';
 					} else {
-						$byapp_rt='Reject';
+						$byapp_rt='R';
 					}
 				} //end if
 
@@ -160,18 +168,61 @@ if($user=BOD_DL)
 				} else {
 					$usr_hp='';
 				}
-
+				//status per BOD
 				if($prove_dl ==1)
 				{
 					$total_appro++;
 					$totalprice += $end_total;
 					$grandtotal  = number_format($totalprice);
-					$byapp='Approved';
+					$byapp='A';
+				} else if ($prove_dl==0){
+					if (!empty($end_tgl_hp)) {
+						if ($proval_hp==0) {
+							$byapp='-';
+							$total_rejek++;		
+						} else {
+							$byapp = 'R';
+			   				$total_rejek++;
+						}
+					} else {
+						$byapp='R';
+						$total_rejek++;
+					}
+				}
+				//final status
+				if ($prove_dl==1) {
+					if (!empty($end_tgl_hp)) {
+						if ($proval_hp==1) {
+							$final_proses = 1;
+							$final_stats = 'Approved';
+						} else {
+							$final_proses=1;
+							$final_stats = 'Rejected';
+						}
+					} else {
+						$final_proses = 0;
+						$final_stats = 'In Progress';
+					}
 				} else {
-					$byapp='Reject';
-					$total_rejek++;
-	            } //end
-	                                          
+					if (!empty($end_tgl_hp)) {
+						if ($proval_hp==1) {
+							$final_proses = 1;
+							$final_stats = 'Rejected';
+						} else {
+							$final_proses = 1;
+							$final_stats = 'Rejected';
+						}
+					} else {
+						$final_proses = 0;
+						$final_stats = 'In Progress';
+					}
+				}
+				// jika ini proses kedua
+				if (!empty($end_tgl_hp)) {
+					$end_user2 = 'HP';
+					$tgl_approval2 = $end_tgl_hp;
+					$approval2 = "<tr><td width='160' style=' font-weight:bold;'>$end_user2 approved</td>  <td width='30' align='center'> : </td> <td> $tgl_approval2 </td></tr>";
+				}
 				if($tgl_dl !=='')
 				{
 					$end_tgl=$tgl_dl;
@@ -184,16 +235,17 @@ if($user=BOD_DL)
 
 				$total_po    = number_format($end_total);
 				$message->HTMLBody .= "<tr>
-				<td  style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$end_vendor</td>       
-				<td  align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #888; '>$end_po</td>
-				<td  align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$end_tgl_po</td>
-				<td  align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$total_po</td>
-				<td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp_rt</td>
-				<td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp_hp</td>
-				<td align='center' bgcolor='#eee' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp</td>
-				<td  align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #888; '>$usr_rt $usr_hp $usr</td>
-				</tr>
-				";
+										<td style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$end_vendor</td>       
+										<td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #888; '>$end_po</td>
+										<td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$end_tgl_po</td>
+										<td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$total_po</td>
+										<td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp_rt</td>
+										<td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp_hp</td>
+										<td align='center' bgcolor='#eee' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$byapp</td>
+										<td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #888; '>$usr_rt $usr_hp $usr</td>
+										<td align='center' style='border-spacing: 0; border-collapse: collapse; border:solid 1px #888; '>$final_stats</td>
+										</tr>
+										";
 
 
 				if (is_null( $end_tgl_hp ) || empty( $end_tgl_hp ))
@@ -220,21 +272,20 @@ if($user=BOD_DL)
 				$message->HTMLBody .= "</table><br>";
 				$message->HTMLBody .= "<table style=' margin-top:10px; border:solid 1px #888; background:#f1f1f1; padding:8px;'>
 										<tr>
-										<td width='160' style=' font-weight:bold;'>Approved By </td>  <td width='30' align='center'> : </td> <td> $end_user </td>
-										</tr>
+									    <td width='160' style=' font-weight:bold; '> $end_user approved</td>  <td width='30' align='center'> : </td> <td> $tgl_approval </td>
+									    </tr>
+									    $approval2
 										<tr>
-										<td style=' font-weight:bold;'>Tanggal Approval </td> <td width='30' align='center'> : </td> <td> $tgl_approval </td>
+										<td style=' font-weight:bold;'>Total Approved </td> <td width='30' align='center'> : </td> <td> $total_appro/$total_ppo (Rp.$total_app)</td>
 										</tr>
-										<tr>
-										<td style=' font-weight:bold;'>Total Approved </td> <td width='30' align='center'> : </td> <td> $total_appro (Rp.$total_app)</td>
-										</tr>
-										<tr>
-										<td style=' font-weight:bold;'>Total Reject </td>  <td width='30' align='center'> : </td> <td> $total_rejek (Rp.$grandtotal2)</td>
-										</tr>					    
 										</table>
 										<br>";
 				$message->Configuration = $messageCon;
-				$message->Send() ;
+				if ($final_proses==1) {
+					$message->Send() ;
+				} else {
+					
+				}
 				$isUpdate = true;
 			}
 		}

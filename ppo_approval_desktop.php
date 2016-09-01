@@ -999,7 +999,7 @@ $user=$_SESSION['username'];
 
 				              					$yang_approv=BOD_DL;
 				              					$end_yang_app = ucwords($yang_approv);
-				              					echo"<div class='alerts'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+				              					echo"<div class='alerts'><b>Data pengajuan PO ini telah di proses</b><br>
 				              					<div style='float:left; width:75px;'>Process By</div>
 				              					<div style='float:left;margin-left:10px;margin-right:10px;'> : </div> 
 				              					<div style=float:left;> $end_yang_app</div> <br>
@@ -1021,7 +1021,7 @@ $user=$_SESSION['username'];
 
 				              					$yang_approv=BOD_HP;
 		            							$end_yang_app = ucwords($yang_approv);
-		            							echo"<div class='alerts'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+		            							echo"<div class='alerts'><b>Data pengajuan PO ini telah di proses</b><br>
 		            							<div style='float:left; width:75px;'>Process By</div> 
 		            							<div style='float:left;margin-left:10px;margin-right:10px;'> : </div> 
 		            							<div style=float:left;>$end_yang_app</div> <br>
@@ -1074,7 +1074,10 @@ $user=$_SESSION['username'];
 				              					<div style=float:left;> $po_tgl_approved_hp dan $po_tgl_approved_dl</div><br>                            
 				              					</div>";	
 				              				}  else {  
-				              					echo'<div class="alerts"><b>Data pengajuan PO ini telah selesai di proses</b></div>';
+				              					echo"<div class='alerts'><b>Data pengajuan PO ini telah selesai anda proses</b><br>
+				              					<div style='float:left; width:75px;'> Tanggal</div> 
+				              					<div style='float:left; margin-left:10px;margin-right:10px;'>:</div> 
+				              					<div style=float:left;>$po_tgl_approved_hp</div></div>";
 				              				}
 				              			} else { 
 				              				if (!is_null( $po_tgl_approved_rt ) || !empty( $po_tgl_approved_rt ))
@@ -1092,7 +1095,7 @@ $user=$_SESSION['username'];
 
 				              					$yang_approv=BOD_DL;
 				              					$end_yang_app = ucwords($yang_approv);
-				              					echo"<div class='alerts'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+				              					echo"<div class='alerts'><b>Data pengajuan PO ini telah di proses</b><br>
 				              					<div style='float:left; width:75px;'>Process By</div>
 				              					<div style='float:left;margin-left:10px;margin-right:10px;'> : </div> 
 				              					<div style=float:left;> $end_yang_app</div> <br>
@@ -1144,7 +1147,10 @@ $user=$_SESSION['username'];
 		            							<div style=float:left;> $po_tgl_approved_hp dan $po_tgl_approved_dl</div><br>          
 		            							</div>";	
 		            						} else {
-		            							echo'<div class="alerts"><b>Data pengajuan PO ini telah selesai di proses</b></div>';
+		            							echo"<div class='alerts'><b>Data pengajuan PO ini telah selesai anda proses</b><br>
+		            							<div style='float:left; width:75px;'> Tanggal</div> 
+		            							<div style='float:left; margin-left:10px;margin-right:10px;'>:</div> 
+		            							<div style=float:left;>$po_tgl_approved_dl</div> </div>";
 		            						}
 		            					} else { 
 		            						if (!is_null( $po_tgl_approved_rt ) || !empty( $po_tgl_approved_rt ))
@@ -1263,7 +1269,7 @@ $user=$_SESSION['username'];
 
 				              					$yang_approv=BOD_DL;
 				              					$end_yang_app = ucwords($yang_approv);
-				              					echo"<div class='alerts'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+				              					echo"<div class='alerts'><b>Data pengajuan PO ini telah di proses</b><br>
 				              					<div style='float:left; width:75px;'>Process By</div>
 				              					<div style='float:left;margin-left:10px;margin-right:10px;'> : </div> 
 				              					<div style=float:left;> $end_yang_app</div> <br>
@@ -1285,7 +1291,7 @@ $user=$_SESSION['username'];
 
 				              					$yang_approv=BOD_HP;
 		            							$end_yang_app = ucwords($yang_approv);
-		            							echo"<div class='alerts'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+		            							echo"<div class='alerts'><b>Data pengajuan PO ini telah di proses</b><br>
 		            							<div style='float:left; width:75px;'>Process By</div> 
 		            							<div style='float:left;margin-left:10px;margin-right:10px;'> : </div> 
 		            							<div style=float:left;>$end_yang_app</div> <br>
@@ -1358,7 +1364,7 @@ $user=$_SESSION['username'];
 
 				              					$yang_approv=BOD_DL;
 				              					$end_yang_app = ucwords($yang_approv);
-				              					echo"<div class='alerts'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+				              					echo"<div class='alerts'><b>Data pengajuan PO ini telah di proses</b><br>
 				              					<div style='float:left; width:75px;'>Process By</div>
 				              					<div style='float:left;margin-left:10px;margin-right:10px;'> : </div> 
 				              					<div style=float:left;> $end_yang_app</div> <br>
