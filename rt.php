@@ -18,6 +18,7 @@ if($user=BOD_RT)
 		$dl_tgl        = $_POST['dl_tgl'];
 		$keterangan_dl = $_POST['po_comment_dl'];
 		//var RT
+		$no_ppo 	   = $_POST['no_ppo'];
 		$tgl_approval  = $_POST['tgl_approval'];
 		$tgl_pengajuan = $_POST['tgl_pengajuan'];
 		$tanggal_rt    = $_POST['po_tgl_approved_rt'];
@@ -36,76 +37,103 @@ if($user=BOD_RT)
 		$rt_tgl        = $_POST['rt_tgl'];	 
 		$isUpdate      = false;
 
+		$Database->autocommit( FALSE );
 		include_once "mailserver.php";
-		$message   = new COM('CDO.Message');
-		$messageCon= new COM('CDO.Configuration') ;
+		// $message   = new COM('CDO.Message');
+		// $messageCon= new COM('CDO.Configuration') ;
+		$MailSubject  = "APPROVED PPO NO. $no_ppo ($tanggal $bulan $tahun)";
+		$MailBody = "  <font style='font-size:16px; font-weight:bold;'>Berikut hasil persetujuan pengajuan PO :</font>
+						    <br>
+						    <table style=' margin-top:10px;'>
+						    <tr>
+						    <td style=' font-weight:bold;' width='160'>No PPO </td>  <td width='30' align='center'> : </td> <td> $ppo </td>
+						    </tr>
+						    <tr>
+						    <td style=' font-weight:bold;' width='160'>Tanggal Pengajuan </td>  <td width='30' align='center'> : </td> <td> $tgl_pengajuan </td>
+						    </tr>
+						    <tr>
+						    <td style=' font-weight:bold;' width='160'>Total PO </td>  <td width='30' align='center'> : </td> <td> $total_ppo (<i>Rp.$end_grand</i>)</td>
+						    </tr> 
+						    <tr>
+						    <td style=' font-weight:bold;'>Submitted By </td> <td width='30' align='center'> : </td> <td> $sub_by </td>
+						    </tr>											 
+						    </table>
+						    <br>
+						    <table style=' border-spacing: 0; margin-top:2px; margin-bottom:2px; border-collapse: collapse; border:solid 1px #555; '>	                  
+						    <tr bgcolor='#0099CC' style=' border-spacing: 0;border-collapse: collapse; font-weight:bold; border:solid 1px #555; color:#FFFFFF;text-transform:uppercase'>
+						    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> NAMA VENDOR </td>
+						    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555; '> NO PO </td>
+						    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> TGL PO </td>
+						    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> TOTAL </td>
+						    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> RT </td>
+						    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> HP </td>
+						    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> DL </td>
+						    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> NOTE </td>
+						    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> STATUS </td>
+						    </tr>";
 
+		$totalprice  = 0;
+		$total_appro = 0;					   
+		$total_rejek = 0;
 
-		try 
+		$totalprice_hp  = 0;
+		$total_appro_hp = 0;
+		$total_rejek_hp = 0;
+
+		$totalprice_dl  = 0;
+		$total_appro_dl = 0;
+		$total_rejek_dl = 0;
+
+		$final_stats = '';
+		$end_user2='';
+		$end_user='RT';
+		$tgl_approval2='';
+		$approval2='';
+
+		// getdata untuk sinkronisasi
+		$PPO_TableDetail2 = $Database->query( "Call GetPPO_Detail( '$no_ppo' )" );
+		$row = $PPO_TableDetail2->fetch_assoc();
+		$po_tgl_approved_hp = $row['tgl_approved_hp'];
+		$po_tgl_approved_dl = $row['tgl_approved_dl'];
+		// // cek proses BOD_RT
+		// if (!empty($po_tgl_approved_rt) && !is_null($po_tgl_approved_rt)) {
+		// 	$isUpdate = false;
+		// 	$final_proses=1;
+		// }
+		//cek proses BOD_DL
+		if (!empty($po_tgl_approved_hp) && !is_null($po_tgl_approved_hp) && !empty($po_tgl_approved_dl) && !is_null($po_tgl_approved_dl)) {
+			$isUpdate= false;
+			$final_proses=1;
+			// $PPO_TableDetail2->data_seek(0);
+			// $i=0;
+			// while ($row = $PPO_TableDetail2->fetch_assoc()) {
+			// 	$tgl_app_hp[$i] = $row['tgl_approved_hp'];
+			// 	$po_app_hp[$i]  = $row['approve_by_hp'];
+			// 	$tgl_app_dl[$i] = $row['tgl_approved_dl'];
+			// 	$po_app_dl[$i]  = $row['approve_by_dl'];
+			// 	$i++;
+			// }
+		} else if (!empty($po_tgl_approved_hp) && !is_null($po_tgl_approved_hp) || !empty($po_tgl_approved_dl) && !is_null($po_tgl_approved_dl)) {
+			$isUpdate = true;
+			$final_proses=1;
+			$PPO_TableDetail2->data_seek(0);
+			$i=0;
+			while ($row = $PPO_TableDetail2->fetch_assoc()) {
+				$tgl_app_hp[$i] = $row['tgl_approved_hp'];
+				$po_app_hp[$i]  = $row['approve_by_hp'];
+				$tgl_app_dl[$i] = $row['tgl_approved_dl'];
+				$po_app_dl[$i]  = $row['approve_by_dl'];
+				$i++;
+			}
+		} else {
+			$isUpdate = true;
+			$final_proses =1;
+		}
+		$PPO_TableDetail2->free();
+		$Database->next_result();
+
+		if ($isUpdate) 
 		{
-			$messageCon->Fields['http://schemas.microsoft.com/cdo/configuration/smtpserver'] = HTSMAIL_SERVER;
-			$messageCon->Fields['http://schemas.microsoft.com/cdo/configuration/smtpserverport'] = HTSMAIL_PORT;
-			$messageCon->Fields['http://schemas.microsoft.com/cdo/configuration/smtpauthenticate'] = SMTP_BASICAUTHENTICATION;
-			$messageCon->Fields['http://schemas.microsoft.com/cdo/configuration/sendusername'] = HTSMAIL_USERNAME;
-			$messageCon->Fields['http://schemas.microsoft.com/cdo/configuration/sendpassword'] = HTSMAIL_PASSWORD;
-			$messageCon->Fields['http://schemas.microsoft.com/cdo/configuration/sendusing'] = SMTP_USEPORT ;
-			$messageCon->Fields['http://schemas.microsoft.com/cdo/configuration/smtpconnectiontimeout'] = 30 ;
-			$messageCon->Fields->Update();
-
-			$message->From     = 'indra <indraeff@hts.net.id>'; //ISP Integrated System [mailto:no-reply@hts.net.id] 
-		    $message->To       = 'BOD <indraeff@hts.net.id>'; // BOD
-		    $message->CC       = ''; // EMAIL RT
-		    $message->BCC      = '';
-		    $message->Subject  = "Notifikasi Persetujuan pengajuan PO per $tanggal $bulan $tahun ";
-
-		    $message->HTMLBody = "  <font style='font-size:16px; font-weight:bold;'>Berikut hasil persetujuan pengajuan PO :</font>
-							    <br>
-							    <table style=' margin-top:10px;'>
-							    <tr>
-							    <td style=' font-weight:bold;' width='160'>No PPO </td>  <td width='30' align='center'> : </td> <td> $ppo </td>
-							    </tr>
-							    <tr>
-							    <td style=' font-weight:bold;' width='160'>Tanggal Pengajuan </td>  <td width='30' align='center'> : </td> <td> $tgl_pengajuan </td>
-							    </tr>
-							    <tr>
-							    <td style=' font-weight:bold;' width='160'>Total PO </td>  <td width='30' align='center'> : </td> <td> $total_ppo (<i>Rp.$end_grand</i>)</td>
-							    </tr> 
-							    <tr>
-							    <td style=' font-weight:bold;'>Submitted By </td> <td width='30' align='center'> : </td> <td> $sub_by </td>
-							    </tr>											 
-							    </table>
-							    <br>
-							    <table style=' border-spacing: 0; margin-top:2px; margin-bottom:2px; border-collapse: collapse; border:solid 1px #555; '>	                  
-							    <tr bgcolor='#0099CC' style=' border-spacing: 0;border-collapse: collapse; font-weight:bold; border:solid 1px #555; color:#FFFFFF;text-transform:uppercase'>
-							    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> NAMA VENDOR </td>
-							    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555; '> NO PO </td>
-							    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> TGL PO </td>
-							    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> TOTAL </td>
-							    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> RT </td>
-							    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> HP </td>
-							    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> DL </td>
-							    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> NOTE </td>
-							    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> STATUS </td>
-							    </tr>";
-
-		    $totalprice  = 0;
-		    $total_appro = 0;					   
-		    $total_rejek = 0;
-
-		    $totalprice_hp  = 0;
-		    $total_appro_hp = 0;
-		    $total_rejek_hp = 0;
-
-		    $totalprice_dl  = 0;
-		    $total_appro_dl = 0;
-		    $total_rejek_dl = 0;
-
-		    $final_stats = '';
-		    $end_user2='';
-		    $end_user='RT';
-		    $tgl_approval2='';
-		   	$approval2='';
-
 		    for ($i = 0; $i < count($po); $i++) 
 		    {
 		    	$end_tgl_hp        = $tgl_app_hp[$i];
@@ -164,10 +192,15 @@ if($user=BOD_RT)
 			   //status per BOD
 			   if($prove_rt ==1)
 			   {
-			   		$total_appro++;
-			   		$byapp='A';
-			   		$totalprice += $end_total;
-			   		$grandtotal  = number_format($totalprice);	
+			   		if (!empty($end_tgl_hp) && $proval_hp==0 || !empty($end_tgl_dl) && $proval_dl==0) {
+						$byapp='-';
+						$total_rejek++;	
+					} else {
+						$total_appro++;
+						$totalprice += $end_total;
+						$grandtotal  = number_format($totalprice);
+						$byapp='A';
+					}
 			   }
 			   else if ($prove_rt ==0)
 			   {	
@@ -256,7 +289,7 @@ if($user=BOD_RT)
 			   }
 
 			   $total_po    = number_format($end_total);
-			   $message->HTMLBody .= "<tr>
+			   $MailBody .= "<tr>
 								   <td style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$end_vendor</td>       
 								   <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #888; '>$end_po</td>
 								   <td align='center' style='padding:8px; border-spacing: 0;border-collapse: collapse; border:solid 1px #888; '>$end_tgl_po</td>
@@ -279,50 +312,36 @@ if($user=BOD_RT)
 				echo 'NO <br/>';
 			  echo $user . ', ' . $ppo . ', ' . $end_po . ', ' . $prove_rt . ', ' . $end_tgl . ', ' . $end_keterangan_rt . '<br/>';
  */              
-			  $Database->autocommit( FALSE );
 			  $res= $Database->query( "Call SetPPO_Detail( '$user','$ppo','$end_po',$prove_rt,'$end_tgl','$end_keterangan_rt', 0, null )" );			 
 
             }//end for
+      	}
 
-			if ( $res ) {
-				$total_reject= $grand-$totalprice;
-				$grandtotal2  = number_format($total_reject);
-				// $unprocessed_po = $total_reject-$temp_total;
-				// $unprocessed_total = number_format($unprocessed_po);
-				
-				if(empty($grandtotal))
-				{
-					$total_app=0;
-				} else {
-					$total_app=$grandtotal;
-				}			  
-
-				$message->HTMLBody  .= "</table><br>";
-				$message->HTMLBody .= "
-										<table style=' margin-top:10px; border:solid 1px #888; background:#f1f1f1; padding:8px;'>											      
-										<tr>
-										<td width='160' style=' font-weight:bold;'>$end_user approved</td>  <td width='30' align='center'> : </td> <td> $tgl_approval </td>
-										</tr>
-										$approval2
-										<tr>
-										<td style=' font-weight:bold;'>Total Approved </td> <td width='30' align='center'> : </td> <td> $total_appro/$total_ppo (Rp.$total_app)</td>
-										</tr>
-										</table>
-										<br>
-										";
-				$message->Configuration = $messageCon;
-				$message->Send() ;
-				$isUpdate = true;
-			}
-        }
-        catch (com_exception $e) {
-//        	print "<hr>\n\n";
-//        	print $e . "\n";
-//        	var_dump($e);
-//        	print "<hr>\n\n";
-        }
+    
 
         if ( $isUpdate ) {
+        	$total_reject= $grand-$totalprice;
+        	$grandtotal2  = number_format($total_reject);
+
+        	if(empty($grandtotal))
+        	{
+        		$total_app=0;
+        	} else {
+        		$total_app=$grandtotal;
+        	}		
+        	$MailBody .= "</table><br>
+						<table style=' margin-top:10px; border:solid 1px #888; background:#f1f1f1; padding:8px;'>											      
+						<tr>
+						<td width='160' style=' font-weight:bold;'>$end_user approved</td>  <td width='30' align='center'> : </td> <td> $tgl_approval </td>
+						</tr>
+						$approval2
+						<tr>
+						<td style=' font-weight:bold;'>Total Approved </td> <td width='30' align='center'> : </td> <td> $total_appro/$total_ppo (Rp.$total_app)</td>
+						</tr>
+						</table>
+						<br>
+						";
+			include_once "SendMail.php";
 			$Database->commit();
 			// redirect ke halaman approval
         	echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data telah berhasil di submit';</script>";
@@ -331,6 +350,7 @@ if($user=BOD_RT)
 			// redirect ke halaman approval
         	echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data gagal di submit';</script>";
         }
+        $Database->autocommit( TRUE );
    	}  //end post
 } // end if rt
 ?>

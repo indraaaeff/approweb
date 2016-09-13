@@ -62,7 +62,7 @@ td{
 }
 thead.table_po{
 	font-size: 12px;
-	background-color: #fddcb7;
+	background-color: #f9ecdd;
 }
 .tengah{
 	text-align: center;
@@ -140,7 +140,7 @@ a:hover, a:focus{
 }
 .panel-default>.panel-heading {
     color: #333;
-    background-color: #fddcb7;
+    background-color: #f9ecdd;
     border-color: #ddd;
 }
 h4.panel-title{
@@ -211,6 +211,23 @@ body{
 	float:right;
 	margin: 20px;
 }
+.dversion{
+	font-size: 12px;
+}
+select {
+	margin-top:0px;
+}
+a.po_modal{
+	color: #000;
+	outline: none !important;
+}
+.nomarbot{
+	margin-bottom: 0px !important;
+}
+.table_modal{
+	/*background-color: #eee;*/
+	border: 1px solid #eee;
+}
 /*---------------*/
 /* Media Queries */
 /*---------------*/
@@ -267,7 +284,13 @@ body{
 	p.text-muted {
 		margin: 0px !important;
 		text-align: center;
-		padding-top: 20px;
+		padding-top: 10px;
+		padding-bottom: 10px;
 		font-size: 10px;
+	}
+}
+@media (max-width: 959px){
+    .row_tabel_detail{
+		width :75% !important;
 	}
 }

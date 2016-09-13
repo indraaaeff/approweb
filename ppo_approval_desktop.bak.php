@@ -145,7 +145,7 @@ $user=$_SESSION['username'];
 						<table class="table table-striped table-bordered table-hover" id="tabele">
 							<thead class="table_po">
 								<tr>
-									<th>No.</th>
+									<th></th>
 									<th class="tengah">NO PO</th>
 									<th class="tengah">NAMA VENDOR</th>
 									<th class="tengah">TANGGAL PO</th>
@@ -158,21 +158,20 @@ $user=$_SESSION['username'];
 									<th class="tengah">NOTE </th>
 									<!-- <?php echo $user; ?> -->
 								</tr>
-<?php 
-	include "modal_po.php";
-?>
+
 							</thead>
 								<?php
 								$no = +1;
 								$grand= 0;
 								$total_ppo_rejek=0;
 								while ($row = $PPO_TableDetail->fetch_assoc()) {
+									$no_po = $row['no_po'];
 									// echo $row['no_po'];
 									// echo $no_po;
 
-								
-									$no_po = $row['no_po'];
-									// echo $no_po;
+								?>
+									<?php 
+
 									// $yes = $no_po;
 
 									// echo is_array($yes) ? 'Array' : 'not an Array';
@@ -189,10 +188,9 @@ $user=$_SESSION['username'];
 									// echo "id 1 = ".$pieces[0]."<br>";
 									// echo "id 2 = ".$pieces[1]."<br>";
 									// echo "id 3 = ".$pieces[2]."<br>";
-							// include "modal_po.php";
+							include "modal_po.php";
 							?>
 							<tbody class="desktop">
-								<!-- <div><a href="#mymodal" data-toggle="modal" id="<?php echo $no_po; ?>" data-target="#modal_detail"><?php echo "ppo ke ".$no; ?></a></div> -->
 								<input type="hidden" name="key" value="<?php echo $key;?>">
 								<input type="hidden" name="u" value="<?php echo $_GET['u'];?>">
 								<input type="hidden" name="total_ppo" id="total_ppo" value="<?php echo $total_ppo;?>"	>
@@ -205,8 +203,7 @@ $user=$_SESSION['username'];
 								<tr align="center" id="detail_column">
 									<?php $Tanggal_po = date( 'd-m-Y', strtotime( $row['tgl_po'] )); ?>
             						<td><?php echo $no;?></td>
-            						<!-- <td id="<?php echo $no_po; ?>" class="nomor_po" value="<?php echo $no_po; ?>" onchange="enableTxt(this)"><?php echo $no_po;?></td> -->
-            						<td><a href="#mymodal" data-toggle="modal" id="<?php echo $no_po; ?>" data-target="#modal_detail" class="po_modal"><?php echo $no_po; ?></a></td>
+            						<td id="<?php echo $no_po; ?>" class="nomor_po" value="<?php echo $no_po; ?>" onchange="enableTxt(this)"><?php echo $no_po;?></td>
             						<td><?php echo $row['nama_vendor'];?></td>
             						<td><?php echo  $Tanggal_po;?></td>
             						<!-- <td style="display:none;"><?php echo $row['comment_rt'] ?></td> -->
@@ -1826,33 +1823,25 @@ $('.submit').click(function(){
 
 $(document).ready(function()
    {
-   		$('td.nomor_po').on('click',function (){
-		// var cellText = $(this).html();
-		// alert(cellText);
-		// alert(this.id);
+   	var cellText
+   	$('td.nomor_po').on('click',function (){
+	// var cellText = $(this).html();
+	// alert(cellText);
+	// alert(this.id);
+    // $("#nopo_modal").val(this.id);
+    $("#modal_detail").modal("show");
 
-		$("#modal_detail").modal("show");
+    // alert(cellText);
+    // alert (cellText);
+    // $("#tanggal_po").val($(this).closest('tr').children()[3].textContent);
+    // $("#nama_vendor").val($(this).closest('tr').children()[2].textContent);
+    // $("#ppo_number").val($(this).closest('tr').children()[1].textContent);
 	});
-
    	$('#modal_detail').on('show.bs.modal',function showUser(str) {
-   		// var cellText = $('td.nomor_po').prop("id");
+   		var cellText = $('td.nomor_po').prop("id");
 		// alert(cellText);
 		// var idpo = var cellText;
-		var $modal = $(this),
-   		esseyId = str.relatedTarget.id;
-
-//            $.ajax({
-//                cache: false,
-//                type: 'POST',
-//                url: 'backend.php',
-//                data: 'EID='+essay_id,
-//                success: function(data) 
-//                {
-		$modal.find('#nopo_modal').html(esseyId);
-//                }
-//            });
-   		var cellText = esseyId;
-		if (cellText=="") {
+		if (str=="") {
 			document.getElementById("txtHint").innerHTML="";
 			return;
 		} 
@@ -1870,8 +1859,6 @@ $(document).ready(function()
   		}
   		xmlhttp.open("GET","detail_tabel.php?q="+cellText,true);
   		xmlhttp.send();
-  		// $("select:nth-child(1)").val(str);
-  		// $("select#list-po").val(str);
   	});
 });
 // $('td#nomor_po').click(function() {

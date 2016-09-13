@@ -55,6 +55,14 @@ $user=$_SESSION['username'];
 <head>
 	<title>HTS APP</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- change the color of header and address bar -->
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#f26904">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#f26904">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#f26904">
 
   	<link rel="stylesheet" href="js/bootstrap.js">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
@@ -139,6 +147,7 @@ $user=$_SESSION['username'];
 								<?php
 								$no = +1;
 								$grand= 0;
+                                                $total_ppo_rejek=0;
 								while ($row = $PPO_TableDetail->fetch_assoc()) {
 
 								?>
@@ -179,176 +188,38 @@ $user=$_SESSION['username'];
             									<b>Tanggal PO :</b> <?php echo $Tanggal_po; ?><br>
             									<b>Nama Vendor :</b> <?php echo $row['nama_vendor']; ?><br><br>
 
+            									
             									<?php 
             									if(!empty($po_tgl_approved_rt)){
             										if($po_approve_by_rt==0){
-            											echo '<p class="status" style="color:red;font-weight:bold;">Rejected</p>';
+            											echo '<p class="status" style="color:red;font-weight:bold;">==&nbsp; Rejected &nbsp;==</p>';
             										} else {
-            											echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
+            											echo '<p class="status" style="color:green;font-weight:bold;">==&nbsp; Approved &nbsp;==</p>';
             										}
             									} else if (!empty($po_tgl_approved_hp) && !empty($po_tgl_approved_dl)) {
             										if ($po_approve_by_hp==0 && $po_approve_by_dl==0) {
-            											echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
+            											echo '<p class="status"style="color:red;font-weight:bold;">==&nbsp; Rejected &nbsp;==</p>';
             										} else if ($po_approve_by_hp==1  && $po_approve_by_dl==1){
-            											echo '<p class="status" style="color:green;font-weight:bold;">Approved</p>';
+            											echo '<p class="status" style="color:green;font-weight:bold;">==&nbsp; Approved &nbsp;==</p>';
             										} else if ($po_approve_by_hp==0 && $po_approve_by_dl==1) {
-            											echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
+            											echo '<p class="status"style="color:red;font-weight:bold;">==&nbsp; Rejected &nbsp;==</p>';
             										} else if ($po_approve_by_hp==1  && $po_approve_by_dl==0){
-            											echo '<p class="status" style="color:red;font-weight:bold;">Rejected</p>';
+            											echo '<p class="status" style="color:red;font-weight:bold;">==&nbsp; Rejected &nbsp;==</p>';
             										}
             									} else if (!empty($po_tgl_approved_hp)){
             										if ($po_approve_by_hp==0) {
-            											echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
+            											echo '<p class="status"style="color:red;font-weight:bold;">==&nbsp; Rejected &nbsp;==</p>';
             										} else {
             											echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
             										}
             									} else if (!empty($po_tgl_approved_dl)){
             										if($po_approve_by_dl==0){
-            											echo '<p class="status"style="color:red;font-weight:bold;">Rejected</p>';
+            											echo '<p class="status"style="color:red;font-weight:bold;">==&nbsp; Rejected &nbsp;==</p>';
             										} else {
             											echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
             										}
             									}else {
             										echo '<p class="status" style="color:orange;font-weight:bold;">In Progress</p>';
-            									}
-            									?>
-            									<?php 
-            									if ($user == BOD_RT) {
-            										if (!empty($po_tgl_approved_rt)) {
-            											if (!empty($po_tgl_approved_hp) || !empty($po_tgl_approved_dl)) {
-            												if ($po_approve_by_rt==1) {
-	            												if ($po_approve_by_hp==0 || $po_approve_by_dl==0) {
-	            													echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Anda</b> -</i></u></p>';
-	            												}
-            												} else {
-            													if ($po_approve_by_hp==0 || $po_approve_by_dl==0) {
-            														echo "";
-	            												}
-            												}
-            											} else {
-		            										if ($po_approve_by_rt==0) {
-		            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Anda</b> -</i></u></p>';
-		            										} else {
-		            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Anda</b> -</i></u></p>';
-		            										}
-            											}
-            										} else {
-
-            											if (!empty($po_tgl_approved_hp)) {
-            												if (!empty($po_tgl_approved_dl)) {
-	            												if ($po_approve_by_hp==0) {
-	            													echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Harijanto Pribadi</b> -</i></u></p>';
-	            												} else {
-	            													echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Harijanto Pribadi</b> -</i></u></p>';
-	            												}
-	            											}
-            											}
-            											if (!empty($po_tgl_approved_dl)) {
-            												if ($po_approve_by_dl==0) {
-            													echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Dicky Lisal</b> -</i></u></p>';
-            												} else {
-            													echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Dicky Lisal</b> -</i></u></p>';
-            												}
-            											}
-            										} 
-            									} 
-            									else if ($user == BOD_HP){
-            										if (!empty($po_tgl_approved_rt)) {
-            											if (!empty($po_tgl_approved_hp) || !empty($po_tgl_approved_dl)) {
-            												if ($po_approve_by_rt==1) {
-	            												if ($po_approve_by_hp==0 || $po_approve_by_dl==0) {
-	            													echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
-	            												}
-            												} else {
-            													if ($po_approve_by_hp==0 || $po_approve_by_dl==0) {
-            														echo "";
-	            												}
-            												}
-            											} else {
-		            										if ($po_approve_by_rt==0) {
-		            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
-		            										} else {
-		            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
-		            										}
-            											}
-            										}
-            										if (!empty($po_tgl_approved_hp)) {
-            											if (!empty($po_tgl_approved_dl)) {
-            												if ($po_approve_by_hp==1) {
-            													if ($po_approve_by_dl==1) {
-            														echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Anda</b> -</i></u></p>';
-            													} else {
-            														echo "";
-            													}
-            												} else {
-            													if ($po_approve_by_dl == 1) {
-            														echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Anda</b> -</i></u></p>';
-            													}
-            												}
-            											} else {
-            												if ($po_approve_by_hp==0) {
-            													echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Anda</b> -</i></u></p>';
-            												} else {
-            													echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Anda</b> -</i></u></p>';
-            												}
-            											}
-            										}
-            										if (!empty($po_tgl_approved_dl)) {
-	            										if ($po_approve_by_dl==0) {
-	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Dicky Lisal</b> -</i></u></p>';
-	            										} else {
-	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Dicky Lisal</b> -</i></u></p>';
-	            										}
-            										}
-            									} else if($user == BOD_DL) {
-            										if (!empty($po_tgl_approved_rt)) {
-            											if (!empty($po_tgl_approved_hp) || !empty($po_tgl_approved_dl)) {
-            												if ($po_approve_by_rt==1) {
-	            												if ($po_approve_by_hp==0 || $po_approve_by_dl==0) {
-	            													echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
-	            												}
-            												} else {
-            													if ($po_approve_by_hp==0 || $po_approve_by_dl==0) {
-            														echo "";
-	            												}
-            												}
-            											} else {
-		            										if ($po_approve_by_rt==0) {
-		            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
-		            										} else {
-		            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Richardus Teddy</b> -</i></u></p>';
-		            										}
-            											}
-            										}
-            										if (!empty($po_tgl_approved_hp)) {
-	            										if ($po_approve_by_hp==0) {
-	            											echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Harijanto Pribadi</b> -</i></u></p>';
-	            										} else {
-	            											echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Harijanto Pribadi</b> -</i></u></p>';
-	            										}
-            										}
-            										if (!empty($po_tgl_approved_dl)) {
-            											if (!empty($po_tgl_approved_hp)) {
-            												if ($po_approve_by_dl==1) {
-            													if ($po_approve_by_hp==1) {
-            														echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Anda</b> -</i></u></p>';
-            													} else {
-            														echo "";
-            													}
-            												} else {
-            													if ($po_approve_by_hp==1) {
-            														echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Anda</b> -</i></u></p>';
-            													}
-            												}
-            											} else {
-
-            												if ($po_approve_by_dl==0) {
-            													echo '<p class="warn-notif"><u><i>- PO ini telah di <b>Tolak</b> oleh <b>Anda</b> -</i></u></p>';
-            												} else {
-            													echo '<p class="succ-notif"><u><i>- PO ini telah di <b>Setujui</b> oleh <b>Anda</b> -</i></u></p>';
-            												}
-            											}
-            										}
             									}
             									?>
             								</a>
@@ -378,7 +249,14 @@ $user=$_SESSION['username'];
             									<?php 
             									if (!empty($po_tgl_approved_rt)) {
             										if ($po_approve_by_rt==1) {
-														echo '<input type="checkbox" class="checked" disabled checked>';//checked disabled
+            											if (!empty($po_tgl_approved_hp) && $po_approve_by_hp==0) {
+	            										echo '<input type="checkbox" class="checked" disabled >';
+	            									} else if (!empty($po_tgl_approved_dl) && $po_approve_by_dl==0) {
+	            										echo '<input type="checkbox" class="checked" disabled >';
+	            									} else {
+		            									echo '<input type="checkbox" class="checked" disabled checked>';
+	            									}
+														// echo '<input type="checkbox" class="checked" disabled checked>';//checked disabled
             										} else {
 														echo '<span class="glyphicon glyphicon-remove reject"></span>';
             										}
@@ -577,6 +455,21 @@ $user=$_SESSION['username'];
 													?>
 													><?php if(!empty($po_comment_dl)){echo $po_comment_dl;} ?></textarea>
 												<!-- BOD_HP SESSION -->
+												<?php 
+												if (!empty($po_tgl_approved_rt)) {
+													if ($po_approve_by_rt==0) {
+														$total_ppo_rejek++;
+													}
+												} else if (!empty($po_tgl_approved_hp)) {
+													if ($po_approve_by_hp==0) {
+														$total_ppo_rejek++;
+													}
+												} else if (!empty($po_tgl_approved_dl)) {
+													if ($po_approve_by_dl==0) {
+														$total_ppo_rejek++;
+													}
+												}
+												?>
             									<?php 
             										} else if ( $user == BOD_HP)
 													{
@@ -785,6 +678,22 @@ $user=$_SESSION['username'];
 													}
 													?>
 													><?php if(!empty($po_comment_dl)){echo $po_comment_dl;} ?></textarea>
+                                                                              <!-- bod HP session -->
+                                                                              <?php 
+                                                                              if (!empty($po_tgl_approved_rt)) {
+                                                                                    if ($po_approve_by_rt==0) {
+                                                                                          $total_ppo_rejek++;
+                                                                                    }
+                                                                              } else if (!empty($po_tgl_approved_hp)) {
+                                                                                    if ($po_approve_by_hp==0) {
+                                                                                          $total_ppo_rejek++;
+                                                                                    }
+                                                                              } else if (!empty($po_tgl_approved_dl)) {
+                                                                                    if ($po_approve_by_dl==0) {
+                                                                                          $total_ppo_rejek++;
+                                                                                    }
+                                                                              }
+                                                                              ?>
             									<?php
             										} else if ($user == BOD_DL){
 												?>
@@ -990,6 +899,22 @@ $user=$_SESSION['username'];
 														}
 														?>
 														><?php if(!empty($po_comment_dl)){echo $po_comment_dl;} ?></textarea>
+                                                                                    <!-- bod DL session -->
+                                                                                    <?php 
+                                                                                    if (!empty($po_tgl_approved_rt)) {
+                                                                                          if ($po_approve_by_rt==0) {
+                                                                                                $total_ppo_rejek++;
+                                                                                          }
+                                                                                    } else if (!empty($po_tgl_approved_hp)) {
+                                                                                          if ($po_approve_by_hp==0) {
+                                                                                                $total_ppo_rejek++;
+                                                                                          }
+                                                                                    } else if (!empty($po_tgl_approved_dl)) {
+                                                                                          if ($po_approve_by_dl==0) {
+                                                                                                $total_ppo_rejek++;
+                                                                                          }
+                                                                                    }
+                                                                                    ?>
 												<?php
 													}
             									?>
@@ -1028,7 +953,7 @@ $user=$_SESSION['username'];
 				              					$appB= BOD_HP;
 				              					$end_appA = ucwords($appA);
 				              					$end_appB = ucwords($appB);
-				              					echo"<div class='alerts' style='line-height:170%;'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+				              					echo"<div class='alerts' style='line-height:170%;'><b>Pengajuan PO ini telah selesai di proses</b><br>
 				              					<div style='float:left;'><u>Processed By :</u></div><br>
 				              					<div style=float:left;>$end_appA ($po_tgl_approved_rt)</div><br>
 				              					<div style=float:left;>$end_appB ($po_tgl_approved_hp)</div><br>
@@ -1040,7 +965,7 @@ $user=$_SESSION['username'];
 				              					$appB= BOD_DL;
 				              					$end_appA = ucwords($appA);
 				              					$end_appB = ucwords($appB);
-				              					echo"<div class='alerts' style='line-height:170%;'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+				              					echo"<div class='alerts' style='line-height:170%;'><b>Pengajuan PO ini telah selesai di proses</b><br>
 				              					<div style='float:left;'><u>Processed By :</u></div><br>
 				              					<div style=float:left;>$end_appA ($po_tgl_approved_rt)</div><br>
 				              					<div style=float:left;>$end_appB ($po_tgl_approved_dl)</div><br>
@@ -1049,7 +974,7 @@ $user=$_SESSION['username'];
 				              				else { 
 				              					$yang_approv=BOD_RT;
 				              					$end_yang_app = ucwords($yang_approv);
-				              					echo"<div class='alerts'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+				              					echo"<div class='alerts'><b>Pengajuan PO ini telah selesai di proses</b><br>
 				              					<div style='float:left;'><u>Processed By :</u></div><br>
 				              					<div style=float:left;>$end_yang_app ($po_tgl_approved_rt)</div><br>
 				              					</div>";
@@ -1061,7 +986,7 @@ $user=$_SESSION['username'];
 				              					$appB= BOD_DL;
 				              					$end_appA = ucwords($appA);
 				              					$end_appB = ucwords($appB);
-				              					echo"<div class='alerts' style='line-height:170%;'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+				              					echo"<div class='alerts' style='line-height:170%;'><b>Pengajuan PO ini telah selesai di proses</b><br>
 				              					<div style='float:left;'><u>Processed By :</u></div><br>
 				              					<div style=float:left;>$end_appA ($po_tgl_approved_hp)</div><br>
 				              					<div style=float:left;>$end_appB ($po_tgl_approved_dl)</div><br>
@@ -1070,28 +995,32 @@ $user=$_SESSION['username'];
 
 				              					$yang_approv=BOD_DL;
 				              					$end_yang_app = ucwords($yang_approv);
-				              					echo"<div class='alerts'><b>Data pengajuan PO ini telah di proses</b><br>
+				              					echo"<div class='alerts'><b>Pengajuan PO ini telah di proses</b><br>
 				              					<div style='float:left;'><u>Processed By :</u></div><br>
 				              					<div style=float:left;> $end_yang_app ($po_tgl_approved_dl)</div><br>
 				              					</div>";
+                                                                  if ($total_ppo_rejek!=$total_ppo) {
 				              	?>
 					              					<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
 					              					<label class="submit" style="margin:20px;"><input type="checkbox" id="check_all"><u>Approve All</u> </label>
 					              					<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
 				              	<?php 
+                                                                  }
 				              				} else if(!is_null($po_tgl_approved_hp) || !empty($po_tgl_approved_hp)){
 
 				              					$yang_approv=BOD_HP;
 		            							$end_yang_app = ucwords($yang_approv);
-		            							echo"<div class='alerts'><b>Data pengajuan PO ini telah di proses</b><br>
+		            							echo"<div class='alerts'><b>Pengajuan PO ini telah di proses</b><br>
 		            							<div style='float:left;'><u>Processed By :</u></div><br>
 		            							<div style=float:left;>$end_yang_app ($po_tgl_approved_hp)</div> <br>
 		            							</div>";
+                                                                  if ($total_ppo_rejek!=$total_ppo) {
 		            			?>
 			            							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
 			            							<label class="submit" style="margin:20px;"><input type="checkbox" id="check_all"><u>Approve All</u> </label>
 			            							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
 		            			<?php
+                                                                  }
 				              				} else { 
 				              	?>
 		              							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
@@ -1113,23 +1042,25 @@ $user=$_SESSION['username'];
 				              					$appB= BOD_DL;
 				              					$end_appA = ucwords($appA);
 				              					$end_appB = ucwords($appB);
-				              					echo"<div class='alerts' style='line-height:170%;'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+				              					echo"<div class='alerts' style='line-height:170%;'><b>Pengajuan PO ini telah selesai di proses</b><br>
 				              					<div style='float:left;'><u>Processed By :</u></div><br>
 				              					<div style=float:left;>$end_appA ($po_tgl_approved_hp)</div><br>
 				              					<div style=float:left;>$end_appB ($po_tgl_approved_dl)</div><br>
 				              					</div>";	
 				              				}  else {  
-				              					echo"<div class='alerts'><b>Data pengajuan PO ini telah selesai anda proses</b><br>
-				              					<div style='float:left;'> Tanggal</div> 
-				              					<div style='float:left; margin-left:10px;margin-right:10px;'>:</div> 
-				              					<div style=float:left;>$po_tgl_approved_hp</div></div>";
+				              					$yang_approv=BOD_HP;
+				              					$end_yang_app = ucwords($yang_approv);
+				              					echo"<div class='alerts'><b>Pengajuan PO ini telah selesai di proses</b><br>
+				              					<div style='float:left;'><u>Processed By :</u></div><br>
+				              					<div style=float:left;>$end_yang_app ($po_tgl_approved_hp)</div><br>
+				              					</div>";
 				              				}
 				              			} else { 
 				              				if (!is_null( $po_tgl_approved_rt ) || !empty( $po_tgl_approved_rt ))
 				              				{
 				              					$yang_approv=BOD_RT;
 				              					$end_yang_app = ucwords($yang_approv);
-				              					echo"<div class='alerts'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+				              					echo"<div class='alerts'><b>Pengajuan PO ini telah selesai di proses</b><br>
 				              					<div style='float:left;'><u>Processed By :</u></div><br>
 				              					<div style=float:left;> $end_yang_app ($po_tgl_approved_rt)</div> <br>
 				              					</div>";
@@ -1137,15 +1068,17 @@ $user=$_SESSION['username'];
 
 				              					$yang_approv=BOD_DL;
 				              					$end_yang_app = ucwords($yang_approv);
-				              					echo"<div class='alerts'><b>Data pengajuan PO ini telah di proses</b><br>
+				              					echo"<div class='alerts'><b>Pengajuan PO ini telah di proses</b><br>
 				              					<div style='float:left;'><u>Processed By :</u></div><br>
 				              					<div style=float:left;> $end_yang_app ($po_tgl_approved_dl)</div> <br>
 				              					</div>";
+                                                                  if ($total_ppo_rejek!=$total_ppo) {
 				              	?>
 							              			<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
 							              			<label class="submit" style="margin:20px;"><input type="checkbox" id="check_all"><u>Approve All</u> </label>
 							              			<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
 								<?php
+                                                                  }
 				              				} else {
 				              	?>
 						              			<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
@@ -1165,14 +1098,14 @@ $user=$_SESSION['username'];
 		            							$appB= BOD_DL;
 		            							$end_appA = ucwords($appA);
 		            							$end_appB = ucwords($appB);
-		            							echo"<div class='alerts' style='line-height:170%;'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+		            							echo"<div class='alerts' style='line-height:170%;'><b>Pengajuan PO ini telah selesai di proses</b><br>
 		            							<div style='float:left;'><u>Processed By :</u></div><br>
 		            							<div style=float:left;>$end_appA ($po_tgl_approved_hp)</div><br>
 		            							<div style=float:left;>$end_appB ($po_tgl_approved_dl)</div><br>
 		            							</div>";	
 		            						} else {
-		            							echo"<div class='alerts'><b>Data pengajuan PO ini telah anda proses</b><br>
-		            							<div style='float:left;'> Tanggal</div> 
+		            							echo"<div class='alerts'><b>Pengajuan PO ini telah anda proses</b><br>
+		            							<div style='float:left;'></div> 
 		            							<div style='float:left; margin-left:10px;margin-right:10px;'>:</div> 
 		            							<div style=float:left;>$po_tgl_approved_dl</div> </div>";
 		            						}
@@ -1181,7 +1114,7 @@ $user=$_SESSION['username'];
 		            						{
 		            							$yang_approv=BOD_RT;
 		            							$end_yang_app = ucwords($yang_approv);
-		            							echo"<div class='alerts'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+		            							echo"<div class='alerts'><b>Pengajuan PO ini telah selesai di proses</b><br>
 		            							<div style='float:left;'><u>Processed By:</u></div><br> 
 		            							<div style=float:left;>$end_yang_app ($po_tgl_approved_rt)</div><br>
 		            							</div>";
@@ -1189,15 +1122,17 @@ $user=$_SESSION['username'];
 
 		            							$yang_approv=BOD_HP;
 		            							$end_yang_app = ucwords($yang_approv);
-		            							echo"<div class='alerts'><b>Data pengajuan PO ini telah di proses</b><br>
+		            							echo"<div class='alerts'><b>Pengajuan PO ini telah di proses</b><br>
 		            							<div style='float:left;'><u>Processed By :</u></div><br>
 		            							<div style=float:left;>$end_yang_app ($po_tgl_approved_hp)</div><br>
 		            							</div>";
+                                                                  if ($total_ppo_rejek!=$total_ppo) {
 		            			?>
 	                    							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
 	                    							<label class="submit" style="margin:20px;"><input type="checkbox" id="check_all"><u>Approve All</u> </label>
 	                    							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
 		            			<?php
+                                                                  }
 		            						} else {
 		            							
 								?>
@@ -1228,7 +1163,7 @@ $user=$_SESSION['username'];
 				              					$appB= BOD_HP;
 				              					$end_appA = ucwords($appA);
 				              					$end_appB = ucwords($appB);
-				              					echo"<div class='alerts' style='line-height:170%;'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+				              					echo"<div class='alerts' style='line-height:170%;'><b>Pengajuan PO ini telah selesai di proses</b><br>
 				              					<div style='float:left;'><u>Processed By :</u></div><br>
 				              					<div style=float:left;>$end_appA ($po_tgl_approved_rt)</div><br>
 				              					<div style=float:left;>$end_appB ($po_tgl_approved_hp)</div><br>
@@ -1240,7 +1175,7 @@ $user=$_SESSION['username'];
 				              					$appB= BOD_DL;
 				              					$end_appA = ucwords($appA);
 				              					$end_appB = ucwords($appB);
-				              					echo"<div class='alerts' style='line-height:170%;'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+				              					echo"<div class='alerts' style='line-height:170%;'><b>Pengajuan PO ini telah selesai di proses</b><br>
 				              					<div style='float:left;'><u>Processed By :</u></div><br> 
 				              					<div style=float:left;>$end_appA ($po_tgl_approved_rt)</div><br>
 				              					<div style=float:left;>$end_appB ($po_tgl_approved_dl)</div><br>
@@ -1249,9 +1184,10 @@ $user=$_SESSION['username'];
 				              				else { 
 				              					$yang_approv=BOD_RT;
 				              					$end_yang_app = ucwords($yang_approv);
-				              					echo"<div class='alerts'><b>Data pengajuan PO ini telah selesai di proses</b><br>
-				              					<div style='float:left; width:75px;'>Processed By</div> <div style='float:left;margin-left:10px;margin-right:10px;'> : </div> <div style=float:left;>$end_yang_app</div> <br>
-				              					<div style='float:left; width:75px;'> Tanggal</div> <div style='float:left; margin-left:10px;margin-right:10px;'>:</div> <div style=float:left;>$po_tgl_approved_rt</div> </div>";
+				              					echo"<div class='alerts'><b>Pengajuan PO ini telah selesai di proses</b><br>
+				              					<div style='float:left;'><u>Processed By :</u></div><br>
+				              					<div style=float:left;>$end_yang_app ($po_tgl_approved_rt)</div><br>
+				              					</div>";
 				              				}
 				              			}   else  { 
 				              				if ( (!is_null( $po_tgl_approved_hp ) || !empty( $po_tgl_approved_hp )) && (!is_null( $po_tgl_approved_dl ) || !empty( $po_tgl_approved_dl ))  )
@@ -1260,7 +1196,7 @@ $user=$_SESSION['username'];
 				              					$appB= BOD_DL;
 				              					$end_appA = ucwords($appA);
 				              					$end_appB = ucwords($appB);
-				              					echo"<div class='alerts' style='line-height:170%;'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+				              					echo"<div class='alerts' style='line-height:170%;'><b>Pengajuan PO ini telah selesai di proses</b><br>
 				              					<div style='float:left;'><u>Processed By :</u></div> 
 				              					<div style=float:left;>$end_appA ($po_tgl_approved_hp)</div><br>
 				              					<div style=float:left;>$end_appB ($po_tgl_approved_dl)</div><br>
@@ -1269,27 +1205,31 @@ $user=$_SESSION['username'];
 
 				              					$yang_approv=BOD_DL;
 				              					$end_yang_app = ucwords($yang_approv);
-				              					echo "<div class='alerts'><b>Data pengajuan PO ini telah di proses</b><br>
+				              					echo "<div class='alerts'><b>Pengajuan PO ini telah di proses</b><br>
 				              					<div style='float:left;'><u>Processed By : </u></div><br>
 				              					<div style=float:left;> $end_yang_app ($po_tgl_approved_dl)</div><br></div>";
+                                                                  if ($total_ppo_rejek!=$total_ppo) {
 				              	?>
 			              							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
 			              							<label class="appall"><input type="checkbox" id="check_all"><u>Approve All</u></label>
 			              							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
 				              	<?php
+                                                                  }
 				              				} else if(!is_null($po_tgl_approved_hp) || !empty($po_tgl_approved_hp)){
 
 				              					$yang_approv=BOD_HP;
 		            							$end_yang_app = ucwords($yang_approv);
-		            							echo"<div class='alerts'><b>Data pengajuan PO ini telah di proses</b><br>
+		            							echo"<div class='alerts'><b>Pengajuan PO ini telah di proses</b><br>
 		            							<div style='float:left;'><u>Processed By :</u></div> 
 		            							<div style=float:left;>$end_yang_app ($po_tgl_approved_hp)</div> <br>
 		            							</div>";
+                                                                  if ($total_ppo_rejek!=$total_ppo) {
 		            			?>
 	            									<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
 			              							<label class="appall"><input type="checkbox" id="check_all"><u>Approve All</u></label>
 			              							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
 				              	<?php
+                                                                  }
 				              				} else { 
 				              	?>
 		              							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
@@ -1309,24 +1249,25 @@ $user=$_SESSION['username'];
 				              					$appB= BOD_HP;
 				              					$end_appA = ucwords($appA);
 				              					$end_appB = ucwords($appB);
-				              					echo"<div class='alerts' style='line-height:170%;'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+				              					echo"<div class='alerts' style='line-height:170%;'><b>Pengajuan PO ini telah selesai di proses</b><br>
 				              					<div style='float:left;'><u>Processed  By :</u></div> 
 				              					<div style=float:left;>$end_appA ($po_tgl_approved_dl)</div><br>
 				              					<div style=float:left;>$end_appB ($po_tgl_approved_hp)</div><br>                            
 				              					</div>";	
 				              				}  else {  
-				              					// echo'<div class="alerts"><b>Data pengajuan PO ini telah selesai di proses</b></div>';
-				              					echo"<div class='alerts'><b>Data pengajuan PO ini telah selesai anda proses</b><br>
-				              					<div style='float:left;'> Tanggal</div> 
-				              					<div style='float:left; margin-left:10px;margin-right:10px;'>:</div> 
-				              					<div style=float:left;>$po_tgl_approved_hp</div></div>";
+				              					$yang_approv=BOD_HP;
+				              					$end_yang_app = ucwords($yang_approv);
+				              					echo"<div class='alerts'><b>Pengajuan PO ini telah selesai di proses</b><br>
+				              					<div style='float:left;'><u>Processed By :</u></div><br>
+				              					<div style=float:left;>$end_yang_app ($po_tgl_approved_hp)</div><br>
+				              					</div>";
 				              				}
 				              			} else { 
 				              				if (!is_null( $po_tgl_approved_rt ) || !empty( $po_tgl_approved_rt ))
 				              				{
 				              					$yang_approv=BOD_RT;
 				              					$end_yang_app = ucwords($yang_approv);
-				              					echo"<div class='alerts'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+				              					echo"<div class='alerts'><b>Pengajuan PO ini telah selesai di proses</b><br>
 				              					<div style='float:left; '><u>Processed By :</u></div><br>
 				              					<div style=float:left;> $end_yang_app ($po_tgl_approved_rt)</div><br>
 				              					</div>";
@@ -1334,14 +1275,16 @@ $user=$_SESSION['username'];
 
 				              					$yang_approv=BOD_DL;
 				              					$end_yang_app = ucwords($yang_approv);
-				              					echo "<div class='alerts'><b>Data pengajuan PO ini telah di proses</b><br>
+				              					echo "<div class='alerts'><b>Pengajuan PO ini telah di proses</b><br>
 				              					<div style='float:left;'><u>Processed By :</u></div><br>
 				              					<div style=float:left;> $end_yang_app ($po_tgl_approved_dl)</div><br></div>";
+                                                                  if ($total_ppo_rejek!=$total_ppo) {
 				              	?>
 							              			<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
 							              			<label class="submit" style="margin:20px;"><input type="checkbox" id="check_all"><u>Approve All</u> </label>
 							              			<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
 				              	<?php
+                                                                  }
 				              				} else {
 				              	?>
 						              			<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')"
@@ -1369,23 +1312,25 @@ $user=$_SESSION['username'];
 		            							$appB= BOD_DL;
 		            							$end_appA = ucwords($appA);
 		            							$end_appB = ucwords($appB);
-		            							echo"<div class='alerts' style='line-height:170%;'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+		            							echo"<div class='alerts' style='line-height:170%;'><b>Pengajuan PO ini telah selesai di proses</b><br>
 		            							<div style='float:left;'><u>Processed By :</u></div><br>
 		            							<div style=float:left;>$end_appA ($po_tgl_approved_hp)</div><br>
 		            							<div style=float:left;>$end_appB ($po_tgl_approved_dl)</div><br>        
 		            							</div>";	
 		            						} else {
-		            							echo"<div class='alerts'><b>Data pengajuan PO ini telah anda proses</b><br>
-		            							<div style='float:left;'> Tanggal</div> 
-		            							<div style='float:left; margin-left:10px;margin-right:10px;'>:</div> 
-		            							<div style=float:left;>$po_tgl_approved_dl</div> </div>";
+		            							$yang_approv=BOD_DL;
+				              					$end_yang_app = ucwords($yang_approv);
+				              					echo"<div class='alerts'><b>Pengajuan PO ini telah selesai di proses</b><br>
+				              					<div style='float:left;'><u>Processed By :</u></div><br>
+				              					<div style=float:left;>$end_yang_app ($po_tgl_approved_dl)</div><br>
+				              					</div>";
 		            						}
 		            					} else { 
 		            						if (!is_null( $po_tgl_approved_rt ) || !empty( $po_tgl_approved_rt ))
 		            						{
 		            							$yang_approv=BOD_RT;
 		            							$end_yang_app = ucwords($yang_approv);
-		            							echo"<div class='alerts'><b>Data pengajuan PO ini telah selesai di proses</b><br>
+		            							echo"<div class='alerts'><b>Pengajuan PO ini telah selesai di proses</b><br>
 		            							<div style='float:left;'><u>Processed By :</u></div><br>
 		            							<div style=float:left;>$end_yang_app ($po_tgl_approved_rt)</div><br>
 		            							</div>";
@@ -1393,15 +1338,17 @@ $user=$_SESSION['username'];
 
 		            							$yang_approv=BOD_HP;
 		            							$end_yang_app = ucwords($yang_approv);
-		            							echo"<div class='alerts'><b>Data pengajuan PO ini telah di proses</b><br>
+		            							echo"<div class='alerts'><b>Pengajuan PO ini telah di proses</b><br>
 		            							<div style='float:left;'><u>Processed By :</u></div> 
 		            							<div style=float:left;>$end_yang_app ($po_tgl_approved_hp)</div><br>
 		            							</div>";
+                                                                  if ($total_ppo_rejek!=$total_ppo) {
 		            			?>
 	                    							<input type="submit" class="btn btn-success submit" value="Submit" onClick="return confirm('Anda sudah yakin?')">
 	                    							<label class="submit" style="margin:20px;"><input type="checkbox" id="check_all"><u>Approve All</u> </label>
 	                    							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
 		            			<?php
+                                                                  }
 		            						} else {
 								?>
 													<!-- dl blm proses -->
@@ -1437,8 +1384,8 @@ $user=$_SESSION['username'];
 	<!-- <input type="checkbox" id="check_all"> -->
 	<footer class="footer" box-shadow: 1px 1px 6px rgb(150, 148, 148);>
       <div class="container" style="background-color:white;text-align:center;">
-		<a href="<?php echo "http://report.hts.net.id/approval/ppo_approval_desktop.php?u=$u&p=$p&k=$k"; ?>">Desktop Version</a>
-        <p class="text-muted">Copyright &copy; 2016 PT. Hawk Teknologi Solusi, All Rights Reserved.</p>
+        <p class="text-muted">Copyright &copy; 2016 PT. Hawk Teknologi Solusi</p>
+		<a class="dversion" href="<?php echo "http://report.hts.net.id/approval/ppo_approval_desktop.php?u=$u&p=$p&k=$k"; ?>">Desktop Version</a>
       </div>
     </footer>
 </body>
@@ -1477,12 +1424,14 @@ function formatDate(date) {
 		month = date.getMonth() + 1, // months are zero indexed
 		month = month < 10 ? "0" + month : month,
 		day = date.getDate(),
+		day = day < 10 ? "0" + day : day,
 		hour = date.getHours(),
+		hour = hour < 10 ? "0" + hour : hour,
 		minute = date.getMinutes(),
 		second = date.getSeconds(),
-		hourFormatted = hour % 12 || 12, // hour returned in 24 hour format
-		minuteFormatted = minute < 10 ? "0" + minute : minute,
-		morning = hour < 12 ? " am" : " pm";
+		hourFormatted = hour, //% 12 || 12, // hour returned in 24 hour format
+		minuteFormatted = minute < 10 ? (minute=0 ? "00" : "0" + minute) : minute;
+		// morning = hour < 12 ? " am" : " pm";
 
 		return year + "-" + month + "-" + day + " " + hourFormatted + ":" +
 		minuteFormatted + ":" + second;
@@ -1594,6 +1543,8 @@ $('.cb-gadget').change(function(){ //".checkbox" change
 });
 $('.submit').click(function(){
 	var dt=formatDate(new Date());
+	// $('#tgl_approval').val(dt);
+	$(".datetime").val(dt);
 	$('#tgl_approval').val(dt);
 });
 // $(document).ready(function(){
