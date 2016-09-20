@@ -1,0 +1,72 @@
+.scroll{
+  overflow-y: scroll;
+  height: 133px;
+  width: 98%;
+  position: absolute;
+}
+.tinggi_table{
+  height:170px;
+  margin-bottom: 0px;
+}
+.tra {
+  width: 100%;
+  display: inline-table;
+}
+.modal-body,
+.fontsz
+{
+  font-size: 12px !important;
+}
+.info_modal_atas{
+  padding: 0px 10px 10px 10px;
+
+}
+.info_modal_bawah{
+  border: 1px solid #6b6161;
+  padding: 8px 8px 0px 8px;
+  margin-top: 4px;
+  /*border-top-left-radius: 5px;*/
+  /*border-top-right-radius: 5px;*/
+  border-radius: 5px;
+}
+.ratakanan{
+  text-align: right;
+}
+.ratakiri{
+  text-align: left;
+}
+.kotak_input{
+  padding: 0 0 0 10px;
+  height: 26px;
+}
+.kotak_total{
+  padding: 0 5px 0 5px;
+  height: 26px;
+}
+.nopaddleft{
+  padding-right: 4px;
+}
+.table_modal{
+  padding: 5px 8px 5px 8px !important;
+}
+div#ppn{
+    width: 101px !important;
+    height: 25px;
+    border: 1px solid red !important;
+    margin-bottom: 5px;
+}
+/*---------------*/
+/* Media Queries */
+/*---------------*/
+@media (max-width:768px){
+  #detailss{
+    float: none !important;
+  }
+  #list-po{
+    width: auto;
+    -webkit-appearance: menulist;
+  }
+  div.form-group{
+    margin-bottom: 5px;
+  }
+}

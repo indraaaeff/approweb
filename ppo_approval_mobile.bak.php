@@ -18,15 +18,6 @@ if ( isset($_GET['u']) && isset($_GET['p']) && isset($_GET['k']) ) {
 			$ex=$row['expiration'];
 			$key = $_GET['k'];
 		}
-            else {
-                  if (isset($_GET['s']) && ($_GET['s'] == 1)) {
-                        $by =$row['submit_by'];
-                        $tgl_pengajuan=$row['tgl_pengajuan'];
-                        $ex=$row['expiration'];
-                        $key = $row['key_param'];
-                  }
-            }
-
 		$PPO_Table->data_seek(0);  // Go top
 	}
 
@@ -118,61 +109,15 @@ $user=$_SESSION['username'];
 	<!-- spasi user dengan content -->
     <?php
 		if ($PPO_Table && ($PPO_Table->num_rows > 0)) {
-	      $PPO_Table->data_seek(0);  // Go top
-            $row = $PPO_Table->fetch_assoc();
+	    $PPO_Table->data_seek(0);  // Go top
+	    $row = $PPO_Table->fetch_assoc();
 		$PPO_Number = $row['no_ppo'];
 		$PPO_Table->free();
 		$Database->next_result();
 		}
-      echo '<div class="kotak_po select_ppo_m">';
+    ?>
 
-            $List_PPO = $Database->query( "Select distinct a.no_ppo, a.submit_by, a.tgl_pengajuan, a.tgl_approved_rt,
-            a.tgl_approved_hp, a.tgl_approved_dl
-            From vendor_ppo a, vendor_invoice b
-            Where (a.no_ppo = b.no_ppo) and !( b.po_approved )
-            And (b.status_data not in (0, 9)) ;
-            Group by a.no_ppo Order by a.no_ppo" );
-
-            if ($List_PPO && ($List_PPO->num_rows > 0)) {
-                  echo '<div class="col-md-6 nopadding">';
-                  echo '<form class="form-inline">';
-                  // echo '<div class="form-group">';
-                  echo '<input type="hidden" name="u" value="' . $_GET['u'] . '">';
-                  echo '<label for="ppo">&nbsp;&nbsp;No Pengajuan :</label>';
-                  echo '<select name="p" class="form-control" onchange="this.form.submit();">';
-                        while ($row = $List_PPO->fetch_assoc()) {
-                              if ($row['no_ppo'] == $PPO_Number) {
-                                    echo '<option value="' . $row['no_ppo'] . '" selected="selected">' . $row['no_ppo'] . '</option>';
-                              }
-                              else {
-                                    echo '<option value="' . $row['no_ppo'] . '">' . $row['no_ppo'] . '</option>';
-                              }
-                        }
-                  echo '</select>';
-                  echo '<input type="hidden" name="k" value="$key">';
-                  echo '<input type="hidden" name="s" value="1">';
-                  // echo '</div>';
-                  echo '</form>';
-                  echo '</div>';
-
-                  $List_PPO->free();
-            }
-            //    <div class="col-md-6">
-            //    <form action="" class="form-horizontal">
-            //          <div class="form-group">
-            //                <label class="control-label col-sm-2 select_ppo" for="ppo">Nomor PPO :</label>
-            //                <div class="col-md-10">
-            //                      <select name="" class="form-control" id="">
-            //                            <option value="">asd1</option>
-            //                            <option value="">asd2</option>
-            //                            <option value="">asd3</option>
-            //                            <option value="">asd4</option>
-            //                      </select>
-            //                </div>
-            //          </div>
-            //    </form>
-            // </div>
-      echo '</div>';
+    <?php
 
 	if (isset($_GET['p'])) {
 	//$user=BOD_RT;
@@ -196,7 +141,7 @@ $user=$_SESSION['username'];
 			</div>
 			<div class="panel-body">
 				<form method="post" action="post.php">
-					<div class="col-xs-12 nopadding">
+					<div id="tabel" class="table-responsive">
 						<table class="table table-striped table-bordered table-hover">
                                           <?php 
                                           include "modal_po.php";
@@ -226,11 +171,18 @@ $user=$_SESSION['username'];
             						$po_tgl_approved_dl = $row['tgl_approved_dl'];	  
             						$po_comment_dl      = $row['comment_dl'];
 
+            						?>
+            						
+            						<?php 
             							$grand += $row['total'];
             						?>
-                                          <!-- start panel PO -->
+            					<div class="row">
+                                                <div class="col-xs-10" style="padding-right:0px !important;">
+                                                      
+                                                
+                                          
             					<div class="gadget">
-                                                <input type="hidden" name="key" value="<?php echo $key;?>">
+            					<input type="hidden" name="key" value="<?php echo $key;?>">
 								<input type="hidden" name="u" value="<?php echo $_GET['u'];?>">
 								<input type="hidden" name="total_ppo" id="total_ppo" value="<?php echo $total_ppo;?>"	>
 								<input type="hidden" name="tgl_pengajuan" value="<?php echo $tgl_pengajuan;?>">	
@@ -238,10 +190,10 @@ $user=$_SESSION['username'];
             							<li class="">
             								<a href="#<?php echo 'po_details'.$no; ?>">
             									<?php $Tanggal_po = date( 'd-m-Y', strtotime( $row['tgl_po'] )); ?>
-            									<b>No PO :</b> <?php echo $row['no_po']; ?>
-                                                                  <span class="glyphicon glyphicon-ok notifcekall" style="color:green; display:none;"></span><br>
-                                                                  <b>Tanggal PO :</b> <?php echo $Tanggal_po; ?><br>
-                                                                  <b>Nama Vendor :</b> <?php echo $row['nama_vendor']; ?><br><br>
+            									<b>No PO :</b> <?php echo $row['no_po']; ?><br>
+            									<b>Tanggal PO :</b> <?php echo $Tanggal_po; ?><br>
+            									<b>Nama Vendor :</b> <?php echo $row['nama_vendor']; ?><br><br>
+
             									
             									<?php 
             									if(!empty($po_tgl_approved_rt)){
@@ -976,20 +928,15 @@ $user=$_SESSION['username'];
 											<br>
 										</div>
 									</div>
-                                                      <div class="col-xs-3 nopadding detail_po_m">
-                                                            <!-- <a href="">Detail PO</a> -->
-                                                            <a href="#mymodal" data-toggle="modal" id="<?php echo $no_po; ?>" data-target="#modal_detail" class="po_modal">Detail</a>
-                                                      </div>
-                                </div>
-						</div>
-                                          <!-- end of panel -->
-                                         <!--  <div class="col-xs-2 mobile-detail">
+            					</div>
+                                          </div>
+                                          <div class="col-xs-2 mobile-detail">
                                                 <br>
                                                 <a href="#mymodal" data-toggle="modal" id="<?php echo $no_po; ?>" data-target="#modal_detail" class="po_modal">Detail</a>
                                                 <br>
                                                 <br>
-                                          </div> -->
-                                          <!-- </div> -->
+                                          </div>
+                                          </div>
             					<?php 
             						$no++;
             					}
@@ -1441,7 +1388,6 @@ $user=$_SESSION['username'];
 						<!-- tombol sumbit gadget -->
 				</form>
 			</div>
-			<!-- start detail po -->
 		</div>
 	</div>
 	<?php 
@@ -1588,7 +1534,6 @@ $("#check_all").change(function(){  //"select all" change
         $(".datetime").val(d);
         $(".approved").val('1');
         $(".xy").val('y');
-        $(".notifcekall").show(200);
     });
 });
 $("#check_all").change(function(){ //".checkbox" change 
@@ -1599,7 +1544,6 @@ $("#check_all").change(function(){ //".checkbox" change
         $(".datetime").val(o);
         $(".approved").val(0);
         $(".xy").val(o);
-        $(".notifcekall").hide(200);
     }
 });
 //uncheck "select all", if one of the listed checkbox item is unchecked
@@ -1741,7 +1685,7 @@ fakewaffle.responsiveTabs = function (collapseDisplayed) {
             oldLinkClass   = $this.attr('class') === undefined ? '' : $this.attr('class'),
             newLinkClass   = 'accordion-toggle',
             oldParentClass = $this.parent().attr('class') === undefined ? '' : $this.parent().attr('class'),
-            newParentClass = 'panel panel-default gad-panel';
+            newParentClass = 'panel panel-default';
 
             if (oldLinkClass.length > 0) {
                 newLinkClass += ' ' + oldLinkClass;
@@ -1854,6 +1798,6 @@ $(window).resize(function () {
     fakewaffle.responsiveTabs(['xs', 'sm']);
 })(jQuery);
 
-// $(".gadget:last").addClass('detail');
+
 // window.onload=responsive;
 </script>

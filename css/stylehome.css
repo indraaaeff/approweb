@@ -159,7 +159,7 @@ box-sizing:border-box;  -webkit-box-sizing:border-box;
 
 	outline:none;}
 .datalistt{float:left;  }
-select{height:40px; margin-left:0; width:292px; margin-top:20px; border:solid 1px #CCCCCC;
+select{height:35px; margin-left:0; width:292px; margin-top:20px; border:solid 1px #CCCCCC;
 box-sizing:border-box;  -webkit-box-sizing:border-box;
  -moz-box-sizing:border-box;
  -ms-box-sizing:border-box; padding:4px; border:solid 1px #CCCCCC;}

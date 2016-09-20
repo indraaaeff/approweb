@@ -15,6 +15,14 @@ if ( isset($_GET['u']) && isset($_GET['p']) && isset($_GET['k']) ) {
 			$ex=$row['expiration'];
 			$key = $_GET['k'];
 		}
+		else {
+			if (isset($_GET['s']) && ($_GET['s'] == 1)) {
+				$by =$row['submit_by'];
+				$tgl_pengajuan=$row['tgl_pengajuan'];
+				$ex=$row['expiration'];
+				$key = $row['key_param'];
+			}
+		}
 		$PPO_Table->data_seek(0);  // Go top
 	}
 
@@ -104,27 +112,75 @@ $user=$_SESSION['username'];
 		$PPO_Table->free();
 		$Database->next_result();
 		}
-    ?>
+   
 
-    <?php
+	echo '<div class="kotak_po select_ppo">';
 
+		$List_PPO = $Database->query( "Select distinct a.no_ppo, a.submit_by, a.tgl_pengajuan, a.tgl_approved_rt,
+			a.tgl_approved_hp, a.tgl_approved_dl
+			From vendor_ppo a, vendor_invoice b
+			Where (a.no_ppo = b.no_ppo) and !( b.po_approved )
+			And (b.status_data not in (0, 9)) ;
+			Group by a.no_ppo Order by a.no_ppo" );
+
+		if ($List_PPO && ($List_PPO->num_rows > 0)) {
+			echo '<div class="col-md-6 nopadding">';
+			echo '<form class="form-inline">';
+			// echo '<div class="form-group">';
+			echo '<input type="hidden" name="u" value="' . $_GET['u'] . '">';
+			echo '<label for="ppo">&nbsp;&nbsp;No Pengajuan : &nbsp;</label>';
+			echo '<select name="p" class="form-control" onchange="this.form.submit();">';
+				while ($row = $List_PPO->fetch_assoc()) {
+					if ($row['no_ppo'] == $PPO_Number) {
+						echo '<option value="' . $row['no_ppo'] . '" selected="selected">' . $row['no_ppo'] . '</option>';
+					}
+					else {
+						echo '<option value="' . $row['no_ppo'] . '">' . $row['no_ppo'] . '</option>';
+					}
+				}
+			echo '</select>';
+			echo '<input type="hidden" name="k" value="$key">';
+			echo '<input type="hidden" name="s" value="1">';
+			// echo '</div>';
+			echo '</form>';
+			echo '</div>';
+
+			$List_PPO->free();
+		}
+ 		// 	<div class="col-md-6">
+		// 	<form action="" class="form-horizontal">
+		// 		<div class="form-group">
+		// 			<label class="control-label col-sm-2 select_ppo" for="ppo">Nomor PPO :</label>
+		// 			<div class="col-md-10">
+		// 				<select name="" class="form-control" id="">
+		// 					<option value="">asd1</option>
+		// 					<option value="">asd2</option>
+		// 					<option value="">asd3</option>
+		// 					<option value="">asd4</option>
+		// 				</select>
+		// 			</div>
+		// 		</div>
+		// 	</form>
+		// </div>
+	echo '</div>';
+    
 	if (isset($_GET['p'])) {
 	//$user=BOD_RT;
 		$PPO_TableDetail = $Database->query( "Call GetPPO_Detail( '$PPO_Number' )" );
 			if ($PPO_TableDetail && ($PPO_TableDetail->num_rows > 0)) {
-		
 	?>
-	<div class="kotak_po">
+
+	<div class="kotak_po" id="ppo_table">
 		<div class="panel panel-default">
 			<div class="panel-heading nopadding" style="width:100%; !important">
 				<div class="po_head">
-					<table class="table nopadding" style="margin-bottom:0px;">
+					<table class="table nopadding" style="margin-bottom:0px;height: 45px; vertical-align: middle;">
 						<tbody>
 							<tr>
-								<td><b>No Pengajuan : <?php echo $PPO_Number; ?></b></td>
-								<td><b>Tanggal : <?php echo $tgl_pengajuan;?></b></td>
-								<td><b>Submitted By : <?php echo $by;?></b></td>
-								<td><b><?php $total_ppo=$PPO_TableDetail->num_rows; echo "Total PO : $total_ppo";?></b></td>
+								<!-- <td class="middling"><b>No Pengajuan : <?php echo $PPO_Number; ?></b></td> -->
+								<td class="middling" style="width:40%;"><b>Tanggal : <?php echo $tgl_pengajuan;?></b></td>
+								<td class="middling" style="width:40%;"><b>Submitted By : <?php echo $by;?></b></td>
+								<td class="middling" style="width:20%;"><b><?php $total_ppo=$PPO_TableDetail->num_rows; echo "Total PO : $total_ppo";?></b></td>
 							</tr>
 						</tbody>
 					</table>
@@ -133,10 +189,11 @@ $user=$_SESSION['username'];
 				 	<b class="head-mob">No Pengajuan : <?php echo $PPO_Number; ?><br></b>
 					<b class="head-mob">Tanggal :  <?php echo $tgl_pengajuan;?><br></b>
 					<b class="head-mob">Submitted By <?php echo $by;?><br></b>
+					<b class="head-mob">
 						<?php 
-							$total_ppo=$PPO_TableDetail->num_rows;
-							echo '<b class="head-mob">Total PO : $total_ppo</b>';
+							$total_ppo=$PPO_TableDetail->num_rows; echo "Total PO : $total_ppo";
 						?>
+					</b>
 				</div>
 			</div>
 			<div class="panel-body">
@@ -144,52 +201,31 @@ $user=$_SESSION['username'];
 					<div id="tabel" class="table-responsive">
 						<table class="table table-striped table-bordered table-hover" id="tabele">
 							<thead class="table_po">
-								<tr>
-									<th>No.</th>
-									<th class="tengah">NO PO</th>
-									<th class="tengah">NAMA VENDOR</th>
-									<th class="tengah">TANGGAL PO</th>
-									<th class="tengah">PPN</th>
-									<th class="tengah">TOTAL</th>
-									<th class="tengah">RT</th>
-									<th class="tengah">HP</th>
-									<th class="tengah">DL</th>
-									<th class="tengah">STATUS</th>
-									<th class="tengah">NOTE </th>
+								<tr style="height: 45px;vertical-align: middle;">
+									<th class="tengah middling">No.</th>
+									<th class="tengah middling">NO PO</th>
+									<th class="tengah middling">NAMA VENDOR</th>
+									<th class="tengah middling">TANGGAL PO</th>
+									<th class="tengah middling">PPN</th>
+									<th class="tengah middling">TOTAL</th>
+									<th class="tengah middling">RT</th>
+									<th class="tengah middling">HP</th>
+									<th class="tengah middling">DL</th>
+									<th class="tengah middling">STATUS</th>
+									<th class="tengah middling">NOTE </th>
 									<!-- <?php echo $user; ?> -->
 								</tr>
-<?php 
-	include "modal_po.php";
-?>
+							<?php 
+								//modal for detail po
+								include "modal_po.php";
+							?>
 							</thead>
 								<?php
 								$no = +1;
 								$grand= 0;
 								$total_ppo_rejek=0;
 								while ($row = $PPO_TableDetail->fetch_assoc()) {
-									// echo $row['no_po'];
-									// echo $no_po;
-
-								
 									$no_po = $row['no_po'];
-									// echo $no_po;
-									// $yes = $no_po;
-
-									// echo is_array($yes) ? 'Array' : 'not an Array';
-									// echo "<br>";
-
-									// $no = $no_po;
-
-
-									// echo is_array($no) ? 'Array' : 'not an Array';
-
-									// print_r(explode('|', $no_po, 2));
-									// $pieces = explode("  ", $no_po);
-									// echo $no_po;
-									// echo "id 1 = ".$pieces[0]."<br>";
-									// echo "id 2 = ".$pieces[1]."<br>";
-									// echo "id 3 = ".$pieces[2]."<br>";
-							// include "modal_po.php";
 							?>
 							<tbody class="desktop">
 								<!-- <div><a href="#mymodal" data-toggle="modal" id="<?php echo $no_po; ?>" data-target="#modal_detail"><?php echo "ppo ke ".$no; ?></a></div> -->
@@ -204,11 +240,11 @@ $user=$_SESSION['username'];
 
 								<tr align="center" id="detail_column">
 									<?php $Tanggal_po = date( 'd-m-Y', strtotime( $row['tgl_po'] )); ?>
-            						<td><?php echo $no;?></td>
+            						<td class="table_padd"><?php echo $no;?></td>
             						<!-- <td id="<?php echo $no_po; ?>" class="nomor_po" value="<?php echo $no_po; ?>" onchange="enableTxt(this)"><?php echo $no_po;?></td> -->
-            						<td><a href="#mymodal" data-toggle="modal" id="<?php echo $no_po; ?>" data-target="#modal_detail" class="po_modal"><?php echo $no_po; ?></a></td>
-            						<td><?php echo $row['nama_vendor'];?></td>
-            						<td><?php echo  $Tanggal_po;?></td>
+            						<td class="table_padd"><a href="#mymodal" data-toggle="modal" id="<?php echo $no_po; ?>" data-target="#modal_detail" class="po_modal"><?php echo $no_po; ?></a></td>
+            						<td class="table_padd"><?php echo $row['nama_vendor'];?></td>
+            						<td class="table_padd"><?php echo  $Tanggal_po;?></td>
             						<!-- <td style="display:none;"><?php echo $row['comment_rt'] ?></td> -->
             						<?php 
 	            						if ($row['non_ppn'] == 0)
@@ -221,7 +257,7 @@ $user=$_SESSION['username'];
 	            							echo "<input type='hidden' name='ppn' value='$ppn'>";
 	            						}
             						?>
-            						<td><?php echo number_format( $row['total'] );?></td>
+            						<td class="table_padd"><?php echo number_format( $row['total'] );?></td>
 
             						<?php 
             						$po_approve_by_rt   = $row['approve_by_rt'];
@@ -257,7 +293,7 @@ $user=$_SESSION['username'];
             							if ($user == BOD_RT)
             							{
             						?>
-            						<td>
+            						<td class="table_padd">
             							<?php 
             							// $po_tgl_approved_rt = "2/6/2016";
             							// $po_approve_by_rt = 1;
@@ -340,7 +376,7 @@ $user=$_SESSION['username'];
 	            								}
 	            							}
 	            						?>
-            						<td>
+            						<td class="table_padd">
             							<?php 
             								if (!empty($po_tgl_approved_hp)) {
             									if($po_approve_by_hp==0) 
@@ -360,7 +396,7 @@ $user=$_SESSION['username'];
             								}
             							?>
             						</td>
-            						<td>
+            						<td class="table_padd">
             							<?php 
             								if (!empty($po_tgl_approved_dl)) {
             									if($po_approve_by_dl==0) 
@@ -380,7 +416,7 @@ $user=$_SESSION['username'];
             								}
             							?>
             						</td>
-	            					<td>
+	            					<td class="table_padd">
 	            						<?php 
 	            						if(!empty($po_tgl_approved_rt)){
 	            							if($po_approve_by_rt==0){
@@ -449,7 +485,7 @@ $user=$_SESSION['username'];
 	            						} else if ($user == BOD_HP) 
 	            						{
 	            					?>
-	            					<td>
+	            					<td class="table_padd">
             							<?php 
             								if (!empty($po_tgl_approved_rt)) {
             									if ($po_approve_by_rt==1) {
@@ -476,7 +512,7 @@ $user=$_SESSION['username'];
             								}
             							?>
 	            					</td>
-	            					<td>
+	            					<td class="table_padd">
 	            						<?php 
             								if(!empty($po_tgl_approved_hp)){
             									if ($po_approve_by_hp==0) {
@@ -525,7 +561,7 @@ $user=$_SESSION['username'];
 	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>" readonly>
 	            					
 	            					</td>
-	            					<td>
+	            					<td class="table_padd">
             							<?php 
             								if (!empty($po_tgl_approved_dl)) {
             									if($po_approve_by_dl==0) 
@@ -545,7 +581,7 @@ $user=$_SESSION['username'];
             								}
             							?>
 	            					</td>
-	            					<td>
+	            					<td class="table_padd">
 	            						<?php 
 	            						if(!empty($po_tgl_approved_rt)){
 	            							if($po_approve_by_rt==0){
@@ -617,7 +653,7 @@ $user=$_SESSION['username'];
 	            							// dummy data for checking DL checkbox
 	            							// $po_approve_by_rt =1 ;
 	            					?>
-	            					<td>
+	            					<td class="table_padd">
 		            					<?php 
 		            					if (!empty($po_tgl_approved_rt)) {
 		            						if ($po_approve_by_rt==1) {
@@ -637,7 +673,7 @@ $user=$_SESSION['username'];
 		            					}
             							?>
 	            					</td>
-	            					<td>
+	            					<td class="table_padd">
             							<?php 
             								if (!empty($po_tgl_approved_hp)) {
             									if($po_approve_by_hp==0) 
@@ -657,7 +693,7 @@ $user=$_SESSION['username'];
             								}
             							?>
 	            					</td>
-	            					<td>
+	            					<td class="table_padd">
 										<?php 
             								if(!empty($po_tgl_approved_dl)){
             									if ($po_approve_by_dl==0) {
@@ -706,7 +742,7 @@ $user=$_SESSION['username'];
 	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
 	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
             						</td>
-	            					<td>
+	            					<td class="table_padd">
 										
 	            						<?php 
 	            						if(!empty($po_tgl_approved_rt)){
@@ -777,7 +813,7 @@ $user=$_SESSION['username'];
 
 	            						}
 	            					?>
-	<td>
+	<td class="table_padd">
 
 		
 	<!-- START COMMENT BOD_RT -->

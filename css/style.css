@@ -2,7 +2,7 @@
 	background: #f26904;
 }
 .nopadding{
-	padding: 0px;
+	padding: 0px !important;
 }
 a.logo{
 	color: white;
@@ -140,7 +140,7 @@ a:hover, a:focus{
 }
 .panel-default>.panel-heading {
     color: #333;
-    background-color: #f9ecdd;
+    background-color: #f9ecdd !important;
     border-color: #ddd;
 }
 h4.panel-title{
@@ -228,6 +228,87 @@ a.po_modal{
 	/*background-color: #eee;*/
 	border: 1px solid #eee;
 }
+table#scroll_table {
+	overflow-y:scroll;
+	
+}
+.nopaddleft{
+	padding-left: 0px !important;
+	padding-bottom: 5px;
+}
+.modal-header{
+	background-color: #f26904;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+.modal-body{
+	background-color: #fff;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+.mobile-detail{
+	padding-right:0px !important; 
+	padding-left:5px !important; 
+}
+#list-po{
+  padding: 0 0 0 10px;
+  height: 26px;
+  display: inline;
+  width: auto;
+}
+.modalclosebtn{
+	float: right;
+	height: 26px;
+	padding: 0px !important;
+	font-size: 12px !important;
+	width: 5%;
+}
+#modal-detail{
+	top: -25px !important;
+}
+.middling{
+	vertical-align: middle !important;
+}
+.table_padd{
+	padding: 6px 4px 0px 4px !important;
+}
+.select_ppo_m{
+	padding-bottom: 0px !important;
+}
+.panel-group{
+	margin-bottom: 0px !important;
+}
+.detail_po_m{
+	float: left;
+	border-left: 1px solid red;
+	border-bottom: 1px solid red;
+	border-right: 1px solid red;
+	background-color: red;
+	/*border-top-left-radius: 5px;*/
+	/*border-top-right-radius: 5px;*/
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	text-align: center;
+}
+.detail_po_m a {
+	color: white;
+}
+.detail_po_m a:hover {
+	color: red;
+}
+.detail_po_m a:focus {
+	color: white;
+}
+.detail_po_m:hover{
+	background-color: white;
+	font-color: red;
+}
+.gadget{
+	margin-bottom: 25px;
+}
+.gad-panel{
+	border-radius: 2px !important;
+}
 /*---------------*/
 /* Media Queries */
 /*---------------*/
@@ -265,11 +346,16 @@ a.po_modal{
 	.alerts{
 		/*display:none;*/
 	}
-	.table_po{
-		display:none;
-	}
 	#myModal{
 		display: none;
+	}
+}
+@media (max-width:768px){
+	#tabel{
+		border: 1px solid black;
+	}
+	.table-responsive{
+		border: none !important;
 	}
 }
 @media (min-width: 940px){
@@ -292,5 +378,16 @@ a.po_modal{
 @media (max-width: 959px){
     .row_tabel_detail{
 		width :75% !important;
+	}
+}
+@media (max-width: 994px){
+	.select_ppo{
+		padding-bottom: 0px !important;
+	}
+}
+/*mobile Queries*/
+@media (max-width:768px){
+	.mob{
+		margin-bottom: 0px;
 	}
 }
