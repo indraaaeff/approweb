@@ -120,8 +120,9 @@ $user=$_SESSION['username'];
 			a.tgl_approved_hp, a.tgl_approved_dl
 			From vendor_ppo a, vendor_invoice b
 			Where (a.no_ppo = b.no_ppo) and !( b.po_approved )
-			And (b.status_data not in (0, 9)) ;
+			And (b.status_data not in (0, 9))
 			Group by a.no_ppo Order by a.no_ppo" );
+
 
 		if ($List_PPO && ($List_PPO->num_rows > 0)) {
 			echo '<div class="col-md-6 nopadding">';
@@ -221,6 +222,7 @@ $user=$_SESSION['username'];
 							?>
 							</thead>
 								<?php
+								$g_total = 0;
 								$no = +1;
 								$grand= 0;
 								$total_ppo_rejek=0;
@@ -257,7 +259,7 @@ $user=$_SESSION['username'];
 	            							echo "<input type='hidden' name='ppn' value='$ppn'>";
 	            						}
             						?>
-            						<td class="table_padd"><?php echo number_format( $row['total'] );?></td>
+            						<td class="table_padd ratakanan"><?php echo number_format( $row['total'] );?></td>
 
             						<?php 
             						$po_approve_by_rt   = $row['approve_by_rt'];
@@ -271,7 +273,7 @@ $user=$_SESSION['username'];
             						$po_approve_by_dl   = $row['approve_by_dl'];
             						$po_tgl_approved_dl = $row['tgl_approved_dl'];	  
             						$po_comment_dl      = $row['comment_dl'];
-            						
+            						$total_temp = $row['total'];
             						// $po_tgl_approved_hp = "2/6/2016";
             						// $po_tgl_approved_dl = "3/6/2016";
             						// $po_approve_by_hp=1;
@@ -282,6 +284,9 @@ $user=$_SESSION['username'];
             						
             						<?php 
             							$grand += $row['total'];
+            							// $g_total += $grand;
+            							// echo $g_total;
+            							include "responsive.php";
             						?>
             						<!-- BOD_RT Session CHECKBOX  -->
             						<?php 
@@ -352,6 +357,7 @@ $user=$_SESSION['username'];
 	            							<input type="hidden" name="x[]" class='<?php if (empty($po_tgl_approved_rt)) { if (!empty($po_tgl_approved_hp) || !empty($po_tgl_approved_dl)) { if ($po_approve_by_hp==1 || $po_approve_by_dl==1) {echo "xy";} else {echo "rejected";}}else {echo "xy";}}?>' id="x<?php echo $no;?>">
 	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
 	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
+	            							<input type="hidden" name="desktop" value="1">
             						</td>
 	            						<?php 
 	            							} else {
@@ -559,6 +565,7 @@ $user=$_SESSION['username'];
 	            							<input type="hidden" name="x[]" class='<?php if (empty($po_tgl_approved_hp)) { if (!empty($po_tgl_approved_dl)) { if ($po_approve_by_dl==1) {echo "xy";} else {echo "rejected";}}else {echo "xy";}}?>' id="x<?php echo $no;?>" readonly>
 	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>" readonly>
 	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>" readonly>
+	            							<input type="hidden" name="desktop" value="1">
 	            					
 	            					</td>
 	            					<td class="table_padd">
@@ -741,6 +748,7 @@ $user=$_SESSION['username'];
 	            							<input type="hidden" name="x[]" class='<?php if (empty($po_tgl_approved_dl)) { if (!empty($po_tgl_approved_hp)) { if ($po_approve_by_hp==1) {echo "xy";} else {echo "rejected";}}else {echo "xy";}}?>' id="x<?php echo $no;?>">
 	            							<input type="hidden" name="no_ppo" value="<?php echo $PPO_Number;?>">
 	            							<input type="hidden" name="sub_by" value="<?php echo $by;?>">
+	            							<input type="hidden" name="desktop" value="1">
             						</td>
 	            					<td class="table_padd">
 										
@@ -1100,7 +1108,9 @@ $user=$_SESSION['username'];
             					
             					<?php 
             						$no++;
+            						$g_total += $total_temp;
             					}
+            					
             					?>
             					<input type="hidden" name="grand" value="<?php echo $grand; ?>">
             					<input type="hidden"  name="hp_tgl" value="<?php echo $po_tgl_approved_hp;?>" >				
@@ -1191,6 +1201,10 @@ $user=$_SESSION['username'];
 						              						<input type="checkbox" id="select_all"><u>Approve All</u>
 						              					</label>
 						              					<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
+						              					<div class="gt_desktop">
+				              								<label for="grandtotal"> Grand Total :</label>
+						              						<input class="form-control gtotal" type="text" name="grandtotal" value="<?php echo "Rp. &nbsp;".number_format($g_total); ?>" readonly>
+						              					</div>
 					              					</td>		
 				              					</tr>
 								<?php
@@ -1215,6 +1229,10 @@ $user=$_SESSION['username'];
 				            								<input type="checkbox" id="select_all"><u>Approve All</u>
 				            							</label>
 				            							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
+				            							<div class="gt_desktop">
+				              								<label for="grandtotal"> Grand Total :</label>
+						              						<input class="form-control gtotal" type="text" name="grandtotal" value="<?php echo "Rp. &nbsp;".number_format($g_total); ?>" readonly>
+						              					</div>
 			            							</td>		
 		            							</tr>
 		            			<?php
@@ -1228,6 +1246,10 @@ $user=$_SESSION['username'];
 				              								<input type="checkbox" id="select_all"><u>Approve All</u>
 				              							</label>
 				              							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
+				              							<div class="gt_desktop">
+				              								<label for="grandtotal"> Grand Total :</label>
+						              						<input class="form-control gtotal" type="text" name="grandtotal" value="<?php echo "Rp. &nbsp;".number_format($g_total); ?>" readonly>
+						              					</div>
 				              						<?php 
 				              						?>
 				              						</td>		
@@ -1291,6 +1313,10 @@ $user=$_SESSION['username'];
 								              				<input type="checkbox" id="select_all"><u>Approve All</u> 
 								              			</label>
 								              			<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
+								              			<div class="gt_desktop">
+				              								<label for="grandtotal"> Grand Total :</label>
+						              						<input class="form-control gtotal" type="text" name="grandtotal" value="<?php echo "Rp. &nbsp;".number_format($g_total); ?>" readonly>
+						              					</div>
 													</td>
 												</tr>
 								<?php
@@ -1304,6 +1330,10 @@ $user=$_SESSION['username'];
 								              				<input type="checkbox" id="select_all"><u>Approve All</u> 
 								              			</label>
 								              			<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
+								              			<div class="gt_desktop">
+				              								<label for="grandtotal"> Grand Total :</label>
+						              						<input class="form-control gtotal" type="text" name="grandtotal" value="<?php echo "Rp. &nbsp;".number_format($g_total); ?>" readonly>
+						              					</div>
 													</td>
 												</tr>
                  				<?php   
@@ -1365,6 +1395,10 @@ $user=$_SESSION['username'];
 	                        								<input type="checkbox" id="select_all"><u>Approve All</u> 
 	                        							</label>
 	                        							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
+	                        							<div class="gt_desktop">
+				              								<label for="grandtotal"> Grand Total :</label>
+						              						<input class="form-control gtotal" type="text" name="grandtotal" value="<?php echo "Rp. &nbsp;".number_format($g_total); ?>" readonly>
+						              					</div>
 	                        						</td> 
 	                        					</tr>
 		            			<?php
@@ -1385,6 +1419,10 @@ $user=$_SESSION['username'];
 	                        								<input type="checkbox" id="select_all"><u>Approve All</u> 
 	                        							</label>
 	                        							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
+	                        							<div class="gt_desktop">
+				              								<label for="grandtotal"> Grand Total :</label>
+						              						<input class="form-control gtotal" type="text" name="grandtotal" value="<?php echo "Rp. &nbsp;".number_format($g_total); ?>" readonly>
+						              					</div>
 	                        						</td> 
 												</tr>
 								<?php
@@ -1468,6 +1506,10 @@ $user=$_SESSION['username'];
 				              								<input type="checkbox" id="select_all"><u>Approve All</u> 
 				              							</label>
 				              							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
+				              							<div class="gt_desktop">
+				              								<label for="grandtotal"> Grand Total :</label>
+						              						<input class="form-control gtotal" type="text" name="grandtotal" value="<?php echo "Rp. &nbsp;".number_format($g_total); ?>" readonly>
+						              					</div>
 				              						</td>		
 				              					</tr>
 				              	<?php
@@ -1491,7 +1533,11 @@ $user=$_SESSION['username'];
 				              							<label class="appall">
 				              								<input type="checkbox" id="select_all"><u>Approve All</u> 
 				              							</label>
-				              							<input type="hidden" name="tgl_approval" id="tgl_approval" value="" onClick="">
+				              							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
+				              							<div class="gt_desktop">
+				              								<label for="grandtotal"> Grand Total :</label>
+						              						<input class="form-control gtotal" type="text" name="grandtotal" value="<?php echo "Rp. &nbsp;".number_format($g_total); ?>" readonly>
+						              					</div>
 				              						</td>		
 				              					</tr>
 				              	<?php
@@ -1505,6 +1551,10 @@ $user=$_SESSION['username'];
 				              								<input type="checkbox" id="select_all"><u>Approve All</u> 
 				              							</label>
 				              							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
+				              							<div class="gt_desktop">
+				              								<label for="grandtotal"> Grand Total :</label>
+						              						<input class="form-control gtotal" type="text" name="grandtotal" value="<?php echo "Rp. &nbsp;".number_format($g_total); ?>" readonly>
+						              					</div>
 				              						</td>		
 				              					</tr>
 				              	<?php 
@@ -1567,6 +1617,10 @@ $user=$_SESSION['username'];
 								              				<input type="checkbox" id="select_all"><u>Approve All</u> 
 								              			</label>
 								              			<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
+								              			<div class="gt_desktop">
+				              								<label for="grandtotal"> Grand Total :</label>
+						              						<input class="form-control gtotal" type="text" name="grandtotal" value="<?php echo "Rp. &nbsp;".number_format($g_total); ?>" readonly>
+						              					</div>
 													</td>
 												</tr>
 				              	<?php
@@ -1588,6 +1642,10 @@ $user=$_SESSION['username'];
 								              				<input type="checkbox" id="select_all"><u>Approve All</u> 
 								              			</label>
 								              			<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
+								              			<div class="gt_desktop">
+				              								<label for="grandtotal"> Grand Total :</label>
+						              						<input class="form-control gtotal" type="text" name="grandtotal" value="<?php echo "Rp. &nbsp;".number_format($g_total); ?>" readonly>
+						              					</div>
 								              		</td> 
 								              	</tr>
                  				<?php   
@@ -1649,6 +1707,10 @@ $user=$_SESSION['username'];
 	                        								<input type="checkbox" id="select_all"><u>Approve All</u> 
 	                        							</label>
 	                        							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
+	                        							<div class="gt_desktop">
+				              								<label for="grandtotal"> Grand Total :</label>
+						              						<input class="form-control gtotal" type="text" name="grandtotal" value="<?php echo "Rp. &nbsp;".number_format($g_total); ?>" readonly>
+						              					</div>
 	                        						</td> 
 	                        					</tr>
 		            			<?php
@@ -1669,6 +1731,10 @@ $user=$_SESSION['username'];
 	                        								<input type="checkbox" id="select_all"><u>Approve All</u> 
 	                        							</label>
 	                        							<input type="hidden" name="tgl_approval" id="tgl_approval" value="">
+	                        							<div class="gt_desktop">
+				              								<label for="grandtotal"> Grand Total :</label>
+						              						<input class="form-control gtotal" type="text" name="grandtotal" value="<?php echo "Rp. &nbsp;".number_format($g_total); ?>" readonly>
+						              					</div>
 	                        						</td> 
 												</tr>
 								<?php
@@ -1696,7 +1762,7 @@ $user=$_SESSION['username'];
 	<!-- <input type="checkbox" id="select_all"> -->
 	<footer class="footer" box-shadow: 1px 1px 6px rgb(150, 148, 148);>
       <div class="container" style="background-color:white;text-align:center;">
-		<a href="<?php echo "http://report.hts.net.id/approval/ppo_approval_mobile.php?u=$u&p=$p&k=$k"; ?>" id="mob-desk" class="rs-link" data-link-desktop="<?php  echo 'Switch to Desktop version'; ?>" data-link-responsive="Switch to Mobile version"></a>
+		<a href="<?php echo IIS_PATH . "ppo_approval_mobile.php?u=$u&p=$p&k=$k"; ?>" id="mob-desk" class="rs-link" data-link-desktop="<?php  echo 'Switch to Desktop version'; ?>" data-link-responsive="Switch to Mobile version"></a>
         <p class="text-muted">Copyright &copy; 2016 PT. Hawk Teknologi Solusi, All Rights Reserved.</p>
       </div>
     </footer>
@@ -1822,7 +1888,17 @@ $(document).ready(function()
        });
     
     });
-
+$("#cbmodal").change(function(){  //"select all" change 
+    var status = this.checked; // "select all" checked status
+    $('.checkbox-md').each(function(){ //iterate all listed checkbox items
+        this.checked = status; //change ".checkbox" checked status
+        var d = formatDate (new Date());
+        $("#CBX").val(d);
+        $(".datetime").val(d);
+        $(".approved").val('1');
+        $(".xy").val('y');
+    });
+});
 //select all function
 $("#select_all").change(function(){  //"select all" change 
     var status = this.checked; // "select all" checked status

@@ -76,6 +76,7 @@ thead.table_po{
 }
 .submit{
 	float:right;
+	margin: 14px;
 }
 .spasi{
 	height: 30px;
@@ -181,7 +182,7 @@ h2.modal-title{
 	color: white;
 }
 body{
-	background: #eef2f5;
+	background: #eef2f5 !important;
 }
 .head-mob{
 	margin-left: 10px;
@@ -209,7 +210,7 @@ body{
 }
 .appall{
 	float:right;
-	margin: 20px;
+	margin: 20px 16px 20px 17px;
 }
 .dversion{
 	font-size: 12px;
@@ -309,6 +310,31 @@ table#scroll_table {
 .gad-panel{
 	border-radius: 2px !important;
 }
+.ratakanan{
+  text-align: right;
+}
+.gt_desktop{
+	margin: 1.1%;
+	float: right;
+}
+.gt_mobile{
+	margin: 1.1%;
+	float: right;
+	border-radius: 2px;
+	border:1px solid #6b6161;
+	padding: 5px;
+}
+.gtotal{
+	width: auto;
+	display: inline;
+	text-align: right;
+}
+.gtotal_m{
+	float: right;
+	width: 60%;
+	display: inline;
+	text-align: right;
+}
 /*---------------*/
 /* Media Queries */
 /*---------------*/
@@ -363,6 +389,11 @@ table#scroll_table {
 		display: none;
 	}
 	input.sub-gadget{
+		display: none;
+	}
+}
+@media (max-width: 939px){
+	#tabele{
 		display: none;
 	}
 }

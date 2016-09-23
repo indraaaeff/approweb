@@ -3,9 +3,9 @@
    include "jam.php";
    include "user.php";
 ?>
-<!-------- cek data ----------> 
+<!-- cek data --> 
 
-<!-------- end cek data ----------> 
+<!-- end cek data --> 
 <?php
 $user            = ucwords($_POST['user']);
 $ppo             = $_POST['no_ppo'];

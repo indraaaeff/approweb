@@ -36,41 +36,15 @@ if($user=BOD_RT)
 		$end_user      = ucwords($user);
 		$rt_tgl        = $_POST['rt_tgl'];	 
 		$isUpdate      = false;
+		$isDesktop	   = $_POST['desktop'];
 
 		$Database->autocommit( FALSE );
 		include_once "mailserver.php";
 		// $message   = new COM('CDO.Message');
 		// $messageCon= new COM('CDO.Configuration') ;
 		$MailSubject  = "APPROVED PPO NO. $no_ppo ($tanggal $bulan $tahun)";
-		$MailBody = "  <font style='font-size:16px; font-weight:bold;'>Berikut hasil persetujuan pengajuan PO :</font>
-						    <br>
-						    <table style=' margin-top:10px;'>
-						    <tr>
-						    <td style=' font-weight:bold;' width='160'>No PPO </td>  <td width='30' align='center'> : </td> <td> $ppo </td>
-						    </tr>
-						    <tr>
-						    <td style=' font-weight:bold;' width='160'>Tanggal Pengajuan </td>  <td width='30' align='center'> : </td> <td> $tgl_pengajuan </td>
-						    </tr>
-						    <tr>
-						    <td style=' font-weight:bold;' width='160'>Total PO </td>  <td width='30' align='center'> : </td> <td> $total_ppo (<i>Rp.$end_grand</i>)</td>
-						    </tr> 
-						    <tr>
-						    <td style=' font-weight:bold;'>Submitted By </td> <td width='30' align='center'> : </td> <td> $sub_by </td>
-						    </tr>											 
-						    </table>
-						    <br>
-						    <table style=' border-spacing: 0; margin-top:2px; margin-bottom:2px; border-collapse: collapse; border:solid 1px #555; '>	                  
-						    <tr bgcolor='#0099CC' style=' border-spacing: 0;border-collapse: collapse; font-weight:bold; border:solid 1px #555; color:#FFFFFF;text-transform:uppercase'>
-						    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> NAMA VENDOR </td>
-						    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555; '> NO PO </td>
-						    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> TGL PO </td>
-						    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> TOTAL </td>
-						    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> RT </td>
-						    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> HP </td>
-						    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> DL </td>
-						    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> NOTE </td>
-						    <td align='center' style='padding:8px; border-spacing: 0; border-collapse: collapse; border:solid 1px #555;'> STATUS </td>
-						    </tr>";
+		$MailBody = "";
+		include "mailbody1.php";
 
 		$totalprice  = 0;
 		$total_appro = 0;					   
@@ -95,24 +69,11 @@ if($user=BOD_RT)
 		$row = $PPO_TableDetail2->fetch_assoc();
 		$po_tgl_approved_hp = $row['tgl_approved_hp'];
 		$po_tgl_approved_dl = $row['tgl_approved_dl'];
-		// // cek proses BOD_RT
-		// if (!empty($po_tgl_approved_rt) && !is_null($po_tgl_approved_rt)) {
-		// 	$isUpdate = false;
-		// 	$final_proses=1;
-		// }
-		//cek proses BOD_DL
+		
 		if (!empty($po_tgl_approved_hp) && !is_null($po_tgl_approved_hp) && !empty($po_tgl_approved_dl) && !is_null($po_tgl_approved_dl)) {
 			$isUpdate= false;
 			$final_proses=1;
-			// $PPO_TableDetail2->data_seek(0);
-			// $i=0;
-			// while ($row = $PPO_TableDetail2->fetch_assoc()) {
-			// 	$tgl_app_hp[$i] = $row['tgl_approved_hp'];
-			// 	$po_app_hp[$i]  = $row['approve_by_hp'];
-			// 	$tgl_app_dl[$i] = $row['tgl_approved_dl'];
-			// 	$po_app_dl[$i]  = $row['approve_by_dl'];
-			// 	$i++;
-			// }
+
 		} else if (!empty($po_tgl_approved_hp) && !is_null($po_tgl_approved_hp) || !empty($po_tgl_approved_dl) && !is_null($po_tgl_approved_dl)) {
 			$isUpdate = true;
 			$final_proses=1;
@@ -302,18 +263,14 @@ if($user=BOD_RT)
 								   </tr>
 								   ";
 			   //------------------------------------------------------------------------------------------------------------------------------------
-			  
-			  
-/* 			  echo isset( $user ). ', ' . isset( $ppo ) . ', ' . isset( $end_po ) . ', ' . isset(  $prove_rt ) .
-				', ' . isset( $end_tgl ) . ', ' ;
-			if ( isset( $end_keterangan_rt ) )
-				echo 'YES <br/>';
-			else
-				echo 'NO <br/>';
-			  echo $user . ', ' . $ppo . ', ' . $end_po . ', ' . $prove_rt . ', ' . $end_tgl . ', ' . $end_keterangan_rt . '<br/>';
- */              
+			               
 			  $res= $Database->query( "Call SetPPO_Detail( '$user','$ppo','$end_po',$prove_rt,'$end_tgl','$end_keterangan_rt', 0, null )" );			 
 
+			  if (!$res) {
+					// echo $Database->error . "<br />";
+					$isUpdate = false;
+					break;
+				}
             }//end for
       	}
 
@@ -329,26 +286,23 @@ if($user=BOD_RT)
         	} else {
         		$total_app=$grandtotal;
         	}		
-        	$MailBody .= "</table><br>
-						<table style=' margin-top:10px; border:solid 1px #888; background:#f1f1f1; padding:8px;'>											      
-						<tr>
-						<td width='160' style=' font-weight:bold;'>$end_user approved</td>  <td width='30' align='center'> : </td> <td> $tgl_approval </td>
-						</tr>
-						$approval2
-						<tr>
-						<td style=' font-weight:bold;'>Total Approved </td> <td width='30' align='center'> : </td> <td> $total_appro/$total_ppo (Rp.$total_app)</td>
-						</tr>
-						</table>
-						<br>
-						";
+        	include "mailbody3.php";
 			include_once "SendMail.php";
 			$Database->commit();
 			// redirect ke halaman approval
-        	echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data telah berhasil di submit';</script>";
+			if ($isDesktop== 1) {
+				echo "<script language='javascript'>document.location.href='ppo_approval_desktop.php?u=$u&p=$ppo&k=$key&notif=Data gagal di submit';</script>";
+			} else {
+				echo "<script language='javascript'>document.location.href='ppo_approval_mobile.php?u=$u&p=$ppo&k=$key&notif=Data telah berhasil di submit';</script>";
+			}
         } else{
 			$Database->rollback();
 			// redirect ke halaman approval
-        	echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data gagal di submit';</script>";
+			if ($isDesktop== 1) {
+				echo "<script language='javascript'>document.location.href='ppo_approval_desktop.php?u=$u&p=$ppo&k=$key&notif=Data gagal di submit';</script>";
+			} else {
+				echo "<script language='javascript'>document.location.href='ppo_approval_mobile.php?u=$u&p=$ppo&k=$key&notif=Data telah berhasil di submit';</script>";
+			}
         }
         $Database->autocommit( TRUE );
    	}  //end post

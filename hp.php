@@ -1,7 +1,6 @@
 <?php
 if($user=BOD_HP)
 {
-
 	if (
 		!empty($_POST['po_tgl_approved_hp']) && !empty($_POST['po_approve_by_hp']) &&
 		is_array($_POST['po_tgl_approved_hp']) && is_array($_POST['po_approve_by_hp']) &&
@@ -36,6 +35,7 @@ if($user=BOD_HP)
 		$end_user      = ucwords($user);
 		$hp_tgl        = $_POST['hp_tgl'];
 		$isUpdate      = false;
+		$isDesktop	   = $_POST['desktop'];
 	
 		$Database->autocommit( FALSE );
 		include "mailserver.php";
@@ -262,16 +262,28 @@ if($user=BOD_HP)
 			}
 			if ($isUpdate) {
 				$Database->commit();
-				echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data telah berhasil di submit';</script>";
+				if ($isDesktop== 1) {
+					echo "<script language='javascript'>document.location.href='ppo_approval_desktop.php?u=$u&p=$ppo&k=$key&notif=Data telah berhasil di submit';</script>";
+				} else {
+					echo "<script language='javascript'>document.location.href='ppo_approval_mobile.php?u=$u&p=$ppo&k=$key&notif=Data telah berhasil di submit';</script>";
+				}
 			} else {
-				$Database->rollback();	
-				echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data gagal di submit';</script>";
+				$Database->rollback();
+				if ($isDesktop== 1) {
+					echo "<script language='javascript'>document.location.href='ppo_approval_desktop.php?u=$u&p=$ppo&k=$key&notif=Data gagal di submit';</script>";
+				} else {
+					echo "<script language='javascript'>document.location.href='ppo_approval_mobile.php?u=$u&p=$ppo&k=$key&notif=Data gagal di submit';</script>";
+				}
 			}
 
         } else{
         	$Database->rollback();
         	//redirect ke approval
-        	echo "<script language='javascript'>document.location.href='ppo_approval.php?u=$u&p=$ppo&k=$key&notif=Data gagal di submit';</script>";
+        	if ($isDesktop== 1) {
+				echo "<script language='javascript'>document.location.href='ppo_approval_desktop.php?u=$u&p=$ppo&k=$key&notif=Data gagal di submit';</script>";
+			} else {
+	        	echo "<script language='javascript'>document.location.href='ppo_approval_mobile.php?u=$u&p=$ppo&k=$key&notif=Data gagal di submit';</script>";
+			}
         }
 		$Database->autocommit( TRUE );
 

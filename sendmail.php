@@ -15,8 +15,8 @@
 		$messageCon->Fields['http://schemas.microsoft.com/cdo/configuration/smtpconnectiontimeout'] = 30 ;
 		$messageCon->Fields->Update();
 
-		$message->From    = 'indra <indraeff@hts.net.id>'; //ISP Integrated System [mailto:no-reply@hts.net.id] 
-		$message->To      = 'BOD <indraeff@hts.net.id>'; // BOD
+		$message->From    = IIS_MAIL;
+		$message->To      = BOD;
 		$message->CC      = ''; // EMAIL HP
 		$message->BCC     = '';
 		$message->Subject = $MailSubject;

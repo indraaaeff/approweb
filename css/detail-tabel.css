@@ -19,7 +19,8 @@
 }
 .info_modal_atas{
   padding: 0px 10px 10px 10px;
-
+  border: 1px solid #6b6161;
+  border-radius: 5px;
 }
 .info_modal_bawah{
   border: 1px solid #6b6161;
@@ -51,6 +52,7 @@
 }
 .header_detail{
   padding-bottom:5px;
+  background-color: white;
 }
 div#ppn{
     width: 101px !important;

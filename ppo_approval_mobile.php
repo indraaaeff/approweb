@@ -64,7 +64,6 @@ $user=$_SESSION['username'];
 <head>
 	<title>HTS APP</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- change the color of header and address bar -->
 	<!-- Chrome, Firefox OS and Opera -->
 	<meta name="theme-color" content="#f26904">
@@ -126,12 +125,13 @@ $user=$_SESSION['username'];
 		}
       echo '<div class="kotak_po select_ppo_m">';
 
-            $List_PPO = $Database->query( "Select distinct a.no_ppo, a.submit_by, a.tgl_pengajuan, a.tgl_approved_rt,
+      $List_PPO = $Database->query( "Select distinct a.no_ppo, a.submit_by, a.tgl_pengajuan, a.tgl_approved_rt,
             a.tgl_approved_hp, a.tgl_approved_dl
             From vendor_ppo a, vendor_invoice b
             Where (a.no_ppo = b.no_ppo) and !( b.po_approved )
-            And (b.status_data not in (0, 9)) ;
+            And (b.status_data not in (0, 9))
             Group by a.no_ppo Order by a.no_ppo" );
+
 
             if ($List_PPO && ($List_PPO->num_rows > 0)) {
                   echo '<div class="col-md-6 nopadding">';
@@ -202,6 +202,7 @@ $user=$_SESSION['username'];
                                           include "modal_po.php";
                                           ?>
 								<?php
+                                                $g_total=0;
 								$no = +1;
 								$grand= 0;
                                                 $total_ppo_rejek=0;
@@ -225,6 +226,7 @@ $user=$_SESSION['username'];
             						$po_approve_by_dl   = $row['approve_by_dl'];
             						$po_tgl_approved_dl = $row['tgl_approved_dl'];	  
             						$po_comment_dl      = $row['comment_dl'];
+                                                $total_temp = $row['total'];
 
             							$grand += $row['total'];
             						?>
@@ -980,7 +982,7 @@ $user=$_SESSION['username'];
                                                             <!-- <a href="">Detail PO</a> -->
                                                             <a href="#mymodal" data-toggle="modal" id="<?php echo $no_po; ?>" data-target="#modal_detail" class="po_modal">Detail</a>
                                                       </div>
-                                </div>
+                                          </div>
 						</div>
                                           <!-- end of panel -->
                                          <!--  <div class="col-xs-2 mobile-detail">
@@ -992,8 +994,14 @@ $user=$_SESSION['username'];
                                           <!-- </div> -->
             					<?php 
             						$no++;
+                                                $g_total += $total_temp;
             					}
+
             					?>
+                                          <div class="gt_mobile">
+                                                <label for="grandtotal" style="margin:6px 0 6px 0;">Grand Total :</label>
+                                                <input class="form-control gtotal_m" type="text" name="grandtotal" value="<?php echo "Rp. &nbsp;".number_format($g_total); ?>" readonly>
+                                          </div>
             					<input type="hidden" name="grand" value="<?php echo $grand; ?>">
             					<input type="hidden"  name="hp_tgl" value="<?php echo $po_tgl_approved_hp;?>" >				
             					<input type="hidden"  name="dl_tgl" value="<?php echo $po_tgl_approved_dl;?>" >				
@@ -1453,7 +1461,7 @@ $user=$_SESSION['username'];
 	<footer class="footer" box-shadow: 1px 1px 6px rgb(150, 148, 148);>
       <div class="container" style="background-color:white;text-align:center;">
         <p class="text-muted">Copyright &copy; 2016 PT. Hawk Teknologi Solusi</p>
-		<a class="dversion" href="<?php echo "http://report.hts.net.id/approval/ppo_approval_desktop.php?u=$u&p=$p&k=$k"; ?>">Desktop Version</a>
+		<a class="dversion" href="<?php echo IIS_PATH . "ppo_approval_desktop.php?u=$u&p=$p&k=$k"; ?>">Desktop Version</a>
       </div>
     </footer>
 </body>
